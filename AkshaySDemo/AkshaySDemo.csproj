@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj" />
     <ProjectReference Include="..\CanvasControlLibrary\CanvasControlLibrary.csproj" />
+    <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsforBlazor.csproj" />
   </ItemGroup>
 
 </Project>
