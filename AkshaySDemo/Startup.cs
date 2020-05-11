@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Server.IISIntegration;
-using AkshaySDemoDataAccessLayer;
+using AkshaySDemoDataAccessLayer.Data;
 
 namespace AkshaySDemo
 {
@@ -18,7 +18,7 @@ namespace AkshaySDemo
     {
         public Startup(IConfiguration configuration)
         {
-            SQLServer.ConnectionString = configuration.GetConnectionString("AkshaySDemoDBConnStr");
+            AkshaySDemoContext.ConnectionString = configuration.GetConnectionString("AkshaySDemoDBConnStr");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

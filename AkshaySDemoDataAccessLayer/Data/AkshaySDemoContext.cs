@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace AkshaySDemoDataAccessLayer.Data
 {
-    internal class AkshaySDemoContext : DbContext
+    public class AkshaySDemoContext : DbContext
     {
+        public static string ConnectionString { get; set; }
         internal virtual DbSet<Recipe> Recipes { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
             if(!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(SQLServer.ConnectionString);
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
     }
