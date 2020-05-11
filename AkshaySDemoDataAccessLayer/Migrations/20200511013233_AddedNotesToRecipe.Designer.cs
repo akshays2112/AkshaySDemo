@@ -3,14 +3,16 @@ using AkshaySDemoDataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AkshaySDemo.Migrations
 {
     [DbContext(typeof(AkshaySDemoContext))]
-    partial class AkshaySDemoContextModelSnapshot : ModelSnapshot
+    [Migration("20200511013233_AddedNotesToRecipe")]
+    partial class AddedNotesToRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

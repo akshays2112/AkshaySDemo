@@ -22,6 +22,10 @@
                 <textarea asp-for="Description" class="form-control" @bind="@recipe.CreatorsName"> </textarea>
             </div>
             <div class="form-group">
+                <label asp-for="Description" class="control-label">Notes</label>
+                <textarea asp-for="Description" class="form-control" @bind="@recipe.Notes"> </textarea>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" @onclick="@UpdateRecipe" class="btn btn-primary" />
                 <input type="submit" value="Cancel" @onclick="@cancel" class="btn btn-warning" />
             </div>
