@@ -1,4 +1,4 @@
-﻿@page "/newrecipe"
+﻿@page "/Recipe/newrecipe"
 @inject NavigationManager Navigation
 <h1>Create Recipe</h1>
 <hr />
@@ -34,10 +34,10 @@
     void CreateRecipe()
     {
         dbop.AddRecipe(recipe);
-        Navigation.NavigateTo("/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
     }
     void cancel()
     {
-        Navigation.NavigateTo("/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
     }
 }

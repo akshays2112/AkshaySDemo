@@ -1,4 +1,4 @@
-﻿@page "/deleterecipe/{recipeId}"
+﻿@page "/Recipe/deleterecipe/{recipeId}"
 @inject NavigationManager Navigation
 <h2>Delete</h2>
 <h3>Are you sure you want to delete recipe : @recipe.Name</h3>
@@ -12,6 +12,14 @@
         <tr>
             <td>Description</td>
             <td>@recipe.Description</td>
+        </tr>
+        <tr>
+            <td>Comment</td>
+            <td>@recipe.Comment</td>
+        </tr>
+        <tr>
+            <td>Creator's Name</td>
+            <td>@recipe.CreatorsName</td>
         </tr>
     </table>
     <div class="form-group">
@@ -31,10 +39,10 @@
     protected void Delete()
     {
         dbop.DeleteRecipe(Convert.ToInt32(recipeId));
-        Navigation.NavigateTo("/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/fetchrecipe");
     }
     void cancel()
     {
-        Navigation.NavigateTo("/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/fetchrecipe");
     }
 }

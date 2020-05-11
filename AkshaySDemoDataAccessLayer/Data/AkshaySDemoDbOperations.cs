@@ -1,11 +1,11 @@
-﻿using AkshaySDemo.Models;
+﻿using AkshaySDemoDataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AkshaySDemo.Data
+namespace AkshaySDemoDataAccessLayer.Data
 {
     public class AkshaySDemoDbOperations
     {

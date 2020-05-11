@@ -27,7 +27,7 @@ GO
 
 */
 
-namespace AkshaySDemo.Models
+namespace AkshaySDemoDataAccessLayer.Models
 {
     public class Recipe
     {

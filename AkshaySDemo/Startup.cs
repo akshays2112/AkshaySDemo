@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AkshaySDemo.Data;
 using Microsoft.AspNetCore.Server.IISIntegration;
+using AkshaySDemoDataAccessLayer;
 
 namespace AkshaySDemo
 {
@@ -18,12 +18,8 @@ namespace AkshaySDemo
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            ConnStr = configuration.GetConnectionString("AkshaySDemoDBConnStr");
+            SQLServer.ConnectionString = configuration.GetConnectionString("AkshaySDemoDBConnStr");
         }
-
-        public IConfiguration Configuration { get; }
-        public static string ConnStr { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -31,7 +27,6 @@ namespace AkshaySDemo
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,22 +1,21 @@
-﻿using AkshaySDemo.Models;
+﻿using AkshaySDemoDataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
-namespace AkshaySDemo.Data
+namespace AkshaySDemoDataAccessLayer.Data
 {
-    public class AkshaySDemoContext : DbContext
+    internal class AkshaySDemoContext : DbContext
     {
-        public virtual DbSet<Recipe> Recipes { get; set; }
+        internal virtual DbSet<Recipe> Recipes { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
             if(!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Startup.ConnStr);
+                optionsBuilder.UseSqlServer(SQLServer.ConnectionString);
             }
         }
     }

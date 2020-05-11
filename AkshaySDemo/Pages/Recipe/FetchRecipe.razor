@@ -1,30 +1,29 @@
-﻿@page "/fetchrecipe"
+﻿@page "/Recipe/fetchrecipe"
 <h1>Recipe Detail</h1>
 <p>
-    <a href="/newrecipe">Create New</a>
+    <a href="/Recipe/newrecipe">Create New</a>
 </p>
 <table class='table'>
     <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Comment</th>
             <th>Creator's Name</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var recipe in recipes)
         {
         <tr>
-            <td>@recipe.ID</td>
             <td>@recipe.Name</td>
             <td>@recipe.Description</td>
             <td>@recipe.Comment</td>
             <td>@recipe.CreatorsName</td>
             <td>
-                <a href='/editrecipe/@recipe.ID'>Edit</a>  |
-                <a href='/deleterecipe/@recipe.ID'>Delete</a>
+                <a href='/Recipe/editrecipe/@recipe.ID'>Edit</a>  |
+                <a href='/Recipe/deleterecipe/@recipe.ID'>Delete</a>
             </td>
         </tr>
         }

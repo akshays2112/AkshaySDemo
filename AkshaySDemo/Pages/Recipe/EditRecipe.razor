@@ -1,4 +1,4 @@
-﻿@page "/editrecipe/{recipeId}"
+﻿@page "/Recipe/editrecipe/{recipeId}"
 @inject NavigationManager Navigation
 <h2>Edit Recipe</h2>
 <hr />
@@ -31,7 +31,7 @@
 @functions {
     [Parameter]
     public string recipeId { get; set; }
-    public Recipe recipe = new Recipe();
+    Recipe recipe = new Recipe();
     AkshaySDemoDbOperations dbop = new AkshaySDemoDbOperations();
     protected override void OnInitialized()
     {
@@ -40,10 +40,10 @@
     protected void UpdateRecipe()
     {
         dbop.UpdateRecipe(recipe);
-        Navigation.NavigateTo("/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
     }
     void cancel()
     {
-        Navigation.NavigateTo("/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
     }
 }
