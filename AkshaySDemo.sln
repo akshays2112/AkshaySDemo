@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasControlLibrary", "Can
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoDataAccessLayer", "AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj", "{789D14A8-1B50-4C04-B109-CD5E836476BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLRazorComponentsforBlazor", "CCLRazorComponentsforBlazor\CCLRazorComponentsforBlazor.csproj", "{3C3E4180-EC3E-4B78-B120-49BCE8C223B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CCLRazorComponentsforBlazor", "CCLRazorComponentsforBlazor\CCLRazorComponentsforBlazor.csproj", "{3C3E4180-EC3E-4B78-B120-49BCE8C223B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

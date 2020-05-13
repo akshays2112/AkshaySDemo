@@ -1,0 +1,12 @@
+C#
+SQL Server
+EF
+HTML
+CSS
+Bootstrap CSS Classes Styling
+ASP.NET Core
+Razor
+Blazor Server
+
+
+gRPC //This is not required for Blazor Server side Apps

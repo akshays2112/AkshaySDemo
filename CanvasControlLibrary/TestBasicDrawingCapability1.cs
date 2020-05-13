@@ -38,7 +38,6 @@ namespace CanvasControlLibrary
         public async Task TestDrawLine(BECanvasComponent c)
         {
             await SetCurrentCanvasContext(c);
-            await SetCurrentCanvasContext(c);
             int chartHeight = Convert.ToInt32(currentCanvas.Height) - 40;
             // Draw the axises  
             await currentCanvasContext.BeginPathAsync();
