@@ -10,8 +10,6 @@ namespace CanvasControlLibrary
     {
         private int currentWindowIDIndex = 0;
         private int highestDepth = 0;
-        private Canvas2DContext currentCanvasContext;
-        private BECanvasComponent currentCanvas;
 
         protected List<CCLWindow> CCLWindows = new List<CCLWindow>();
 
