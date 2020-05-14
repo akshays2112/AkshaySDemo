@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Extensions.Canvas" Version="1.0.0" />
+    <PackageReference Include="Blazor.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.SignalR" Version="1.4.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
@@ -18,8 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj" />
-    <ProjectReference Include="..\CanvasControlLibrary\CanvasControlLibrary.csproj" />
-    <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsforBlazor.csproj" />
+    <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
   </ItemGroup>
 
 </Project>

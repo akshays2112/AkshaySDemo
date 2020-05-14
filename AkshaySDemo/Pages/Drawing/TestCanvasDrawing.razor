@@ -1,11 +1,6 @@
 ﻿@page "/Drawing/testcanvasdrawing"
-<BECanvas Width="500" Height="500" @ref="_canvasReference"></BECanvas>
+<h3>TestCanvasDrawing</h3>
+<CCLRazorComponentsForBlazor.TestCanvasDrawingComponent></CCLRazorComponentsForBlazor.TestCanvasDrawingComponent>
 @code {
-    protected BECanvasComponent _canvasReference;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        TestBasicDrawingCapability1 t = new TestBasicDrawingCapability1();
-        await t.TestDrawLine(_canvasReference);
-    }
 }
