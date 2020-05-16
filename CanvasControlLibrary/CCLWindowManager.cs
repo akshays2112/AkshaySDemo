@@ -1,25 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Blazor.Extensions;
-using Blazor.Extensions.Canvas.Canvas2D;
 
 namespace CanvasControlLibrary
 {
-    class CCLWindowManager
+    internal class CCLWindowManager
     {
+        private class CCLWindowEvent
+        {
+            protected CCLWindow window;
+            protected string typeOfEvent;
+            protected List<object> parameters;
+
+            public CCLWindowEvent(string typeOfEvent, List<object> parameters)
+            {
+                this.typeOfEvent = typeOfEvent;
+                this.parameters = parameters;
+            }
+        }
+
         private int currentWindowIDIndex = 0;
         private int highestDepth = 0;
 
-        protected List<CCLWindow> CCLWindows = new List<CCLWindow>();
+        internal List<CCLWindow> CCLWindows = new List<CCLWindow>();
 
-        protected int CurrentWindowIDIndex { get; }
+        private List<CCLWindowEvent> registeredWindowsEvents;
 
-        protected void RegisterWindow(CCLWindow window)
+        internal int CurrentWindowIDIndex { get; }
+
+        internal void RegisterWindow(CCLWindow window)
         {
             window.ID = ++currentWindowIDIndex;
             window.Depth = ++highestDepth;
             CCLWindows.Add(window);
+        }
+
+        internal void RegisterEvent(string typeOfEvent, List<object> parameters)
+        {
+            CCLWindowEvent cclWindowEvent = new CCLWindowEvent(typeOfEvent, parameters);
+            registeredWindowsEvents.Add(cclWindowEvent);
         }
     }
 }

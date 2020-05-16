@@ -1,10 +1,21 @@
-﻿<BECanvas Width="500" Height="500" @ref="_canvasReference"></BECanvas>
+﻿@inject IJSRuntime jsRuntime
+<div @ref="divCanvas" @onclick="MyOnClick">
+    <BECanvas Width="1000" Height="800" @ref="_canvasReference"></BECanvas>
+</div>
 @code {
+    protected ElementReference divCanvas;
     protected BECanvasComponent _canvasReference;
+    TestBasicDrawingCapability1 t = new TestBasicDrawingCapability1();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        TestBasicDrawingCapability1 t = new TestBasicDrawingCapability1();
         await t.TestDrawLine(_canvasReference);
+    }
+
+    protected async Task MyOnClick(MouseEventArgs eventArgs)
+    {
+        ExampleJsInterop.Coords coords = JsonConvert.DeserializeObject<ExampleJsInterop.Coords>(
+            await ExampleJsInterop.GetElementOffsetTop(jsRuntime, divCanvas));
+        await t.OnClick(eventArgs.ClientX - coords.X, eventArgs.ClientY - coords.Y);
     }
 }

@@ -1,16 +1,20 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
-namespace CCLRazorComponentsforBlazor
+namespace CCLRazorComponentsForBlazor
 {
     public class ExampleJsInterop
     {
-        public static ValueTask<string> Prompt(IJSRuntime jsRuntime, string message)
+        public class Coords
         {
-            // Implemented in exampleJsInterop.js
-            return jsRuntime.InvokeAsync<string>(
-                "exampleJsFunctions.showPrompt",
-                message);
+            public double X;
+            public double Y;
+        }
+
+        public static ValueTask<string> GetElementOffsetTop(IJSRuntime jsRuntime, ElementReference el)
+        {
+            return jsRuntime.InvokeAsync<string>("cclHelperFunctions.getElementTopLeftCornerPageCoords", el);
         }
     }
 }

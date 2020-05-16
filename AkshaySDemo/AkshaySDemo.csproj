@@ -21,4 +21,10 @@
     <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\CCLJSInterops.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -1,40 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Blazor.Extensions.Canvas;
 using Blazor.Extensions;
-using Blazor.Extensions.Canvas.Canvas2D;
-
+using Microsoft.AspNetCore.Components;
 
 namespace CanvasControlLibrary
 {
-    public class TestBasicDrawingCapability1
+    public class TestBasicDrawingCapability1 : CCLBaseControl
     {
-        private Canvas2DContext currentCanvasContext;
-        private BECanvasComponent currentCanvas;
-        public BECanvasComponent CurrentCanvas { 
-            get { 
-                return currentCanvas;
-            } 
-            set {
-                if (value != currentCanvas) { 
-                    currentCanvas = value;
-                }
-            } 
-        }
-
-        public async Task SetCurrentCanvasContext(BECanvasComponent c)
-        {
-            if(c is null)
-            {
-                throw new ArgumentNullException();
-            }
-            if(currentCanvas != c)
-            {
-                currentCanvas = c;
-                currentCanvasContext = await c.CreateCanvas2DAsync();
-            }
-        }
-
         public async Task TestDrawLine(BECanvasComponent c)
         {
             await SetCurrentCanvasContext(c);
@@ -46,6 +18,12 @@ namespace CanvasControlLibrary
             await currentCanvasContext.LineToAsync(10, chartHeight);
             // Next draw the X-Axis
             await currentCanvasContext.StrokeAsync();
+        }
+
+        public async Task OnClick(double clientX, double clientY)
+        {
+            await currentCanvasContext.StrokeTextAsync("ClientX: " + clientX + "   Client Y: " + clientY, 10, 10);
+            await currentCanvasContext.FillRectAsync(clientX, clientY, 10, 10);
         }
     }
 }
