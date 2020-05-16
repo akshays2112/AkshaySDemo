@@ -16,9 +16,4 @@
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.5.0.20109" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <ProjectReference Include="..\CanvasControlLibrary\CanvasControlLibrary.csproj" />
-  </ItemGroup>
-
 </Project>

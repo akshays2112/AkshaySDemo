@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace CanvasControlLibrary
+namespace CCLRazorComponentsForBlazor.CCLWindowManager
 {
-    public class CCLWindow
+    internal class CCLWindow
     {
         internal int ID { get; set; }
 

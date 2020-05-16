@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Blazor.Extensions;
 using Blazor.Extensions.Canvas.Canvas2D;
 
-namespace CanvasControlLibrary
+namespace CCLRazorComponentsForBlazor.CCLWindowManager
 {
-    public class CCLBaseControl : CCLWindow
+    internal class CCLBaseControl : CCLWindow
     {
         protected Canvas2DContext currentCanvasContext;
 

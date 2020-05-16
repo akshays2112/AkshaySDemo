@@ -3,19 +3,17 @@
     <BECanvas Width="1000" Height="800" @ref="_canvasReference"></BECanvas>
 </div>
 @code {
-    protected ElementReference divCanvas;
-    protected BECanvasComponent _canvasReference;
-    TestBasicDrawingCapability1 t = new TestBasicDrawingCapability1();
+    private ElementReference divCanvas;
+    private BECanvasComponent _canvasReference;
+    private TestBasicDrawingCapability1 controlClass = new TestBasicDrawingCapability1();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await t.TestDrawLine(_canvasReference);
+        await controlClass.TestDrawLine(_canvasReference);
     }
 
     protected async Task MyOnClick(MouseEventArgs eventArgs)
     {
-        ExampleJsInterop.Coords coords = JsonConvert.DeserializeObject<ExampleJsInterop.Coords>(
-            await ExampleJsInterop.GetElementOffsetTop(jsRuntime, divCanvas));
-        await t.OnClick(eventArgs.ClientX - coords.X, eventArgs.ClientY - coords.Y);
+        await CCLJsInterops.OnClick(jsRuntime, divCanvas, eventArgs, controlClass);
     }
 }
