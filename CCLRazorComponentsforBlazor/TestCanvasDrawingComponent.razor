@@ -1,19 +1,64 @@
 ﻿@inject IJSRuntime jsRuntime
-<div @ref="divCanvas" @onclick="MyOnClick">
-    <BECanvas Width="1000" Height="800" @ref="_canvasReference"></BECanvas>
+<div @ref="divCanvas" @onclick="MyOnClick" style="width:@canvasWidth;height:@canvasHeight;border-style:none;margin:0 0 0 0;padding:0 0 0 0;">
+    <BECanvas Width="@canvasWidth" Height="@canvasHeight" @ref="_canvasReference"></BECanvas>
 </div>
 @code {
+    internal int canvasWidth;
+    [Parameter]
+    public int Width
+    {
+        get
+        {
+            return canvasWidth;
+        }
+        set
+        {
+            if (value > 0 && value <= 10000)
+            {
+                canvasWidth = value;
+            }
+        }
+    }
+
+    internal int canvasHeight;
+    [Parameter]
+    public int Height
+    {
+        get
+        {
+            return canvasHeight;
+        }
+        set
+        {
+            if (value > 0 && value <= 10000)
+            {
+                canvasHeight = value;
+            }
+        }
+    }
+
     private ElementReference divCanvas;
     private BECanvasComponent _canvasReference;
-    private TestBasicDrawingCapability1 controlClass = new TestBasicDrawingCapability1();
+    private TestDrawingControl controlClass = new TestDrawingControl();
+    private bool IsRendered = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await CCLJsInterops.SetViewportDimensions(jsRuntime, this);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await controlClass.TestDrawLine(_canvasReference);
+        IsRendered = true;
     }
 
     protected async Task MyOnClick(MouseEventArgs eventArgs)
     {
-        await CCLJsInterops.OnClick(jsRuntime, divCanvas, eventArgs, controlClass);
+        if (IsRendered)
+        {
+            await CCLJsInterops.OnClick(jsRuntime, divCanvas, eventArgs, controlClass);
+        }
     }
 }

@@ -6,7 +6,7 @@ using CCLRazorComponentsForBlazor.CCLWindowManager;
 
 namespace CCLRazorComponentsForBlazor.CCLControls
 {
-    internal class TestBasicDrawingCapability1 : CCLBaseControl
+    internal class TestDrawingControl : CCLBaseControl
     {
         internal bool IsNewClientXYSet;
         internal double ClientX;
@@ -14,16 +14,12 @@ namespace CCLRazorComponentsForBlazor.CCLControls
         internal async Task TestDrawLine(BECanvasComponent c)
         {
             await SetCurrentCanvasContext(c);
-            int chartHeight = Convert.ToInt32(currentCanvas.Height) - 40;
-            // Draw the axises
+            int canvasHeight = Convert.ToInt32(currentCanvas.Height);
+            int canvasWidth = Convert.ToInt32(currentCanvas.Width);
             await currentCanvasContext.BeginBatchAsync();
             await currentCanvasContext.SaveAsync();
             await currentCanvasContext.ClearRectAsync(0, 0, c.Width, c.Height);
-            await currentCanvasContext.BeginPathAsync();
-            await currentCanvasContext.MoveToAsync(10, 10);
-            // first Draw Y Axis  
-            await currentCanvasContext.LineToAsync(10, chartHeight);
-            // Next draw the X-Axis
+            await currentCanvasContext.RectAsync(0, 0, canvasWidth, canvasHeight);
             await currentCanvasContext.StrokeAsync();
             if (IsNewClientXYSet)
             {

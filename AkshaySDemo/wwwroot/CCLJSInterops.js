@@ -1,12 +1,12 @@
 window.cclHelperFunctions = {
-    getElementTopLeftCornerPageCoordsOld: function (el) {
-        return JSON.stringify({ X: el.offsetLeft, Y: el.offsetTop });
-    },
-    getElementTopLeftCornerPageCoords: function (el, arr) {
+    getElementProps: function (elem, props) {
         var obj = {};
-        for (var i = 0; i < arr.length; i++) {
-            obj[arr[i]] = el[arr[i]];
+        for (var i = 0; i < props.length; i++) {
+            obj[props[i]] = elem[props[i]];
         }
         return JSON.stringify(obj);
+    },
+    getViewportDimensions: function () {
+        return JSON.stringify({ clientWidth: document.documentElement.clientWidth, clientHeight: document.documentElement.clientHeight });
     }
 };

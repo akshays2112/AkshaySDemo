@@ -36,8 +36,11 @@ namespace CCLRazorComponentsForBlazor.CCLWindowManager
             if (currentCanvas != c)
             {
                 currentCanvas = c;
+            }
+            if (currentCanvasContext == null)
+            {
                 currentCanvasContext = await c.CreateCanvas2DAsync();
-                if(currentCanvasContext is null)
+                if (currentCanvasContext is null)
                 {
                     throw new ArgumentNullException();
                 }
