@@ -3,6 +3,19 @@
     <BECanvas Width="@canvasWidth" Height="@canvasHeight" @ref="_canvasReference"></BECanvas>
 </div>
 @code {
+
+    /* Since the canvas is the one with all the events you want to pass this to WindowManager.
+     * The Razor components for controls will call RegisterWindow.  RegisterWindow will have mouse input 
+     * events and also drawing functions.
+     * WindowManager on an event or InvalidateRect call will call the registered controls registered
+     * methods to handle the mouse events or the drawing.
+     * If any of the paramters of the component (aka data) are changed then automagically it should
+     * call InvalidateRect in the WindowManager.  Which in the WindowManagers Draw method should in
+     * turn cascade down to the Controls in the region causing them to redraw with the new data
+     * automagically.
+     * Everything is basically driven by events and parameters data changed via the WindowManager.
+     */
+
     internal int canvasWidth;
     [Parameter]
     public int Width
