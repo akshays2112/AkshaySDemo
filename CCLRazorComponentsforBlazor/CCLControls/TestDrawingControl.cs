@@ -23,9 +23,9 @@ namespace CCLRazorComponentsForBlazor.CCLControls
             await currentCanvasContext.StrokeAsync();
             if (IsNewClientXYSet)
             {
-                await currentCanvasContext.ClearRectAsync(0, 0, 300, 11);
+                await currentCanvasContext.ClearRectAsync(10, 10, 300, 11);
                 await currentCanvasContext.SetStrokeStyleAsync("Red");
-                await currentCanvasContext.StrokeTextAsync("ClientX: " + ClientX + "   Client Y: " + ClientY, 10, 10);
+                await currentCanvasContext.StrokeTextAsync("ClientX: " + ClientX + "   Client Y: " + ClientY, 20, 20);
                 await currentCanvasContext.SetFillStyleAsync("Green");
                 await currentCanvasContext.FillRectAsync(ClientX, ClientY, 3, 3);
             }
