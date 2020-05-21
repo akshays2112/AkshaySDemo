@@ -4,21 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>36a76c69-8aea-4f78-850f-15850b7d1125</UserSecretsId>
     <StartupObject></StartupObject>
+    <Authors>Akshay Srinivasan</Authors>
+    <Copyright>2020 Akshay Srinivasan</Copyright>
+    <PackageIcon></PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.SignalR" Version="1.4.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj" />
     <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\favicon\" />
   </ItemGroup>
 
 </Project>

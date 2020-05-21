@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Content Update="wwwroot\CCLJSInterops.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

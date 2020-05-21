@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Blazor.Extensions;
-using Microsoft.AspNetCore.Components;
 using CCLRazorComponentsForBlazor.CCLWindowManager;
 
 namespace CCLRazorComponentsForBlazor.CCLControls

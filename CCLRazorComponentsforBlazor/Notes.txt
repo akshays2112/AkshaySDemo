@@ -8,4 +8,7 @@ call InvalidateRect in the WindowManager.  Which in the WindowManagers Draw meth
 turn cascade down to the Controls in the region causing them to redraw with the new data
 automagically.
 Everything is basically driven by events and parameters data changed via the WindowManager.
-Each control will choose what events it wants to subscribe to.  No need for all events to be registered for a control.  However all possible <canvas> element events should be subscribed to and should call methods in WindowManager which will manage which controls need to be called on an event.
+Each control will choose what events it wants to subscribe to.  No need for all events to be 
+registered for a control.  However all possible <canvas> element events should be subscribed
+to and should call methods in WindowManager which will manage which controls need to be called 
+on an event.
