@@ -3,9 +3,6 @@
     <div>
         <h1>Chef Detail</h1>
         <p>
-            <button class="btn" @onclick="@Refresh">Refresh</button>
-        </p>
-        <p>
             <a href="/Chef/newchef">Create New</a>
         </p>
     </div>
@@ -20,7 +17,11 @@
                 </tr>
             </thead>
             <tbody>
-                @if (chefs != null)
+                @if (chefs == null)
+                {
+                    <p><em>Loading....</em></p>
+                } 
+                else
                 {
                     foreach (var chef in chefs)
                     {
@@ -43,8 +44,9 @@
     List<Chef> chefs;
     ChefDataAccessLayer dbop = new ChefDataAccessLayer();
 
-    async Task Refresh()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         chefs = await dbop.GetAllChefs();
     }
 }

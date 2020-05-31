@@ -38,10 +38,10 @@
     </div>
 </div>
 @functions {
-    Recipe[] recipes;
+    IEnumerable<Recipe> recipes;
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        recipes = (new AkshaySDemoDbOperations()).GetAllRecipes().ToArray();
+        recipes = (new AkshaySDemoDbOperations()).GetAllRecipes();
     }
 }

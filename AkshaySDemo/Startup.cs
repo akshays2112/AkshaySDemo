@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AkshaySDemoDataAccessLayer.Data;
+using AkshaySDemoGoogleFireStoreDB.DataAccess;
 
 namespace AkshaySDemo
 {
@@ -12,6 +13,7 @@ namespace AkshaySDemo
         public Startup(IConfiguration configuration)
         {
             AkshaySDemoContext.ConnectionString = configuration.GetConnectionString("AkshaySDemoDBConnStr");
+            ChefDataAccessLayer.GoogleFirestoreDBJsonString = configuration.GetConnectionString("GoogleFirestoreDBJsonString");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
