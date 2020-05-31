@@ -1,0 +1,50 @@
+﻿@page "/Chef/fetchchefs"
+<div>
+    <div>
+        <h1>Chef Detail</h1>
+        <p>
+            <button class="btn" @onclick="@Refresh">Refresh</button>
+        </p>
+        <p>
+            <a href="/Chef/newchef">Create New</a>
+        </p>
+    </div>
+    <div>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Country</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (chefs != null)
+                {
+                    foreach (var chef in chefs)
+                    {
+                        <tr>
+                            <td>@chef.FirstName</td>
+                            <td>@chef.LastName</td>
+                            <td>@chef.Name</td>
+                            <td>
+                                <a href='/Chef/editchef/@chef.ID'>Edit</a>  |
+                                <a href='/Chef/deletechef/@chef.ID'>Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@functions {
+    List<Chef> chefs;
+    ChefDataAccessLayer dbop = new ChefDataAccessLayer();
+
+    async Task Refresh()
+    {
+        chefs = await dbop.GetAllChefs();
+    }
+}

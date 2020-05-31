@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="akshaysdemo-4eb4511f3238.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.SignalR" Version="1.4.3" />
@@ -17,11 +21,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj" />
+    <ProjectReference Include="..\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj" />
     <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\favicon\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="akshaysdemo-4eb4511f3238.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
