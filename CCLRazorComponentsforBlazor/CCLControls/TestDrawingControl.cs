@@ -8,8 +8,8 @@ namespace CCLRazorComponentsForBlazor.CCLControls
     internal class TestDrawingControl : CCLBaseControl
     {
         internal bool IsNewClientXYSet;
-        internal double ClientX;
-        internal double ClientY;
+        internal double MouseX;
+        internal double MouseY;
         internal async Task TestDrawLine(BECanvasComponent c)
         {
             await SetCurrentCanvasContext(c);
@@ -24,9 +24,9 @@ namespace CCLRazorComponentsForBlazor.CCLControls
             {
                 await currentCanvasContext.ClearRectAsync(10, 10, 300, 11);
                 await currentCanvasContext.SetStrokeStyleAsync("Red");
-                await currentCanvasContext.StrokeTextAsync("ClientX: " + ClientX + "   Client Y: " + ClientY, 20, 20);
+                await currentCanvasContext.StrokeTextAsync("ClientX: " + MouseX + "   Client Y: " + MouseY, 20, 20);
                 await currentCanvasContext.SetFillStyleAsync("Green");
-                await currentCanvasContext.FillRectAsync(ClientX, ClientY, 3, 3);
+                await currentCanvasContext.FillRectAsync(MouseX, MouseY, 3, 3);
             }
             await currentCanvasContext.RestoreAsync();
             await currentCanvasContext.EndBatchAsync();

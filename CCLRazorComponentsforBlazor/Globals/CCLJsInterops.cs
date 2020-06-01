@@ -6,32 +6,20 @@ using Microsoft.AspNetCore.Components.Web;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using CCLRazorComponentsForBlazor.CCLControls;
+using System.Net.NetworkInformation;
 
 namespace CCLRazorComponentsForBlazor.Globals
 {
     internal class CCLJsInterops
     {
-        internal static async Task OnClick(IJSRuntime jsRuntime, ElementReference el, MouseEventArgs eventArgs, TestDrawingControl t)
+        internal static async Task<string> OnClick(IJSRuntime jsRuntime, ElementReference el, string[] props)
         {
-            string data = await jsRuntime.InvokeAsync<string>("cclHelperFunctions.getElementProps", new object[] { el, new string[] { "offsetLeft", "offsetTop" } });
-            JObject coords = (JObject) JsonConvert.DeserializeObject(data);
-            t.ClientX = eventArgs.ClientX - coords.Value<double>("offsetLeft");
-            t.ClientY = eventArgs.ClientY - coords.Value<double>("offsetTop");
-            t.IsNewClientXYSet = true;
+            return await jsRuntime.InvokeAsync<string>("cclHelperFunctions.getElementProps", new object[] { el, props });
         }
 
-        internal static async Task SetViewportDimensions(IJSRuntime jsRuntime, TestCanvasDrawingComponent t)
+        internal static async Task<string> GetJSFunctionResultsByName(IJSRuntime jsRuntime, string jsFunctionToCall)
         {
-            string data = await jsRuntime.InvokeAsync<string>("cclHelperFunctions.getViewportDimensions");
-            JObject dim = (JObject)JsonConvert.DeserializeObject(data);
-            if (t.canvasWidth == 0)
-            {
-                t.canvasWidth = dim.Value<int>("clientWidth");
-            }
-            if (t.canvasHeight == 0)
-            {
-                t.canvasHeight = dim.Value<int>("clientHeight");
-            }
+            return await jsRuntime.InvokeAsync<string>(jsFunctionToCall);
         }
     }
 }

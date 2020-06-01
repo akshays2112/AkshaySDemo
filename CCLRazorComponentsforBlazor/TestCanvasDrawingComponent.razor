@@ -45,7 +45,16 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        await CCLJsInterops.SetViewportDimensions(jsRuntime, this);
+        string data = await CCLJsInterops.GetJSFunctionResultsByName(jsRuntime, "cclHelperFunctions.getViewportDimensions");
+        JObject dim = (JObject)JsonConvert.DeserializeObject(data);
+        if (canvasWidth == 0)
+        {
+            canvasWidth = dim.Value<int>("clientWidth");
+        }
+        if (canvasHeight == 0)
+        {
+            canvasHeight = dim.Value<int>("clientHeight");
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -58,7 +67,11 @@
     {
         if (IsRendered)
         {
-            await CCLJsInterops.OnClick(jsRuntime, divCanvas, eventArgs, controlClass);
+            string data = await CCLJsInterops.OnClick(jsRuntime, divCanvas, new string[] { "offsetLeft", "offsetTop" });
+            JObject coords = (JObject)JsonConvert.DeserializeObject(data);
+            controlClass.MouseX = eventArgs.ClientX - coords.Value<double>("offsetLeft");
+            controlClass.MouseY = eventArgs.ClientY - coords.Value<double>("offsetTop");
+            controlClass.IsNewClientXYSet = true;
         }
     }
 }
