@@ -1,0 +1,52 @@
+﻿@page "/Recipe/SQLServer/newrecipe"
+@using AkshaySDemoModels
+@inject NavigationManager Navigation
+<div style="width:100%;">
+    <div>
+        <h1>Create Recipe</h1>
+        <hr />
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="Name" class="control-label">Name</label>
+                    <input for="Name" class="form-control" @bind="@recipe.Name" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" @bind="@recipe.Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Comment</label>
+                    <textarea asp-for="Description" class="form-control" @bind="@recipe.Comment"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Creator's Name</label>
+                    <textarea asp-for="Description" class="form-control" @bind="@recipe.CreatorsName"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Notes</label>
+                    <textarea asp-for="Description" class="form-control" @bind="@recipe.Notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" @onclick="@CreateRecipe">Save</button>
+                    <button class="btn btn-warning" @onclick="@cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@functions {
+    Recipe recipe = new Recipe();
+    AkshaySDemoDbOperations dbop = new AkshaySDemoDbOperations();
+    void CreateRecipe()
+    {
+        dbop.AddRecipe(recipe);
+        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipe", true);
+    }
+    void cancel()
+    {
+        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipe", true);
+    }
+}

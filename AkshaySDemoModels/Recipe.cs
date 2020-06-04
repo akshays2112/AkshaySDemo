@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations.Schema;
 /* Azure SQL Table DDL
 
 SET ANSI_NULLS ON
@@ -28,7 +23,7 @@ GO
 
 */
 
-namespace AkshaySDemoDataAccessLayer.Models
+namespace AkshaySDemoModels
 {
     public class Recipe
     {

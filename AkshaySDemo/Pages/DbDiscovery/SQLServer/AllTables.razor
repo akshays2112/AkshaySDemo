@@ -1,0 +1,22 @@
+﻿@page "/DbDiscovery/SQLServer/AllTables"
+@using AkshaySDbDiscoverySQLServer.Models
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Table Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Table table in tables)
+        {
+            <tr>
+                <td>@table.TableName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    List<Table> tables = Startup.dbTypeQueries.GetAllTablesInfo();
+}

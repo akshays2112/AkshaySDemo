@@ -1,4 +1,5 @@
-﻿@page "/Recipe/editrecipe/{recipeId}"
+﻿@page "/Recipe/MySQL/editrecipe/{recipeId}"
+@using AkshaySDemoModels
 @inject NavigationManager Navigation
 <div style="width:100%;">
     <div>
@@ -40,7 +41,7 @@
     [Parameter]
     public string recipeId { get; set; }
     Recipe recipe = new Recipe();
-    AkshaySDemoDbOperations dbop = new AkshaySDemoDbOperations();
+    AkshaySDemoMySQLDbOperations dbop = new AkshaySDemoMySQLDbOperations();
     protected override void OnInitialized()
     {
         recipe = dbop.GetRecipe(Convert.ToInt32(recipeId));
@@ -48,10 +49,10 @@
     protected void UpdateRecipe()
     {
         dbop.UpdateRecipe(recipe);
-        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipe", true);
     }
     void cancel()
     {
-        Navigation.NavigateTo("/Recipe/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipe", true);
     }
 }

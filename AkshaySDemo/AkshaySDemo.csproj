@@ -20,8 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj" />
+    <ProjectReference Include="..\AkshaySDbDiscoverySQLServer\AkshaySDbDiscoverySQLServer.csproj" />
+    <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoSQLServer.csproj" />
     <ProjectReference Include="..\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj" />
+    <ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
+    <ProjectReference Include="..\AkshaySDemoMySQL\AkshaySDemoMySQL.csproj" />
+    <ProjectReference Include="..\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.csproj" />
     <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
   </ItemGroup>
 

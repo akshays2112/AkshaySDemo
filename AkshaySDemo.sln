@@ -5,11 +5,19 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemo", "AkshaySDemo\AkshaySDemo.csproj", "{8A00A95F-5D6A-46C4-BEF7-021F3C0F1488}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoDataAccessLayer", "AkshaySDemoDataAccessLayer\AkshaySDemoDataAccessLayer.csproj", "{789D14A8-1B50-4C04-B109-CD5E836476BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoSQLServer", "AkshaySDemoDataAccessLayer\AkshaySDemoSQLServer.csproj", "{789D14A8-1B50-4C04-B109-CD5E836476BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CCLRazorComponentsForBlazor", "CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj", "{3C3E4180-EC3E-4B78-B120-49BCE8C223B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkshaySDemoGoogleFireStoreDB", "AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj", "{EAD74731-E06D-42C8-8DCF-989AAEBD96D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoGoogleFireStoreDB", "AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj", "{EAD74731-E06D-42C8-8DCF-989AAEBD96D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoMySQL", "AkshaySDemoMySQL\AkshaySDemoMySQL.csproj", "{87D254C5-975E-441B-A4AF-B3D55F989329}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoModels", "AkshaySDemoModels\AkshaySDemoModels.csproj", "{834483A7-9D80-4F1E-B5E6-1CBF25F1FABF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoPostgreSQL", "AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.csproj", "{81E2640A-8926-43D9-B226-42BF769AAA1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkshaySDbDiscoverySQLServer", "AkshaySDbDiscoverySQLServer\AkshaySDbDiscoverySQLServer.csproj", "{A99DF526-C33C-4AED-8E84-40449529C034}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{EAD74731-E06D-42C8-8DCF-989AAEBD96D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAD74731-E06D-42C8-8DCF-989AAEBD96D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAD74731-E06D-42C8-8DCF-989AAEBD96D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87D254C5-975E-441B-A4AF-B3D55F989329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87D254C5-975E-441B-A4AF-B3D55F989329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87D254C5-975E-441B-A4AF-B3D55F989329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87D254C5-975E-441B-A4AF-B3D55F989329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{834483A7-9D80-4F1E-B5E6-1CBF25F1FABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834483A7-9D80-4F1E-B5E6-1CBF25F1FABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834483A7-9D80-4F1E-B5E6-1CBF25F1FABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834483A7-9D80-4F1E-B5E6-1CBF25F1FABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E2640A-8926-43D9-B226-42BF769AAA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E2640A-8926-43D9-B226-42BF769AAA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E2640A-8926-43D9-B226-42BF769AAA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E2640A-8926-43D9-B226-42BF769AAA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99DF526-C33C-4AED-8E84-40449529C034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99DF526-C33C-4AED-8E84-40449529C034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99DF526-C33C-4AED-8E84-40449529C034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99DF526-C33C-4AED-8E84-40449529C034}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

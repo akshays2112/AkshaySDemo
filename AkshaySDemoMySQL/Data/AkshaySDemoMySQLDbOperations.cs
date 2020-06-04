@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AkshaySDemoSQLServer.Data
+namespace AkshaySDemoMySQL.Data
 {
-    public class AkshaySDemoDbOperations
+    public class AkshaySDemoMySQLDbOperations
     {
-        private readonly AkshaySDemoContext rc = new AkshaySDemoContext();
+        private readonly AkshaySDemoMySQLContext rc = new AkshaySDemoMySQLContext();
 
         public IEnumerable<Recipe> GetAllRecipes()
         {

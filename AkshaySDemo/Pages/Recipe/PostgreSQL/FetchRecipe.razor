@@ -1,9 +1,10 @@
-﻿@page "/Recipe/fetchrecipe"
+﻿@page "/Recipe/PostgreSQL/fetchrecipe"
+@using AkshaySDemoModels.PostgreSQL
 <div>
     <div>
         <h1>Recipe Detail</h1>
         <p>
-            <a href="/Recipe/newrecipe">Create New</a>
+            <a href="/Recipe/PostgreSQL/newrecipe">Create New</a>
         </p>
     </div>
     <div>
@@ -21,17 +22,17 @@
             <tbody>
                 @foreach (var recipe in recipes)
                 {
-                    <tr>
-                        <td>@recipe.Name</td>
-                        <td>@recipe.Description</td>
-                        <td>@recipe.Comment</td>
-                        <td>@recipe.CreatorsName</td>
-                        <td>@recipe.Notes</td>
-                        <td>
-                            <a href='/Recipe/editrecipe/@recipe.ID'>Edit</a>  |
-                            <a href='/Recipe/deleterecipe/@recipe.ID'>Delete</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@recipe.Name</td>
+                    <td>@recipe.Description</td>
+                    <td>@recipe.Comment</td>
+                    <td>@recipe.CreatorsName</td>
+                    <td>@recipe.Notes</td>
+                    <td>
+                        <a href='/Recipe/PostgreSQL/editrecipe/@recipe.ID'>Edit</a>  |
+                        <a href='/Recipe/PostgreSQL/deleterecipe/@recipe.ID'>Delete</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -42,6 +43,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        recipes = (new AkshaySDemoDbOperations()).GetAllRecipes();
+        recipes = (new AkshaySDemoPostgreSQLDbOperations()).GetAllRecipes();
     }
 }

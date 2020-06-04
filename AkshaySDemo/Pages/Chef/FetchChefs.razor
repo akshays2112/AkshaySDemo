@@ -19,8 +19,12 @@
             <tbody>
                 @if (chefs == null)
                 {
-                    <p><em>Loading....</em></p>
-                } 
+                <tr>
+                    <td colspan="4">
+                        <p><em>Loading....</em></p>
+                    </td>
+                </tr>
+                }
                 else
                 {
                     foreach (var chef in chefs)

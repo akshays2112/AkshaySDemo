@@ -1,12 +1,12 @@
-﻿using AkshaySDemoModels;
+﻿using AkshaySDemoModels.PostgreSQL;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AkshaySDemoSQLServer.Data
+namespace AkshaySDemoPostgreSQL.Data
 {
-    public class AkshaySDemoDbOperations
+    public class AkshaySDemoPostgreSQLDbOperations
     {
-        private readonly AkshaySDemoContext rc = new AkshaySDemoContext();
+        private readonly AkshaySDemoPostgreSQLContext rc = new AkshaySDemoPostgreSQLContext();
 
         public IEnumerable<Recipe> GetAllRecipes()
         {
