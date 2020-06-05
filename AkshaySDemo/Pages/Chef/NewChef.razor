@@ -5,28 +5,25 @@
         <h1>Create Chef</h1>
         <hr />
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="Name" class="control-label">First Name</label>
-                    <input for="Name" class="form-control" @bind="@chef.FirstName" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label">Last Name</label>
-                    <textarea asp-for="Description" class="form-control" @bind="@chef.LastName"></textarea>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label">Country Name</label>
-                    <textarea asp-for="Description" class="form-control" @bind="@chef.Name"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" @onclick="@CreateChef">Save</button>
-                    <button class="btn btn-warning" @onclick="@cancel">Cancel</button>
-                </div>
-            </form>
+    <EditForm Model="@chef" OnValidSubmit="@CreateChef">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            First Name
+            <InputText @bind-Value="@chef.FirstName" />
         </div>
-    </div>
+        <div>
+            Last Name
+            <InputText @bind-Value="@chef.LastName"></InputText>
+        </div>
+        <div>
+            Country Name
+            <InputText @bind-Value="@chef.CountryName"></InputText>
+        </div>
+        <button type="submit" class="btn btn-primary">Save New Chef</button>
+    </EditForm>
+    <button class="btn btn-warning" @onclick="@cancel">Discard Edits</button>
 </div>
 @functions {
     Chef chef = new Chef();

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
 
 namespace AkshaySDemoGoogleFireStoreDB.Models
 {
@@ -9,10 +8,16 @@ namespace AkshaySDemoGoogleFireStoreDB.Models
     {
         public string ID { get; set; }
         [FirestoreProperty]
+        [Required]
+        [StringLength(10, ErrorMessage = "Your first name can only be 10 characters long.")]
         public string FirstName { get; set; }
         [FirestoreProperty]
+        [Required]
+        [StringLength(10, ErrorMessage = "Your first name can only be 10 characters long.")]
         public string LastName { get; set; }
         [FirestoreProperty]
-        public string Name { get; set; }
+        [Required]
+        [StringLength(10, ErrorMessage = "Your first name can only be 10 characters long.")]
+        public string CountryName { get; set; }
     }
 }
