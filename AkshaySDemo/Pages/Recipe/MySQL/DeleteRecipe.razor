@@ -47,10 +47,10 @@
     protected void Delete()
     {
         dbop.DeleteRecipe(Convert.ToInt32(recipeId));
-        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipes");
     }
     void cancel()
     {
-        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/MySQL/fetchrecipes");
     }
 }

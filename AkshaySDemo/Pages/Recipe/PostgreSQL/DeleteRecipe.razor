@@ -47,10 +47,10 @@
     protected void Delete()
     {
         dbop.DeleteRecipe(Convert.ToInt32(recipeId));
-        Navigation.NavigateTo("/Recipe/PostgreSQL/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/PostgreSQL/fetchrecipes");
     }
     void cancel()
     {
-        Navigation.NavigateTo("/Recipe/PostgreSQL/fetchrecipe");
+        Navigation.NavigateTo("/Recipe/PostgreSQL/fetchrecipes");
     }
 }

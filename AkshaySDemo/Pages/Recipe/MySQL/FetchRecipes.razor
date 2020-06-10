@@ -1,10 +1,10 @@
-﻿@page "/Recipe/SQLServer/fetchrecipe"
+﻿@page "/Recipe/MySQL/fetchrecipes"
 @using AkshaySDemoModels
 <div>
     <div>
         <h1>Recipe Detail</h1>
         <p>
-            <a href="/Recipe/SQLServer/newrecipe">Create New</a>
+            <a href="/Recipe/MySQL/newrecipe">Create New</a>
         </p>
     </div>
     <div>
@@ -29,8 +29,8 @@
                         <td>@recipe.CreatorsName</td>
                         <td>@recipe.Notes</td>
                         <td>
-                            <a href='/Recipe/SQLServer/editrecipe/@recipe.ID'>Edit</a>  |
-                            <a href='/Recipe/SQLServer/deleterecipe/@recipe.ID'>Delete</a>
+                            <a href='/Recipe/MySQL/editrecipe/@recipe.ID'>Edit</a>  |
+                            <a href='/Recipe/MySQL/deleterecipe/@recipe.ID'>Delete</a>
                         </td>
                     </tr>
                 }
@@ -43,6 +43,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        recipes = (new AkshaySDemoDbOperations()).GetAllRecipes();
+        recipes = (new AkshaySDemoMySQLDbOperations()).GetAllRecipes();
     }
 }

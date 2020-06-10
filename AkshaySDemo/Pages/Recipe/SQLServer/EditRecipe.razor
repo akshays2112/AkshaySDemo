@@ -49,10 +49,10 @@
     protected void UpdateRecipe()
     {
         dbop.UpdateRecipe(recipe);
-        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipes", true);
     }
     void cancel()
     {
-        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipe", true);
+        Navigation.NavigateTo("/Recipe/SQLServer/fetchrecipes", true);
     }
 }
