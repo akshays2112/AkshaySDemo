@@ -2,48 +2,80 @@
 @using SpotifyApi.NetCore
 @attribute [Authorize]
 @inject IPlaylistsApi playlistsApi
+@inject IArtistsApi artistsApi
 <h3>Spotify List Playlists</h3>
-<button @onclick="@GetPlaylists">Get Spotify Playlists</button>
 
-@foreach (UserPlaylist userPlaylist in userPlayLists)
+<EditForm Model="@searchForArtistOrSong" OnValidSubmit="@SearchForArtists">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        Search for Artist or Song
+        <InputText @bind-Value="@searchForArtistOrSong.SearchString" />
+    </div>
+    <button type="submit" class="btn btn-primary">Find Artist or Song</button>
+</EditForm>
+@testOutput
+<hr />
+
+<button @onclick="@GetPlaylists">Get Spotify Playlists</button>
+<br />
+@if (userPlayLists != null)
 {
-    <table>
-        <tcaption>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </tcaption>
-        <thead>
-            <tr>
-                <th>
-                    Index
-                </th>
-                <th>
-                    Song Name
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (string trackName in userPlaylist.TrackNames)
-            {
+    foreach (UserPlaylist userPlaylist in userPlayLists)
+    {
+        <div>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </div>
+        <table>
+            <thead>
                 <tr>
-                    <td>
-                        @(trackCount++)
-                    </td>
-                    <td>
-                        @trackName
-                    </td>
+                    <th>
+                        Index
+                    </th>
+                    <th>
+                        Song Name
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @if (userPlaylist.UserPlaylistTracks != null)
+                {
+                    foreach (UserPlaylist.UserPlaylistTrack track in userPlaylist.UserPlaylistTracks)
+                    {
+                        <tr>
+                            <td>
+                                @track.Index
+                            </td>
+                            <td>
+                                @track.Name
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
 }
 
 @code {
-    int trackCount = 1;
-
     class UserPlaylist
     {
         public string Name { get; set; }
         public int Total { get; set; }
         public string Id { get; set; }
-        public List<string> TrackNames = new List<string>();
+
+        public class UserPlaylistTrack
+        {
+            public string Name { get; set; }
+            public int Index { get; set; }
+
+            public UserPlaylistTrack(string name, int index)
+            {
+                this.Name = name;
+                this.Index = index;
+            }
+        }
+
+        public UserPlaylistTrack[] UserPlaylistTracks { get; set; }
 
         public UserPlaylist(string name, int total, string id)
         {
@@ -53,25 +85,61 @@
         }
     }
 
-    List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
+    class SearchForArtistOrSong
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        public string SearchString { get; set; }
+    }
+
+    UserPlaylist[] userPlayLists;
+
+    SearchForArtistOrSong searchForArtistOrSong = new SearchForArtistOrSong();
+
+    string testOutput;
 
     async Task GetPlaylists()
     {
-        int counter = 0;
-        PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.UserAccountName, Startup.UserAccessToken);
-        foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
+        try
         {
-            UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
-            userPlayLists.Add(userPlaylist);
-            while (counter <= userPlaylist.Total)
+            List<UserPlaylist> tmpUserPlayLists = new List<UserPlaylist>();
+            PlaylistsSearchResult playlistsSearchResult;
+            playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.UserAccountName, Startup.UserAccessToken);
+            foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
             {
-                PlaylistPaged playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.UserAccessToken, limit: 100, offset: counter);
-                foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
+                int counter = 0;
+                int indexCounter = 1;
+                UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
+                tmpUserPlayLists.Add(userPlaylist);
+                List<UserPlaylist.UserPlaylistTrack> tmpUserPlaylistTracks = new List<UserPlaylist.UserPlaylistTrack>();
+                while (counter < userPlaylist.Total)
                 {
-                    userPlaylist.TrackNames.Add(playlistTrack.Track.Name);
+                    PlaylistPaged playlistPaged;
+                    try
+                    {
+                        playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.UserAccessToken, limit: 100, offset: counter);
+                        foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
+                        {
+                            tmpUserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, indexCounter++));
+                        }
+                        counter += playlistPaged.Items.Length;
+                    }
+                    catch (System.Net.Http.HttpRequestException ex)
+                    {
+                        testOutput = $"PlaylistsApi.GetTracks() threw the following message {ex.Message}";
+                    }
                 }
-                counter += playlistPaged.Items.Length;
+                userPlaylist.UserPlaylistTracks = tmpUserPlaylistTracks.ToArray();
             }
+            userPlayLists = tmpUserPlayLists.ToArray();
         }
+        catch (System.Net.Http.HttpRequestException ex)
+        {
+            testOutput = $"PlaylistsApi.GetPlaylists() thre the following message {ex.Message}";
+        }
+    }
+
+    void SearchForArtists()
+    {
+        testOutput = $"You tried to search for {searchForArtistOrSong.SearchString}";
     }
 }

@@ -50,16 +50,6 @@ namespace SyncMusicFromExternalSources
                 options.CallbackPath = "/SpotifyAPI/spotifylistplaylists";
                 options.SaveTokens = true;
 
-                /*
-                string[] items = {
-                        "playlist-read-public", "user-read-email"
-                    };
-                foreach (var item in items)
-                {
-                    options.Scope.Add(item);
-                }
-                */
-
                 options.Events.OnRemoteFailure = (context) =>
                 {
                     return Task.CompletedTask;
