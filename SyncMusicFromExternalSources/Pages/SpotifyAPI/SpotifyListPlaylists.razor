@@ -1,0 +1,77 @@
+﻿@page "/SpotifyAPI/spotifylistplaylists"
+@using SpotifyApi.NetCore
+@attribute [Authorize]
+@inject IPlaylistsApi playlistsApi
+<h3>Spotify List Playlists</h3>
+<button @onclick="@GetPlaylists">Get Spotify Playlists</button>
+
+@foreach (UserPlaylist userPlaylist in userPlayLists)
+{
+    <table>
+        <tcaption>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </tcaption>
+        <thead>
+            <tr>
+                <th>
+                    Index
+                </th>
+                <th>
+                    Song Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (string trackName in userPlaylist.TrackNames)
+            {
+                <tr>
+                    <td>
+                        @(trackCount++)
+                    </td>
+                    <td>
+                        @trackName
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    int trackCount = 1;
+
+    class UserPlaylist
+    {
+        public string Name { get; set; }
+        public int Total { get; set; }
+        public string Id { get; set; }
+        public List<string> TrackNames = new List<string>();
+
+        public UserPlaylist(string name, int total, string id)
+        {
+            this.Name = name;
+            this.Total = total;
+            this.Id = id;
+        }
+    }
+
+    List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
+
+    async Task GetPlaylists()
+    {
+        int counter = 0;
+        PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.UserAccountName, Startup.UserAccessToken);
+        foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
+        {
+            UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
+            userPlayLists.Add(userPlaylist);
+            while (counter <= userPlaylist.Total)
+            {
+                PlaylistPaged playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.UserAccessToken, limit: 100, offset: counter);
+                foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
+                {
+                    userPlaylist.TrackNames.Add(playlistTrack.Track.Name);
+                }
+                counter += playlistPaged.Items.Length;
+            }
+        }
+    }
+}
