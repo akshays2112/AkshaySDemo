@@ -26,11 +26,3 @@ namespace SyncMusicFromExternalSources
                 });
     }
 }
-
-/*
-builder.Services.AddTransient(sp => 
-    new HttpClient
-    {
-        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-    });
- * */

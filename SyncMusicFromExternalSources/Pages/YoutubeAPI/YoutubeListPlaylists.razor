@@ -1,0 +1,105 @@
+﻿@page "/YoutubeAPI/youtubelistplaylists"
+@using Google.Apis.YouTube.v3
+@using Google.Apis.Services
+@using Google.Apis.YouTube.v3.Data
+@inject NavigationManager navMgr
+
+<h3>YoutubeListPlaylists</h3>
+
+@if (myPlaylists != null)
+{
+    foreach (MyPlaylist myPlaylist in myPlaylists)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Song in Playlist:: <b>@myPlaylist.Title</b>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MyPlaylist.MyPlayListItem myPlayListItem in myPlaylist.MyPlayListItems)
+                {
+                <tr>
+                    <td>
+                        @myPlayListItem.Title
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    }
+}
+
+@code {
+    class MyPlaylist
+    {
+        public class MyPlayListItem
+        {
+            public string Title { get; set; }
+            public string Id { get; set; }
+
+            public MyPlayListItem(string title, string id)
+            {
+                this.Title = title;
+                this.Id = id;
+            }
+        }
+
+        public string Title { get; set; }
+
+        public List<MyPlayListItem> MyPlayListItems = new List<MyPlayListItem>();
+
+        public MyPlaylist(string title)
+        {
+            this.Title = title;
+        }
+    }
+
+    MyPlaylist[] myPlaylists;
+
+    protected override async Task OnInitializedAsync()
+    {
+        YouTubeService yts = new YouTubeService(new BaseClientService.Initializer
+        {
+            ApplicationName = "SyncMusicFromExternalSources",
+            ApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw"
+        });
+        PlaylistsResource.ListRequest lr = yts.Playlists.List("snippet,contentDetails");
+        lr.Mine = true;
+        lr.MaxResults = 50;
+        lr.AccessToken = Startup.GoogleUserAccessToken;
+        IList<Playlist> playlists = (await lr.ExecuteAsync()).Items;
+        List<MyPlaylist> tmpMyPlaylists = new List<MyPlaylist>();
+        foreach (Playlist p in playlists)
+        {
+            MyPlaylist myPlaylist = new MyPlaylist(p.Snippet.Title);
+            tmpMyPlaylists.Add(myPlaylist);
+            PlaylistItemsResource.ListRequest pir = yts.PlaylistItems.List("snippet,contentDetails");
+            pir.MaxResults = 50;
+            pir.AccessToken = Startup.GoogleUserAccessToken;
+            pir.PlaylistId = p.Id;
+            PlaylistItemListResponse pilr = await pir.ExecuteAsync();
+            foreach (PlaylistItem pi in pilr.Items)
+            {
+                MyPlaylist.MyPlayListItem myPlayListItem = new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id);
+                myPlaylist.MyPlayListItems.Add(myPlayListItem);
+            }
+            while (pilr.NextPageToken != null && pilr.NextPageToken.Length > 0)
+            {
+                pir.PageToken = pilr.NextPageToken;
+                pilr = await pir.ExecuteAsync();
+                foreach (PlaylistItem pi in pilr.Items)
+                {
+                    MyPlaylist.MyPlayListItem myPlayListItem = new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id);
+                    myPlaylist.MyPlayListItems.Add(myPlayListItem);
+                }
+            }
+        }
+        myPlaylists = tmpMyPlaylists.ToArray();
+
+        await base.OnInitializedAsync();
+    }
+}

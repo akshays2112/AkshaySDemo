@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoPostgreSQL", "Ak
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDbDiscoverySQLServer", "AkshaySDbDiscoverySQLServer\AkshaySDbDiscoverySQLServer.csproj", "{A99DF526-C33C-4AED-8E84-40449529C034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncMusicFromExternalSources", "SyncMusicFromExternalSources\SyncMusicFromExternalSources.csproj", "{FE3421D3-0342-4F96-AB93-6BADA3F10465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncMusicFromExternalSources", "SyncMusicFromExternalSources\SyncMusicFromExternalSources.csproj", "{FE3421D3-0342-4F96-AB93-6BADA3F10465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

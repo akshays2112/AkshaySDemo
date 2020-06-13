@@ -12,13 +12,13 @@ namespace AkshaySDemoGoogleFireStoreDB.DataAccess
 {
     public class ChefDataAccessLayer
     {
-        public static string GoogleFirestoreDBJsonString { get; set; }
+        public static string GoogleApisOAuthJsonString { get; set; }
         FirestoreDb fireStoreDB;
 
         public ChefDataAccessLayer()
         {
             FirestoreClientBuilder firestoreClientBuilder = new FirestoreClientBuilder();
-            firestoreClientBuilder.JsonCredentials = GoogleFirestoreDBJsonString;
+            firestoreClientBuilder.JsonCredentials = GoogleApisOAuthJsonString;
             FirestoreClient firestoreClient = firestoreClientBuilder.Build();
             fireStoreDB = FirestoreDb.Create("akshaysdemo", firestoreClient);
         }

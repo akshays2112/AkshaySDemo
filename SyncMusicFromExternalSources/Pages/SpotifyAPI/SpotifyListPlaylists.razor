@@ -1,8 +1,9 @@
 ﻿@page "/SpotifyAPI/spotifylistplaylists"
 @using SpotifyApi.NetCore
-@attribute [Authorize]
+@using System.ComponentModel.DataAnnotations 
 @inject IPlaylistsApi playlistsApi
 @inject IArtistsApi artistsApi
+@attribute [Authorize]
 <h3>Spotify List Playlists</h3>
 
 <EditForm Model="@searchForArtistOrSong" OnValidSubmit="@SearchForArtists">
@@ -87,7 +88,7 @@
 
     class SearchForArtistOrSong
     {
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public string SearchString { get; set; }
     }
 
@@ -102,8 +103,7 @@
         try
         {
             List<UserPlaylist> tmpUserPlayLists = new List<UserPlaylist>();
-            PlaylistsSearchResult playlistsSearchResult;
-            playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.UserAccountName, Startup.UserAccessToken);
+            PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.SpotifyUserAccountName, Startup.SpotifyUserAccessToken);
             foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
             {
                 int counter = 0;
@@ -116,7 +116,7 @@
                     PlaylistPaged playlistPaged;
                     try
                     {
-                        playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.UserAccessToken, limit: 100, offset: counter);
+                        playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.SpotifyUserAccessToken, limit: 100, offset: counter);
                         foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
                         {
                             tmpUserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, indexCounter++));
