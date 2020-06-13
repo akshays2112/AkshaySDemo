@@ -6,32 +6,30 @@
 
 <h3>YoutubeListPlaylists</h3>
 
-@if (myPlaylists != null)
+@foreach (MyPlaylist myPlaylist in myPlaylists)
 {
-    foreach (MyPlaylist myPlaylist in myPlaylists)
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Song in Playlist:: <b>@myPlaylist.Title</b>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (MyPlaylist.MyPlayListItem myPlayListItem in myPlaylist.MyPlayListItems)
-                {
-                <tr>
-                    <td>
-                        @myPlayListItem.Title
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-        <hr />
-    }
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Song in Playlist:: <b>@myPlaylist.Title</b>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MyPlaylist.MyPlayListItem myPlayListItem in myPlaylist.MyPlayListItems)
+            {
+            <tr>
+                <td>
+                    @myPlayListItem.Title
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
 }
+
 
 @code {
     class MyPlaylist
@@ -58,7 +56,7 @@
         }
     }
 
-    MyPlaylist[] myPlaylists;
+    List<MyPlaylist> myPlaylists = new List<MyPlaylist>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,11 +70,10 @@
         lr.MaxResults = 50;
         lr.AccessToken = Startup.GoogleUserAccessToken;
         IList<Playlist> playlists = (await lr.ExecuteAsync()).Items;
-        List<MyPlaylist> tmpMyPlaylists = new List<MyPlaylist>();
         foreach (Playlist p in playlists)
         {
             MyPlaylist myPlaylist = new MyPlaylist(p.Snippet.Title);
-            tmpMyPlaylists.Add(myPlaylist);
+            myPlaylists.Add(myPlaylist);
             PlaylistItemsResource.ListRequest pir = yts.PlaylistItems.List("snippet,contentDetails");
             pir.MaxResults = 50;
             pir.AccessToken = Startup.GoogleUserAccessToken;
@@ -84,8 +81,7 @@
             PlaylistItemListResponse pilr = await pir.ExecuteAsync();
             foreach (PlaylistItem pi in pilr.Items)
             {
-                MyPlaylist.MyPlayListItem myPlayListItem = new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id);
-                myPlaylist.MyPlayListItems.Add(myPlayListItem);
+                myPlaylist.MyPlayListItems.Add(new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id));
             }
             while (pilr.NextPageToken != null && pilr.NextPageToken.Length > 0)
             {
@@ -93,12 +89,10 @@
                 pilr = await pir.ExecuteAsync();
                 foreach (PlaylistItem pi in pilr.Items)
                 {
-                    MyPlaylist.MyPlayListItem myPlayListItem = new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id);
-                    myPlaylist.MyPlayListItems.Add(myPlayListItem);
+                    myPlaylist.MyPlayListItems.Add(new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id));
                 }
             }
         }
-        myPlaylists = tmpMyPlaylists.ToArray();
 
         await base.OnInitializedAsync();
     }

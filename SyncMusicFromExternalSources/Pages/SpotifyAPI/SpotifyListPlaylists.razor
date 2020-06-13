@@ -21,40 +21,37 @@
 
 <button @onclick="@GetPlaylists">Get Spotify Playlists</button>
 <br />
-@if (userPlayLists != null)
+@foreach (UserPlaylist userPlaylist in userPlayLists)
 {
-    foreach (UserPlaylist userPlaylist in userPlayLists)
-    {
-        <div>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Index
-                    </th>
-                    <th>
-                        Song Name
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (userPlaylist.UserPlaylistTracks != null)
+    <div>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </div>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Index
+                </th>
+                <th>
+                    Song Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (userPlaylist.UserPlaylistTracks != null)
+            {
+                foreach (UserPlaylist.UserPlaylistTrack track in userPlaylist.UserPlaylistTracks)
                 {
-                    foreach (UserPlaylist.UserPlaylistTrack track in userPlaylist.UserPlaylistTracks)
-                    {
-                        <tr>
-                            <td>
-                                @track.Index
-                            </td>
-                            <td>
-                                @track.Name
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>
+                            @track.Index
+                        </td>
+                        <td>
+                            @track.Name
+                        </td>
+                    </tr>
                 }
-            </tbody>
-        </table>
-    }
+            }
+        </tbody>
+    </table>
 }
 
 @code {
@@ -76,7 +73,7 @@
             }
         }
 
-        public UserPlaylistTrack[] UserPlaylistTracks { get; set; }
+        public List<UserPlaylistTrack> UserPlaylistTracks = new List<UserPlaylistTrack>();
 
         public UserPlaylist(string name, int total, string id)
         {
@@ -92,7 +89,7 @@
         public string SearchString { get; set; }
     }
 
-    UserPlaylist[] userPlayLists;
+    List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
 
     SearchForArtistOrSong searchForArtistOrSong = new SearchForArtistOrSong();
 
@@ -102,15 +99,13 @@
     {
         try
         {
-            List<UserPlaylist> tmpUserPlayLists = new List<UserPlaylist>();
             PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.SpotifyUserAccountName, Startup.SpotifyUserAccessToken);
             foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
             {
                 int counter = 0;
                 int indexCounter = 1;
                 UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
-                tmpUserPlayLists.Add(userPlaylist);
-                List<UserPlaylist.UserPlaylistTrack> tmpUserPlaylistTracks = new List<UserPlaylist.UserPlaylistTrack>();
+                userPlayLists.Add(userPlaylist);
                 while (counter < userPlaylist.Total)
                 {
                     PlaylistPaged playlistPaged;
@@ -119,7 +114,7 @@
                         playlistPaged = await playlistsApi.GetTracks(playlistSimplified.Id, Startup.SpotifyUserAccessToken, limit: 100, offset: counter);
                         foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
                         {
-                            tmpUserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, indexCounter++));
+                            userPlaylist.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, indexCounter++));
                         }
                         counter += playlistPaged.Items.Length;
                     }
@@ -128,9 +123,7 @@
                         testOutput = $"PlaylistsApi.GetTracks() threw the following message {ex.Message}";
                     }
                 }
-                userPlaylist.UserPlaylistTracks = tmpUserPlaylistTracks.ToArray();
             }
-            userPlayLists = tmpUserPlayLists.ToArray();
         }
         catch (System.Net.Http.HttpRequestException ex)
         {
