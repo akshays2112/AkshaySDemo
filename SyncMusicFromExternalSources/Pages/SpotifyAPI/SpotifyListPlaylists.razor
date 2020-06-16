@@ -3,6 +3,7 @@
 @using System.ComponentModel.DataAnnotations 
 @inject IPlaylistsApi playlistsApi
 @inject IArtistsApi artistsApi
+@inject IUsersProfileApi usersApi
 @attribute [Authorize]
 <h3>Spotify List Playlists</h3>
 
@@ -89,6 +90,7 @@
         public string SearchString { get; set; }
     }
 
+
     List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
 
     SearchForArtistOrSong searchForArtistOrSong = new SearchForArtistOrSong();
@@ -99,7 +101,8 @@
     {
         try
         {
-            PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(Startup.SpotifyUserAccountName, Startup.SpotifyUserAccessToken);
+            User user = await usersApi.GetCurrentUsersProfile(Startup.SpotifyUserAccessToken);
+            PlaylistsSearchResult playlistsSearchResult = await playlistsApi.GetPlaylists(user.Id, Startup.SpotifyUserAccessToken);
             foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
             {
                 int counter = 0;
