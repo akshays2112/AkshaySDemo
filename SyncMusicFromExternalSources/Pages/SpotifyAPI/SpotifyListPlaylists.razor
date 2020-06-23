@@ -1,9 +1,10 @@
 ﻿@page "/SpotifyAPI/spotifylistplaylists"
 @using SpotifyApi.NetCore
-@using System.ComponentModel.DataAnnotations 
+@using System.ComponentModel.DataAnnotations
 @inject IPlaylistsApi playlistsApi
 @inject IArtistsApi artistsApi
 @inject IUsersProfileApi usersApi
+@inject IFollowApi followApi
 @attribute [Authorize]
 <h3>Spotify List Playlists</h3>
 
@@ -20,6 +21,15 @@
 @testOutput
 <hr />
 
+<button @onclick="@GetFollowing">Get Following</button>
+<br />
+@foreach (bool b in isFollowing)
+{
+    @b
+    <br />
+}
+
+<hr />
 <button @onclick="@GetPlaylists">Get Spotify Playlists</button>
 <br />
 @foreach (UserPlaylist userPlaylist in userPlayLists)
@@ -97,6 +107,8 @@
 
     string testOutput;
 
+    List<bool> isFollowing = new List<bool>();
+
     async Task GetPlaylists()
     {
         try
@@ -130,12 +142,26 @@
         }
         catch (System.Net.Http.HttpRequestException ex)
         {
-            testOutput = $"PlaylistsApi.GetPlaylists() thre the following message {ex.Message}";
+            testOutput = $"PlaylistsApi.GetPlaylists() the following message {ex.Message}";
         }
     }
 
     void SearchForArtists()
     {
         testOutput = $"You tried to search for {searchForArtistOrSong.SearchString}";
+    }
+
+    async Task GetFollowing()
+    {
+        try
+        {
+            User user = await usersApi.GetCurrentUsersProfile(Startup.SpotifyUserAccessToken);
+            isFollowing = await followApi.GetFollowingContains(user.Id, FollowApi.ContainsTypes.Artist, 
+                new List<string> { "74ASZWbe4lXaubB36ztrGX" }, Startup.SpotifyUserAccessToken);
+        }
+        catch (System.Net.Http.HttpRequestException ex)
+        {
+            testOutput = $"FollowApi.GetCurrentUsersProfile() the following message {ex.Message}";
+        }
     }
 }
