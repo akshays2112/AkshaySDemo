@@ -23,10 +23,13 @@
 
 <button @onclick="@GetFollowing">Get Following</button>
 <br />
-@foreach (bool b in isFollowing)
+@if (isFollowing != null)
 {
+    foreach (bool b in isFollowing)
+    {
     @b
     <br />
+    }
 }
 
 <hr />
@@ -107,7 +110,7 @@
 
     string testOutput;
 
-    List<bool> isFollowing = new List<bool>();
+    bool[] isFollowing;
 
     async Task GetPlaylists()
     {
@@ -156,8 +159,8 @@
         try
         {
             User user = await usersApi.GetCurrentUsersProfile(Startup.SpotifyUserAccessToken);
-            isFollowing = await followApi.GetFollowingContains(user.Id, FollowApi.ContainsTypes.Artist, 
-                new List<string> { "74ASZWbe4lXaubB36ztrGX" }, Startup.SpotifyUserAccessToken);
+            isFollowing = await followApi.CheckCurrentUserFollowsArtists(user.Id, 
+                new string[] { "74ASZWbe4lXaubB36ztrGX" }, Startup.SpotifyUserAccessToken);
         }
         catch (System.Net.Http.HttpRequestException ex)
         {
