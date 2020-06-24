@@ -159,7 +159,7 @@
         try
         {
             User user = await usersApi.GetCurrentUsersProfile(Startup.SpotifyUserAccessToken);
-            isFollowing = await followApi.CheckCurrentUserFollowsArtists(user.Id, 
+            isFollowing = await followApi.CheckCurrentUserFollowsArtists(
                 new string[] { "74ASZWbe4lXaubB36ztrGX" }, Startup.SpotifyUserAccessToken);
         }
         catch (System.Net.Http.HttpRequestException ex)

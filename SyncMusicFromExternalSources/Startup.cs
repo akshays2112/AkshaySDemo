@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Microsoft.AspNetCore.Authentication.Google;
 using SyncMusicFromExternalSources.Shared;
 
 namespace SyncMusicFromExternalSources
