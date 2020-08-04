@@ -32,38 +32,14 @@
 
 
 @code {
-    class MyPlaylist
-    {
-        public class MyPlayListItem
-        {
-            public string Title { get; set; }
-            public string Id { get; set; }
-
-            public MyPlayListItem(string title, string id)
-            {
-                this.Title = title;
-                this.Id = id;
-            }
-        }
-
-        public string Title { get; set; }
-
-        public List<MyPlayListItem> MyPlayListItems = new List<MyPlayListItem>();
-
-        public MyPlaylist(string title)
-        {
-            this.Title = title;
-        }
-    }
-
     List<MyPlaylist> myPlaylists = new List<MyPlaylist>();
 
     protected override async Task OnInitializedAsync()
     {
         YouTubeService yts = new YouTubeService(new BaseClientService.Initializer
         {
-            ApplicationName = "SyncMusicFromExternalSources",
-            ApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw"
+            ApplicationName = Startup.GoogleApisApplicationName,
+            ApiKey = Startup.GoogleApisApiKey
         });
         PlaylistsResource.ListRequest lr = yts.Playlists.List("snippet,contentDetails");
         lr.Mine = true;
@@ -72,7 +48,7 @@
         IList<Playlist> playlists = (await lr.ExecuteAsync()).Items;
         foreach (Playlist p in playlists)
         {
-            MyPlaylist myPlaylist = new MyPlaylist(p.Snippet.Title);
+            MyPlaylist myPlaylist = new MyPlaylist(p.Snippet.Title, p.Id, p.ContentDetails.ItemCount);
             myPlaylists.Add(myPlaylist);
             PlaylistItemsResource.ListRequest pir = yts.PlaylistItems.List("snippet,contentDetails");
             pir.MaxResults = 50;

@@ -12,11 +12,11 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        @if (IsLoggedIntoSpotify)
+        @if (IsLoggedIntoSpotify && IsLoggedIntoGoogle)
         {
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="/SpotifyAPI/spotifylistplaylists">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Spotify List Playlists
+                <NavLink class="nav-link" href="/transfersongsfromyoutubetospotify">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Transfer Songs
                 </NavLink>
             </li>
         }
@@ -24,7 +24,23 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/Identity/Account/Login">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Login to Spotify
+                    <span class="oi oi-plus" aria-hidden="true"></span>Login
+                </NavLink>
+            </li>
+        }
+        @if (IsLoggedIntoSpotify)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/SpotifyAPI/spotifylistplaylists">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Spotify List Playlists
+                </NavLink>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/Identity/Account/Login">
+                    <span class="oi oi-plus" aria-hidden="true"></span>Login to Spotify
                 </NavLink>
             </li>
         }
@@ -32,7 +48,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/YoutubeAPI/youtubelistplaylists">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Youtube List Playlists
+                    <span class="oi oi-plus" aria-hidden="true"></span>Youtube List Playlists
                 </NavLink>
             </li>
         }
@@ -40,7 +56,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/Identity/Account/Login">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Login to Google
+                    <span class="oi oi-plus" aria-hidden="true"></span>Login to Google
                 </NavLink>
             </li>
         }
@@ -48,7 +64,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/TwitterAPI/tweetslist">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Twitter Tweets List
+                    <span class="oi oi-plus" aria-hidden="true"></span>Twitter Tweets List
                 </NavLink>
             </li>
         }
@@ -56,7 +72,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/Identity/Account/Login">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Login to Twitter
+                    <span class="oi oi-plus" aria-hidden="true"></span>Login to Twitter
                 </NavLink>
             </li>
         }
@@ -64,7 +80,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/FacebookAPI/FacebookPostsList">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Facebook Posts List
+                    <span class="oi oi-plus" aria-hidden="true"></span>Facebook Posts List
                 </NavLink>
             </li>
         }
@@ -72,7 +88,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="/Identity/Account/Login">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Login to Facebook
+                    <span class="oi oi-plus" aria-hidden="true"></span>Login to Facebook
                 </NavLink>
             </li>
         }

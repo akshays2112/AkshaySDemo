@@ -21,8 +21,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SpotifyApi.NetCore" Version="3.4.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SpotifyApi.NetCore">
+      <HintPath>..\..\SpotifyApi.NetCore\src\SpotifyApi.NetCore\bin\Debug\netstandard2.0\SpotifyApi.NetCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

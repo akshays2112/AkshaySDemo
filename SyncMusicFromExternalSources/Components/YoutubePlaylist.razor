@@ -1,0 +1,57 @@
+﻿@using Google.Apis.YouTube.v3
+@using Google.Apis.Services
+@using Google.Apis.YouTube.v3.Data
+@if (SingleYoutubePlaylist.Count > 0)
+{
+    <button @onclick="@LoadYoutubePlaylistItems">Load or Refresh</button>
+}
+@if (SingleYoutubePlaylist.MyPlayListItems.Count > 0)
+{
+    <div style="margin-left:60px;">
+        <table>
+            <tbody>
+                @foreach (MyPlaylist.MyPlayListItem myPlayListItem in SingleYoutubePlaylist.MyPlayListItems)
+                {
+                    <tr>
+                        <td>
+                            Youtube Video Title :: @myPlayListItem.Title
+                            <SearchSpotifyByYoutubeMusicVideoTitle YoutubePlaylistItem="@myPlayListItem" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@code {
+    [Parameter]
+    public MyPlaylist SingleYoutubePlaylist { get; set; }
+
+    async Task LoadYoutubePlaylistItems()
+    {
+        SingleYoutubePlaylist.MyPlayListItems.Clear();
+        YouTubeService yts = new YouTubeService(new BaseClientService.Initializer
+        {
+            ApplicationName = Startup.GoogleApisApplicationName,
+            ApiKey = Startup.GoogleApisApiKey
+        });
+        PlaylistItemsResource.ListRequest pir = yts.PlaylistItems.List("snippet,contentDetails");
+        pir.MaxResults = 50;
+        pir.AccessToken = Startup.GoogleUserAccessToken;
+        pir.PlaylistId = SingleYoutubePlaylist.ID;
+        PlaylistItemListResponse pilr = await pir.ExecuteAsync();
+        foreach (PlaylistItem pi in pilr.Items)
+        {
+            SingleYoutubePlaylist.MyPlayListItems.Add(new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id));
+        }
+        while (pilr.NextPageToken != null && pilr.NextPageToken.Length > 0)
+        {
+            pir.PageToken = pilr.NextPageToken;
+            pilr = await pir.ExecuteAsync();
+            foreach (PlaylistItem pi in pilr.Items)
+            {
+                SingleYoutubePlaylist.MyPlayListItems.Add(new MyPlaylist.MyPlayListItem(pi.Snippet.Title, pi.Id));
+            }
+        }
+    }
+}

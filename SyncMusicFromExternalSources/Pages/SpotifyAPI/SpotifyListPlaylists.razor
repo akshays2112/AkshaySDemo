@@ -5,6 +5,7 @@
 @inject IArtistsApi artistsApi
 @inject IUsersProfileApi usersApi
 @inject IFollowApi followApi
+@inject ISearchApi searchApi
 <h3>Spotify List Playlists</h3>
 
 <EditForm Model="@searchForArtistOrSong" OnValidSubmit="@SearchForArtists">
@@ -14,10 +15,95 @@
     <div>
         Search for Artist or Song
         <InputText @bind-Value="@searchForArtistOrSong.SearchString" />
+        <InputSelect @bind-Value="@searchForArtistOrSong.TypeToSearchFor">
+            <option value="playlist">Playlist</option>
+            <option value="artist">Artist</option>
+            <option value="track">Track</option>
+        </InputSelect>
     </div>
     <button type="submit" class="btn btn-primary">Find Artist or Song</button>
 </EditForm>
 @testOutput
+<hr />
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Track Name
+            </th>
+            <th>
+                Track Id
+            </th>
+            <th>
+                Artists
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CustomTrack track in searchTracks)
+        {
+            <tr>
+                <td style="vertical-align:top">
+                    @track.Name
+                </td>
+                <td style="vertical-align:top">
+                    @track.ID
+                </td>
+                <td>
+                    <table>
+                        @foreach (CustomTrack.CustomArtist customArtist in track.Artists)
+                        {
+                            <tr>
+                                <td style="width:100px">
+                                    @customArtist.Name
+                                </td>
+                                <td style="width:100px">
+                                    @customArtist.ID
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+@foreach (UserPlaylist userPlaylist in searchPlayLists)
+{
+    <div>Playlist Name:: @userPlaylist.Name Total:: @userPlaylist.Total Playlist Id: @userPlaylist.Id </div>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Index
+                </th>
+                <th>
+                    Song Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (userPlaylist.UserPlaylistTracks != null)
+            {
+                foreach (UserPlaylist.UserPlaylistTrack track in userPlaylist.UserPlaylistTracks)
+                {
+                    <tr>
+                        <td>
+                            @track.Index
+                        </td>
+                        <td>
+                            @track.Name
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
 <hr />
 
 <button @onclick="@GetFollowingArtists">Get Following</button>
@@ -81,42 +167,20 @@
 }
 
 @code {
-    class UserPlaylist
-    {
-        public string Name { get; set; }
-        public int Total { get; set; }
-        public string Id { get; set; }
-
-        public class UserPlaylistTrack
-        {
-            public string Name { get; set; }
-            public int Index { get; set; }
-
-            public UserPlaylistTrack(string name, int index)
-            {
-                this.Name = name;
-                this.Index = index;
-            }
-        }
-
-        public List<UserPlaylistTrack> UserPlaylistTracks = new List<UserPlaylistTrack>();
-
-        public UserPlaylist(string name, int total, string id)
-        {
-            this.Name = name;
-            this.Total = total;
-            this.Id = id;
-        }
-    }
-
     class SearchForArtistOrSong
     {
         [Required]
         public string SearchString { get; set; }
+
+        [Required]
+        public string TypeToSearchFor { get; set; }
     }
 
-
     List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
+
+    List<UserPlaylist> searchPlayLists = new List<UserPlaylist>();
+
+    List<CustomTrack> searchTracks = new List<CustomTrack>();
 
     SearchForArtistOrSong searchForArtistOrSong = new SearchForArtistOrSong();
 
@@ -163,9 +227,30 @@
         }
     }
 
-    void SearchForArtists()
+    async Task SearchForArtists()
     {
-        testOutput = $"You tried to search for {searchForArtistOrSong.SearchString}";
+        testOutput = $"You tried to search for {searchForArtistOrSong.TypeToSearchFor}s with the following filter {searchForArtistOrSong.SearchString}";
+        searchTracks.Clear();
+        try
+        {
+            if (searchForArtistOrSong.TypeToSearchFor == "track")
+            {
+                SearchResult searchResult = await searchApi.Search(searchForArtistOrSong.SearchString, searchForArtistOrSong.TypeToSearchFor, "US", 50, 0, Startup.SpotifyUserAccessToken);
+                foreach (Track track in searchResult.Tracks.Items)
+                {
+                    CustomTrack customTrack = new CustomTrack(track.Name, track.Id);
+                    searchTracks.Add(customTrack);
+                    foreach (Artist artist in track.Artists)
+                    {
+                        customTrack.Artists.Add(new CustomTrack.CustomArtist(artist.Name, artist.Id));
+                    }
+                }
+            }
+        }
+        catch (System.Net.Http.HttpRequestException ex)
+        {
+            testOutput = $"SearchApi.Search() the following message {ex.Message}";
+        }
     }
 
     async Task GetFollowingArtists()

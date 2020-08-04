@@ -1,0 +1,53 @@
+﻿@using SpotifyApi.NetCore
+@inject ISearchApi searchApi
+<button @onclick="@SearchSpotifyByTitle">Search Spotify by Title</button>
+@if (searchTracks.Count > 0)
+{
+    <div style="margin-left:60px;">
+        <table>
+            @foreach (CustomTrack track in searchTracks)
+            {
+                <tr>
+                    <td>
+                        Spotify Track Name :: @track.Name
+                        Spotify Track ID :: @track.ID
+                        <div style="margin-left:60px;">
+                            <table>
+                                @foreach (CustomTrack.CustomArtist customArtist in track.Artists)
+                                {
+                                    <tr>
+                                        <td>
+                                            Artist Name :: @customArtist.Name
+                                            Artist ID :: @customArtist.ID
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+@code {
+    [Parameter]
+    public MyPlaylist.MyPlayListItem YoutubePlaylistItem { get; set; }
+
+    List<CustomTrack> searchTracks = new List<CustomTrack>();
+
+    async Task SearchSpotifyByTitle()
+    {
+        searchTracks.Clear();
+        SearchResult searchResult = await searchApi.Search(YoutubePlaylistItem.Title, "track", "US", 50, 0, Startup.SpotifyUserAccessToken);
+        foreach (Track track in searchResult.Tracks.Items)
+        {
+            CustomTrack customTrack = new CustomTrack(track.Name, track.Id);
+            searchTracks.Add(customTrack);
+            foreach (Artist artist in track.Artists)
+            {
+                customTrack.Artists.Add(new CustomTrack.CustomArtist(artist.Name, artist.Id));
+            }
+        }
+    }
+}
