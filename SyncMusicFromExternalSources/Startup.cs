@@ -56,8 +56,23 @@ namespace SyncMusicFromExternalSources
                 options.CallbackPath = "/SpotifyAPI/spotifylistplaylists";
                 options.SaveTokens = true;
 
+                options.Scope.Add("user-read-playback-position");
+                options.Scope.Add("user-read-email");
+                options.Scope.Add("user-library-read");
+                options.Scope.Add("user-top-read");
+                options.Scope.Add("playlist-modify-public");
                 options.Scope.Add("user-follow-read");
-                
+                options.Scope.Add("user-read-playback-state");
+                options.Scope.Add("user-modify-playback-state");
+                options.Scope.Add("user-read-private");
+                options.Scope.Add("playlist-read-private");
+                options.Scope.Add("user-library-modify");
+                options.Scope.Add("playlist-read-collaborative");
+                options.Scope.Add("playlist-modify-private");
+                options.Scope.Add("user-follow-modify");
+                options.Scope.Add("user-read-currently-playing");
+                options.Scope.Add("user-read-recently-played");
+
                 options.Events.OnRemoteFailure = (context) =>
                 {
                     return Task.CompletedTask;
@@ -171,7 +186,7 @@ namespace SyncMusicFromExternalSources
                 };
             });
 
-            services.AddSingleton<HttpClient>(new HttpClient());
+            services.AddSingleton(new HttpClient());
             services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
             services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
