@@ -34,7 +34,8 @@ namespace SyncMusicFromExternalSources
                     {
                         tmpTitle = tmpTitle.Replace(capture.Value, null);
                     }
-                    CleanedUpTitle = tmpTitle;
+                    regex = new Regex("[ ]{2,}");
+                    CleanedUpTitle = regex.Replace(tmpTitle.Replace("-", " ").Replace("Lyrics", null).Replace("lyrics", null).Replace("Original", null).Replace("original", null), " ");
                 }
             }
         }
