@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace SyncMusicFromExternalSources
 {
@@ -11,11 +13,29 @@ namespace SyncMusicFromExternalSources
         {
             public string Title { get; set; }
             public string Id { get; set; }
+            public string CleanedUpTitle { get; set; }
 
             public MyPlayListItem(string title, string id)
             {
                 Title = title;
                 Id = id;
+                if(!string.IsNullOrWhiteSpace(title))
+                {
+                    string tmpTitle = title;
+                    Regex regex = new Regex("(?<Paren>\\(.*\\))");
+                    GroupCollection groups = regex.Match(title).Groups;
+                    foreach(Capture capture in groups["Paren"].Captures)
+                    {
+                        tmpTitle = tmpTitle.Replace(capture.Value, null);
+                    }
+                    regex = new Regex("(?<Brackets>\\[.*\\])");
+                    groups = regex.Match(tmpTitle).Groups;
+                    foreach (Capture capture in groups["Brackets"].Captures)
+                    {
+                        tmpTitle = tmpTitle.Replace(capture.Value, null);
+                    }
+                    CleanedUpTitle = tmpTitle;
+                }
             }
         }
 
@@ -33,7 +53,7 @@ namespace SyncMusicFromExternalSources
         }
     }
 
-    class UserPlaylist
+    public class UserPlaylist
     {
         public class UserPlaylistTrack
         {

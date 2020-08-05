@@ -5,38 +5,19 @@
 @inject NavigationManager navMgr
 @inject IUsersProfileApi usersApi
 @inject IPlaylistsApi playlistsApi
-<EditForm Model="@selectedSpotifyPlaylist">
-    <div>
-        Select Spotify Playlist to transfer songs/tracks to from Youtube playlist(s) ::
-        <InputSelect @bind-Value="@selectedSpotifyPlaylist.ID">
-            @foreach (UserPlaylist userPlaylist in userPlayLists)
-            {
-                <option value="@userPlaylist.Id">@userPlaylist.Name</option>
-            }
-        </InputSelect>
-    </div>
-</EditForm>
-<hr />
 <h3>YoutubeListPlaylists</h3>
-<table>
+<table class="table table-dark">
     @foreach (MyPlaylist myPlaylist in myPlaylists)
     {
         <tr>
-            <td style="vertical-align:top">
+            <td>
                 Playlist Title :: @myPlaylist.Title
-                <YoutubePlaylist SingleYoutubePlaylist="@myPlaylist" />
+                <YoutubePlaylist SingleYoutubePlaylist="@myPlaylist" SpotifyUserPlayLists="@userPlayLists" />
             </td>
         </tr>
     }
 </table>
 @code {
-    class SelectedSpotifyPlaylist
-    {
-        public string ID { get; set; }
-    }
-
-    SelectedSpotifyPlaylist selectedSpotifyPlaylist = new SelectedSpotifyPlaylist();
-
     List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
 
     List<MyPlaylist> myPlaylists = new List<MyPlaylist>();
@@ -69,6 +50,4 @@
 
         await base.OnInitializedAsync();
     }
-
-    void DoNothing() { }
 }

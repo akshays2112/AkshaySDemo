@@ -29,6 +29,7 @@ namespace SyncMusicFromExternalSources
         //App Password for SyncMusicFromExternalSources: froeoedbjrvzirxl
         public static string GoogleApisApplicationName = "SyncMusicFromExternalSources";
         public static string GoogleApisApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw";
+        public static long DivIndex = 0;
 
         public Startup(IConfiguration configuration)
         {
