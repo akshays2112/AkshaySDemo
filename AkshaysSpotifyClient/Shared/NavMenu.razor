@@ -1,0 +1,87 @@
+﻿@using Newtonsoft.Json
+@using System.Net.Http.Headers
+@using System.Text
+@using System.Net
+@inject HttpClient httpClient
+@inject NavigationManager navMgr
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Akshay's Spotify Client</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        @if (!string.IsNullOrWhiteSpace(Program.SpotifyAccessToken?.access_token))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Spotify/spotifyplaylists">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Spotify Playlists
+                </NavLink>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@GetToken">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Login to Spotify
+                </NavLink>
+            </li>
+        }
+    </ul>
+</div>
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    void GetToken()
+    {
+        string clientId = "d0052cf8055246fa8dbd71b5b84284be";
+        string scopes = WebUtility.UrlEncode("user-read-playback-position user-read-email user-library-read user-top-read playlist-modify-public user-follow-read user-read-playback-state user-modify-playback-state user-read-private playlist-read-private user-library-modify playlist-read-collaborative playlist-modify-private user-follow-modify user-read-currently-playing user-read-recently-played");
+        string redirectUri = WebUtility.UrlEncode(httpClient.BaseAddress.ToString());
+
+        navMgr.NavigateTo($"https://accounts.spotify.com/authorize?response_type=code&client_id={clientId}&scope={scopes}&redirect_uri={redirectUri}", true);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string queryString = navMgr.ToAbsoluteUri(navMgr.Uri).Query;
+        if (queryString?.Length > 6)
+        {
+            string clientId = "d0052cf8055246fa8dbd71b5b84284be";
+            string clientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
+            string credentials = String.Format("{0}:{1}", clientId, clientSecret);
+
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials)));
+
+            //Prepare Request Body
+            List<KeyValuePair<string, string>> requestData = new List<KeyValuePair<string, string>>();
+            requestData.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
+            requestData.Add(new KeyValuePair<string, string>("code", queryString.Substring(6)));
+            requestData.Add(new KeyValuePair<string, string>("redirect_uri", httpClient.BaseAddress.ToString()));
+
+            FormUrlEncodedContent requestBody = new FormUrlEncodedContent(requestData);
+
+            //Request Token
+            var request = await httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody);
+            var response = await request.Content.ReadAsStringAsync();
+            Program.SpotifyAccessToken = JsonConvert.DeserializeObject<AccessToken>(response);
+        }
+        await base.OnInitializedAsync();
+    }
+}

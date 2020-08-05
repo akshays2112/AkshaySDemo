@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDbDiscoverySQLServer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncMusicFromExternalSources", "SyncMusicFromExternalSources\SyncMusicFromExternalSources.csproj", "{FE3421D3-0342-4F96-AB93-6BADA3F10465}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaysSpotifyClient", "AkshaysSpotifyClient\AkshaysSpotifyClient.csproj", "{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{FE3421D3-0342-4F96-AB93-6BADA3F10465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE3421D3-0342-4F96-AB93-6BADA3F10465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE3421D3-0342-4F96-AB93-6BADA3F10465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

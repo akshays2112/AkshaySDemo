@@ -1,0 +1,14 @@
+﻿@page "/"
+
+@if (!string.IsNullOrWhiteSpace(Program.SpotifyAccessToken?.access_token))
+{
+    <h1>Logged into Spotify</h1>
+    <hr />
+    @Program.SpotifyAccessToken.access_token
+    <hr />
+    @Program.SpotifyAccessToken.refresh_token
+}
+
+@code {
+
+}
