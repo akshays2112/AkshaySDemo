@@ -1,8 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
-namespace SyncMusicFromExternalSources
+namespace AkshaysSpotifyClient
 {
+    public class SpotifyAccessToken
+    {
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public string scope { get; set; }
+        public long expires_in { get; set; }
+        public string refresh_token { get; set; }
+    }
+
+    public class GoogleApisYoutubeAccessToken
+    {
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public long expires_in { get; set; }
+    }
+
     public class MyPlaylist
     {
         public class MyPlayListItem
@@ -15,12 +33,12 @@ namespace SyncMusicFromExternalSources
             {
                 Title = title;
                 Id = id;
-                if(!string.IsNullOrWhiteSpace(title))
+                if (!string.IsNullOrWhiteSpace(title))
                 {
                     string tmpTitle = title;
                     Regex regex = new Regex("(?<Paren>\\(.*\\))");
                     GroupCollection groups = regex.Match(title).Groups;
-                    foreach(Capture capture in groups["Paren"].Captures)
+                    foreach (Capture capture in groups["Paren"].Captures)
                     {
                         tmpTitle = tmpTitle.Replace(capture.Value, null);
                     }
@@ -102,5 +120,65 @@ namespace SyncMusicFromExternalSources
             ID = id;
             Artists = new List<CustomArtist>();
         }
+    }
+
+    public class YoutubePlaylist
+    {
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("etag")]
+        public string Etag { get; set; }
+
+        [JsonProperty("nextPageToken")]
+        public string NextPageToken { get; set; }
+
+        [JsonProperty("prevPageToken")]
+        public string PrevPageToken { get; set; }
+
+        [JsonProperty("pageInfo")]
+        public PageInfo PageInfo { get; set; }
+
+        [JsonProperty("items")]
+        public Item[] Items { get; set; }
+    }
+
+    public class Item
+    {
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("snippet")]
+        public Snippet Snippet { get; set; }
+
+        [JsonProperty("contentDetails")]
+        public ContentDetails ContentDetails { get; set; }
+    }
+
+    public class ContentDetails
+    {
+        [JsonProperty("itemCount")]
+        public long ItemCount { get; set; }
+    }
+
+    public class Snippet
+    {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+    }
+
+    public class PageInfo
+    {
+        [JsonProperty("totalResults")]
+        public long TotalResults { get; set; }
+
+        [JsonProperty("resultsPerPage")]
+        public long ResultsPerPage { get; set; }
     }
 }

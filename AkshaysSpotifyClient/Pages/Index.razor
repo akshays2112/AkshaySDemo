@@ -1,13 +1,8 @@
 ﻿@page "/"
 
-@if (!string.IsNullOrWhiteSpace(Program.SpotifyAccessToken?.access_token))
-{
-    <h1>Logged into Spotify</h1>
-    <hr />
-    @Program.SpotifyAccessToken.access_token
-    <hr />
-    @Program.SpotifyAccessToken.refresh_token
-}
+<h1>Welcome to Spotify and Youtube client.</h1>
+
+@Program.Testing
 
 @code {
 

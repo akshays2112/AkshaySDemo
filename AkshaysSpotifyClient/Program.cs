@@ -11,24 +11,18 @@ using SpotifyApi.NetCore;
 
 namespace AkshaysSpotifyClient
 {
-    public class AccessToken
-    {
-        public string access_token { get; set; }
-        public string token_type { get; set; }
-        public string scope { get; set; }
-        public long expires_in { get; set; }
-        public string refresh_token { get; set; }
-    }
-
     public class Program
     {
-        public static AccessToken SpotifyAccessToken;
+        public static SpotifyAccessToken SpotifyAccessToken;
+        public static GoogleApisYoutubeAccessToken GoogleApisYoutubeAccessToken;
+        public static string GoogleApisApplicationName = "SyncMusicFromExternalSources";
+        public static string GoogleApisApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw";
+        public static string Testing;
 
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
-
             builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
