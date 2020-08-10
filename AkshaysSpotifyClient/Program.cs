@@ -18,6 +18,7 @@ namespace AkshaysSpotifyClient
         public static string GoogleApisApplicationName = "SyncMusicFromExternalSources";
         public static string GoogleApisApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw";
         public static string Testing;
+        public static int DivIndex = 0;
 
         public static async Task Main(string[] args)
         {
@@ -27,6 +28,7 @@ namespace AkshaysSpotifyClient
             builder.Services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
             builder.Services.AddSingleton(typeof(IFollowApi), typeof(FollowApi));
+            builder.Services.AddSingleton(typeof(ISearchApi), typeof(SearchApi));
 
             await builder.Build().RunAsync();
         }
