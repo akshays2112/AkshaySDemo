@@ -5,6 +5,17 @@ using Newtonsoft.Json;
 
 namespace AkshaysSpotifyClient
 {
+    public class Globals
+    {
+        public static SpotifyAccessToken SpotifyAccessToken;
+        public static GoogleApisYoutubeAccessToken GoogleApisYoutubeAccessToken;
+        public static string GoogleApisYoutubeClientId = "273525569729-e0mbv841egs4unbqfghv10h8om7f4kh3.apps.googleusercontent.com";
+        public static int DivIndex = 0;
+        public static Uri BaseAddress;
+        public static string SpotifyClientId = "d0052cf8055246fa8dbd71b5b84284be";
+        public static string SpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
+    }
+
     public class SpotifyAccessToken
     {
         public string access_token { get; set; }
@@ -36,20 +47,10 @@ namespace AkshaysSpotifyClient
                 if (!string.IsNullOrWhiteSpace(title))
                 {
                     string tmpTitle = title;
-                    Regex regex = new Regex("(?<Paren>\\(.*\\))");
-                    GroupCollection groups = regex.Match(title).Groups;
-                    foreach (Capture capture in groups["Paren"].Captures)
-                    {
-                        tmpTitle = tmpTitle.Replace(capture.Value, null);
-                    }
-                    regex = new Regex("(?<Brackets>\\[.*\\])");
-                    groups = regex.Match(tmpTitle).Groups;
-                    foreach (Capture capture in groups["Brackets"].Captures)
-                    {
-                        tmpTitle = tmpTitle.Replace(capture.Value, null);
-                    }
+                    Regex regex = new Regex("[^a-zA-Z0-9 ]{1,}");
+                    tmpTitle = regex.Replace(tmpTitle, "");
                     regex = new Regex("[ ]{2,}");
-                    CleanedUpTitle = regex.Replace(tmpTitle.Replace("-", " ").Replace("Lyrics", null).Replace("lyrics", null).Replace("Original", null).Replace("original", null), " ");
+                    CleanedUpTitle = regex.Replace(tmpTitle, " ");
                 }
             }
         }
