@@ -45,20 +45,20 @@ Playlist Title :: @SingleYoutubePlaylist.Title
     [Parameter]
     public List<UserPlaylist> SpotifyUserPlayLists { get; set; }
 
-    string divID = $"divID{(Startup.DivIndex++).ToString()}";
-    string svgPathID = $"svgPathID{(Startup.DivIndex++).ToString()}";
+    string divID = $"divID{(Globals.DivIndex++).ToString()}";
+    string svgPathID = $"svgPathID{(Globals.DivIndex++).ToString()}";
 
     async Task LoadYoutubePlaylistItems()
     {
         SingleYoutubePlaylist.MyPlayListItems.Clear();
         YouTubeService yts = new YouTubeService(new BaseClientService.Initializer
         {
-            ApplicationName = Startup.GoogleApisApplicationName,
-            ApiKey = Startup.GoogleApisApiKey
+            ApplicationName = Globals.GoogleApisApplicationName,
+            ApiKey = Globals.GoogleApisApiKey
         });
         PlaylistItemsResource.ListRequest pir = yts.PlaylistItems.List("snippet,contentDetails");
         pir.MaxResults = 50;
-        pir.AccessToken = Startup.GoogleUserAccessToken;
+        pir.AccessToken = Globals.GoogleUserAccessToken;
         pir.PlaylistId = SingleYoutubePlaylist.ID;
         PlaylistItemListResponse pilr = await pir.ExecuteAsync();
         foreach (PlaylistItem pi in pilr.Items)

@@ -3,6 +3,17 @@ using System.Text.RegularExpressions;
 
 namespace SyncMusicFromExternalSources
 {
+    public class Globals
+    {
+        public static string SpotifyUserAccessToken;
+        public static string GoogleUserAccessToken;
+        public static string TwitterUserAccessToken;
+        public static string FacebookUserAccessToken;
+        public static string GoogleApisApplicationName = "SyncMusicFromExternalSources";
+        public static string GoogleApisApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw";
+        public static long DivIndex = 0;
+    }
+
     public class MyPlaylist
     {
         public class MyPlayListItem
