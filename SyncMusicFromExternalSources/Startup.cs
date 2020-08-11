@@ -44,8 +44,8 @@ namespace SyncMusicFromExternalSources
 
             services.AddAuthentication().AddSpotify(options =>
             {
-                options.ClientId = "d0052cf8055246fa8dbd71b5b84284be";
-                options.ClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
+                options.ClientId = Globals.SpotifyClientID;
+                options.ClientSecret = Globals.SpotifClientSecret;
                 options.CallbackPath = "/SpotifyAPI/spotifylistplaylists";
                 options.SaveTokens = true;
 
@@ -90,8 +90,8 @@ namespace SyncMusicFromExternalSources
                 };
             }).AddGoogle(options =>
             {
-                options.ClientId = "273525569729-e0mbv841egs4unbqfghv10h8om7f4kh3.apps.googleusercontent.com";
-                options.ClientSecret = "0EjpmEWT_e8LouksJe0n0MkQ";
+                options.ClientId = Globals.GoogleApisClientID;
+                options.ClientSecret = Globals.GoogleApisClientSecret;
                 options.CallbackPath = "/YoutubeAPI/youtubelistplaylists";
                 options.SaveTokens = true;
 
@@ -121,8 +121,8 @@ namespace SyncMusicFromExternalSources
                 };
             }).AddTwitter(options =>
             {
-                options.ConsumerKey = "ngtvtlOEDXogCOvgxskFAZckI";
-                options.ConsumerSecret = "6szb2CphSAK4wMXm8fW8UO8UnEY3Ql0WEANihtCvDt2GJVeJfb";
+                options.ConsumerKey = Globals.TwitterApiConsumerKey;
+                options.ConsumerSecret = Globals.TwitterApiConsumerSecret;
                 options.CallbackPath = "/TwitterAPI/twittertweetslist";
                 options.SaveTokens = true;
 
@@ -150,8 +150,8 @@ namespace SyncMusicFromExternalSources
                 };
             }).AddFacebook(options =>
             {
-                options.AppId = "648099945780358";
-                options.AppSecret = "e475c46a9298e9b3f72ee7c012edc330";
+                options.AppId = Globals.FacebookApiID;
+                options.AppSecret = Globals.FacebookApiAppSecret;
                 options.CallbackPath = "/FacebookAPI/facebookpostslist";
                 options.SaveTokens = true;
 

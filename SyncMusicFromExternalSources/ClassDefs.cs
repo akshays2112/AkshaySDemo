@@ -9,8 +9,16 @@ namespace SyncMusicFromExternalSources
         public static string GoogleUserAccessToken;
         public static string TwitterUserAccessToken;
         public static string FacebookUserAccessToken;
+        public static string SpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
+        public static string SpotifClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
         public static string GoogleApisApplicationName = "SyncMusicFromExternalSources";
         public static string GoogleApisApiKey = "AIzaSyD_3_i40itVVogJE2qMyGJ8TKX5C1lwnxw";
+        public static string GoogleApisClientID = "273525569729-e0mbv841egs4unbqfghv10h8om7f4kh3.apps.googleusercontent.com";
+        public static string GoogleApisClientSecret = "0EjpmEWT_e8LouksJe0n0MkQ";
+        public static string TwitterApiConsumerKey = "ngtvtlOEDXogCOvgxskFAZckI";
+        public static string TwitterApiConsumerSecret = "6szb2CphSAK4wMXm8fW8UO8UnEY3Ql0WEANihtCvDt2GJVeJfb";
+        public static string FacebookApiID = "648099945780358";
+        public static string FacebookApiAppSecret = "e475c46a9298e9b3f72ee7c012edc330";
         public static long DivIndex = 0;
     }
 
