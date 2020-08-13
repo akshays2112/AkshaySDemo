@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncMusicFromExternalSource
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaysSpotifyClient", "AkshaysSpotifyClient\AkshaysSpotifyClient.csproj", "{11D7B44A-FB6F-4EAE-8D42-54128CCD6988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkshaySSpotifyYoutubeClient", "AkshaySSpotifyYoutubeClient\AkshaySSpotifyYoutubeClient.csproj", "{30EB244C-B8EF-4143-A2C9-E2974EC7FB02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySSpotifyYoutubeClient", "AkshaySSpotifyYoutubeClient\AkshaySSpotifyYoutubeClient.csproj", "{30EB244C-B8EF-4143-A2C9-E2974EC7FB02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

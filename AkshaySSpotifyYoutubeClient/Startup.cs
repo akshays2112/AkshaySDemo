@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AkshaySSpotifyYoutubeClient.Data;
+using SpotifyApi.NetCore;
 
 namespace AkshaySSpotifyYoutubeClient
 {
@@ -28,7 +29,13 @@ namespace AkshaySSpotifyYoutubeClient
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
+            services.AddSingleton(new HttpClient());
+            services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
+            services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
+            services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
+            services.AddSingleton(typeof(IFollowApi), typeof(FollowApi));
+            services.AddSingleton(typeof(ISearchApi), typeof(SearchApi));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
