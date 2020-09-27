@@ -12,7 +12,7 @@ namespace AkshaySDemoMySQL.Data
         {
             if(!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql(ConnectionString);
+                optionsBuilder.UseMySQL(ConnectionString);
             }
         }
     }
