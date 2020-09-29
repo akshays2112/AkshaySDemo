@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Akshay Srinivasan</Authors>
+    <Copyright>2020 Akshay Srinivasan</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

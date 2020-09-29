@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>901d47eb-b53f-429c-bcd7-3fdd6d18881a</UserSecretsId>
+    <Authors>Akshay Srinivasan</Authors>
+    <Copyright>2020 Akshay Srinivasan</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
