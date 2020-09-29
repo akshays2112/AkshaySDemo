@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <Authors>Akshay Srinivasan</Authors>
     <Copyright>2020 Akshay Srinivasan</Copyright>
