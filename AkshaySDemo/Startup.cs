@@ -31,7 +31,7 @@ namespace AkshaySDemo
             AkshaySDemoMySQLContext.ConnectionString = configuration.GetConnectionString("MySQLConnStr");
             AkshaySDemoPostgreSQLContext.ConnectionString = configuration.GetConnectionString("PostgreSQLConnStr");
             AkshaySDemoOracleContext.ConnectionString = configuration.GetConnectionString("OracleConnStr");
-            ChefDataAccessLayer.GoogleApisOAuthJsonString = configuration.GetConnectionString("GoogleApisOAuthJsonString");
+            ChefDataAccessLayer.GoogleApisOAuthJsonString = GoogleApisOAuthJsonString;
             dbTypeQueries.ConnectionString = configuration.GetConnectionString("AkshaySDemoConnectionStrings:AkshaySDemoDBConnStr");
         }
 
