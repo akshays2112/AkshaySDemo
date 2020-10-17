@@ -23,6 +23,7 @@ namespace AkshaysSpotifyClient
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
             builder.Services.AddSingleton(typeof(IFollowApi), typeof(FollowApi));
             builder.Services.AddSingleton(typeof(ISearchApi), typeof(SearchApi));
+            builder.Services.AddSingleton(typeof(IPlayerApi), typeof(PlayerApi));
 
             await builder.Build().RunAsync();
         }
