@@ -72,6 +72,7 @@ Spotify Track Name :: @Track.Name
     void AddTrack(UserPlaylist userPlaylist)
     {
         playlistsApi.AddItemsToPlaylist(userPlaylist.Id, new string[] { $"spotify:track:{Track.ID}" }, accessToken: Globals.SpotifyAccessToken.access_token);
+        SpotifyUserPlayLists.Find(x => x.Id == userPlaylist.Id)?.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(Track.Name, Track.ID));
     }
 
     async Task PlayTrack(string trackID)
