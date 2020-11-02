@@ -37,7 +37,7 @@ Spotify Track Name :: @Track.Name
 <br />
 @foreach (UserPlaylist userPlaylist in SpotifyUserPlayLists)
 {
-    <button @onclick="@(() => AddTrack(userPlaylist))" class="btn btn-primary">@userPlaylist.Name</button>
+    <button @onclick="@(() => AddTrack(userPlaylist))" class="btn btn-primary" style="color: @ColorForTrackAlreadyExistsInPlaylist(userPlaylist)">@userPlaylist.Name</button>
 }
 @if (Track.Artists.Count > 0)
 {
@@ -74,17 +74,47 @@ Spotify Track Name :: @Track.Name
         playlistsApi.AddItemsToPlaylist(userPlaylist.Id, new string[] { $"spotify:track:{Track.ID}" }, accessToken: Globals.SpotifyAccessToken.access_token);
     }
 
-    void PlayTrack(string trackID)
+    async Task PlayTrack(string trackID)
     {
-        playerApi.PlayTracks(trackID, accessToken: Globals.SpotifyAccessToken.access_token, positionMs: pausedAtProgessMs);
-        IsPlaying = true;
+        Device[] devices = (await playerApi.GetDevices(Globals.SpotifyAccessToken.access_token));
+        if (devices?.Length > 0 && devices[0].IsActive)
+        {
+            await playerApi.PlayTracks(trackID, accessToken: Globals.SpotifyAccessToken.access_token, positionMs: pausedAtProgessMs);
+            IsPlaying = true;
+        }
     }
 
     async Task PauseTrack()
     {
-        CurrentPlaybackContext ctx = await playerApi.GetCurrentPlaybackInfo(Globals.SpotifyAccessToken.access_token);
-        pausedAtProgessMs = ctx.ProgressMs ?? 0;
-        await playerApi.Pause(Globals.SpotifyAccessToken.access_token);
-        IsPlaying = false;
+        Device[] devices = (await playerApi.GetDevices(Globals.SpotifyAccessToken.access_token));
+        if (devices?.Length > 0 && devices[0].IsActive)
+        {
+            CurrentPlaybackContext ctx = await playerApi.GetCurrentPlaybackInfo(Globals.SpotifyAccessToken.access_token);
+            if (ctx != null)
+            {
+                pausedAtProgessMs = ctx.ProgressMs ?? 0;
+                if (ctx.IsPlaying)
+                {
+                    await playerApi.Pause(Globals.SpotifyAccessToken.access_token);
+                    IsPlaying = false;
+                }
+                else
+                {
+                    IsPlaying = false;
+                }
+            }
+        }
+    }
+
+    string ColorForTrackAlreadyExistsInPlaylist(UserPlaylist userPlaylist)
+    {
+        foreach(UserPlaylist.UserPlaylistTrack userPlaylistTrack in userPlaylist.UserPlaylistTracks)
+        {
+            if(Track.ID == userPlaylistTrack.Id)
+            {
+                return "#147802";
+            }
+        }
+        return "#041d8f";
     }
 }

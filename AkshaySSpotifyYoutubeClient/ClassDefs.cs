@@ -50,7 +50,7 @@ namespace AkshaySSpotifyYoutubeClient
                     Regex regex = new Regex("[^a-zA-Z0-9 ]{1,}");
                     tmpTitle = regex.Replace(tmpTitle, "");
                     regex = new Regex("[ ]{2,}");
-                    CleanedUpTitle = regex.Replace(tmpTitle, " ");
+                    CleanedUpTitle = regex.Replace(tmpTitle, " ").Replace("Official Music Video", "").Replace("Official Video", "");
                 }
             }
         }
@@ -74,12 +74,12 @@ namespace AkshaySSpotifyYoutubeClient
         public class UserPlaylistTrack
         {
             public string Name { get; set; }
-            public int Index { get; set; }
+            public string Id { get; set; }
 
-            public UserPlaylistTrack(string name, int index)
+            public UserPlaylistTrack(string name, string id)
             {
                 Name = name;
-                Index = index;
+                Id = id;
             }
         }
 

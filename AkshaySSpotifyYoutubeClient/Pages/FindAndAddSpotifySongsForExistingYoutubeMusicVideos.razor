@@ -42,6 +42,13 @@
         {
             UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
             userPlayLists.Add(userPlaylist);
+            for (int currentTrackCount = 0; currentTrackCount < playlistSimplified.Tracks.Total; currentTrackCount++) {
+                PlaylistPaged playlistPaged = await playlistsApi.GetTracks(userPlaylist.Id, Globals.SpotifyAccessToken.access_token, offset: currentTrackCount);
+                foreach(PlaylistTrack playlistTrack in playlistPaged.Items)
+                {
+                    userPlaylist.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, playlistTrack.Track.Id));
+                }
+            }
         }
 
         if (!string.IsNullOrWhiteSpace(Globals.GoogleApisYoutubeAccessToken?.access_token))
