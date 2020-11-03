@@ -74,12 +74,12 @@ namespace AkshaysSpotifyClient
         public class UserPlaylistTrack
         {
             public string Name { get; set; }
-            public int Index { get; set; }
+            public string Id { get; set; }
 
-            public UserPlaylistTrack(string name, int index)
+            public UserPlaylistTrack(string name, string id)
             {
                 Name = name;
-                Index = index;
+                Id = id;
             }
         }
 

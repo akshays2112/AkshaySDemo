@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SpotifyApi.NetCore" Version="3.5.0" />
+    <ProjectReference Include="..\SpotifyApi.NetCore\SpotifyApi.NetCore.csproj" />
   </ItemGroup>
 
 </Project>
