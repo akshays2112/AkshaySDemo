@@ -2,7 +2,6 @@
 @using Newtonsoft.Json
 @using System.Net
 @using SpotifyApi.NetCore
-@inject NavigationManager navMgr
 @inject IUsersProfileApi usersApi
 @inject IPlaylistsApi playlistsApi
 <h3>YoutubeListPlaylists</h3>
@@ -11,13 +10,12 @@
     {
         <tr>
             <td>
-                <YoutubePlaylist SingleYoutubePlaylist="@myPlaylist" SpotifyUserPlayLists="@userPlayLists" />
+                <YoutubePlaylist SingleYoutubePlaylist="@myPlaylist" />
             </td>
         </tr>
     }
 </table>
 @code {
-    List<UserPlaylist> userPlayLists = new List<UserPlaylist>();
     string youtubeAccessToken;
     List<MyPlaylist> myPlaylists = new List<MyPlaylist>();
     HttpClient httpClient = new HttpClient { BaseAddress = Globals.BaseAddress };
@@ -41,7 +39,7 @@
         foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
         {
             UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
-            userPlayLists.Add(userPlaylist);
+            Globals.SpotifyUserPlayLists.Add(userPlaylist);
             for (int currentTrackCount = 0; currentTrackCount < playlistSimplified.Tracks.Total;)
             {
                 PlaylistPaged playlistPaged = await playlistsApi.GetTracks(userPlaylist.Id, Globals.SpotifyAccessToken.access_token, offset: currentTrackCount);

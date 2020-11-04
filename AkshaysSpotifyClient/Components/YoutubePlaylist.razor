@@ -30,7 +30,7 @@ Playlist Title :: @SingleYoutubePlaylist.Title
             {
                 <tr>
                     <td>
-                        <SearchSpotifyByYoutubeMusicVideoTitle YoutubePlaylistItem="@myPlayListItem" SpotifyUserPlayLists="@SpotifyUserPlayLists" />
+                        <SearchSpotifyByYoutubeMusicVideoTitle YoutubePlaylistItem="@myPlayListItem" />
                     </td>
                 </tr>
             }
@@ -43,9 +43,6 @@ Playlist Title :: @SingleYoutubePlaylist.Title
 
 
     string youtubeAccessToken;
-
-    [Parameter]
-    public List<UserPlaylist> SpotifyUserPlayLists { get; set; }
 
     HttpClient httpClient = new HttpClient { BaseAddress = Globals.BaseAddress };
 

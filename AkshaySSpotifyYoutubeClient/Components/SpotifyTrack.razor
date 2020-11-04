@@ -35,7 +35,7 @@ else
 }
 Spotify Track Name :: @Track.Name
 <br />
-@foreach (UserPlaylist userPlaylist in SpotifyUserPlayLists)
+@foreach (UserPlaylist userPlaylist in Globals.SpotifyUserPlayLists)
 {
     <button @onclick="@(() => AddTrack(userPlaylist))" class="btn btn-primary" style="color: @ColorForTrackAlreadyExistsInPlaylist(userPlaylist)">@userPlaylist.Name</button>
 }
@@ -47,7 +47,9 @@ Spotify Track Name :: @Track.Name
             {
                 <tr>
                     <td>
-                        Artist Name :: @customArtist.Name
+                        <NavLink class="nav-link" href=@($"/tracksforartist/{customArtist.ID}")>
+                            Artist Name :: @customArtist.Name
+                        </NavLink>
                     </td>
                 </tr>
             }
@@ -57,9 +59,6 @@ Spotify Track Name :: @Track.Name
 @code {
     [Parameter]
     public CustomTrack Track { get; set; }
-
-    [Parameter]
-    public List<UserPlaylist> SpotifyUserPlayLists { get; set; }
 
     [Parameter]
     public bool IsPlaying { get; set; }
@@ -72,7 +71,7 @@ Spotify Track Name :: @Track.Name
     void AddTrack(UserPlaylist userPlaylist)
     {
         playlistsApi.AddItemsToPlaylist(userPlaylist.Id, new string[] { $"spotify:track:{Track.ID}" }, accessToken: Globals.SpotifyAccessToken.access_token);
-        SpotifyUserPlayLists.Find(x => x.Id == userPlaylist.Id)?.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(Track.Name, Track.ID));
+        Globals.SpotifyUserPlayLists.Find(x => x.Id == userPlaylist.Id)?.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(Track.Name, Track.ID));
     }
 
     async Task PlayTrack()

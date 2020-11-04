@@ -11,11 +11,13 @@ namespace AkshaySSpotifyYoutubeClient
         public static GoogleApisYoutubeAccessToken GoogleApisYoutubeAccessToken;
         public static string GoogleApisYoutubeClientId = "273525569729-e0mbv841egs4unbqfghv10h8om7f4kh3.apps.googleusercontent.com";
         public static int DivIndex = 0;
-        public static Uri BaseAddress;
+        public static Uri BaseAddress = new Uri("https://localhost:44392/");
         public static string SpotifyClientId = "d0052cf8055246fa8dbd71b5b84284be";
         public static string SpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
         //rapidapi.com - Only has Spotify metadata per artist. Tried to put in a request to RapidAPI for metadata per Track/Song.
         //public static string RapidApi_ApiKey = "b4b7265557msh952992d0f3d7bfap1cc933jsn0e90675d30c8";
+
+        public static List<UserPlaylist> SpotifyUserPlayLists = new List<UserPlaylist>();
     }
 
     public class SpotifyAccessToken
@@ -115,12 +117,21 @@ namespace AkshaySSpotifyYoutubeClient
 
         public string Name { get; set; }
         public string ID { get; set; }
+        public int Popularity { get; set; }
         public List<CustomArtist> Artists { get; set; }
 
         public CustomTrack(string name, string id)
         {
             Name = name;
             ID = id;
+            Artists = new List<CustomArtist>();
+        }
+
+        public CustomTrack(string name, string id, int popularity)
+        {
+            Name = name;
+            ID = id;
+            Popularity = popularity;
             Artists = new List<CustomArtist>();
         }
     }
