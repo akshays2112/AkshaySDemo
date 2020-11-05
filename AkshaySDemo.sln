@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkshaySDemoOracle", "Akshay
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyApi.NetCore", "SpotifyApi.NetCore\SpotifyApi.NetCore.csproj", "{4AA3C2A9-99DC-41B3-8782-E5F4FF90ED23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCSharpInConsoleApp", "TestCSharpInConsoleApp\TestCSharpInConsoleApp.csproj", "{6AE39D80-7950-4F2E-BFD3-090B10AB2DA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{4AA3C2A9-99DC-41B3-8782-E5F4FF90ED23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AA3C2A9-99DC-41B3-8782-E5F4FF90ED23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AA3C2A9-99DC-41B3-8782-E5F4FF90ED23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AE39D80-7950-4F2E-BFD3-090B10AB2DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE39D80-7950-4F2E-BFD3-090B10AB2DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE39D80-7950-4F2E-BFD3-090B10AB2DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE39D80-7950-4F2E-BFD3-090B10AB2DA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

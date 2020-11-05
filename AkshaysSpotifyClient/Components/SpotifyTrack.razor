@@ -1,6 +1,7 @@
 ﻿@using SpotifyApi.NetCore
 @inject IPlaylistsApi playlistsApi
 @inject IPlayerApi playerApi
+@inject NavigationManager navMgr
 @if (Track.Artists.Count > 0)
 {
     <span title="Expand or Collapse">
@@ -47,7 +48,7 @@ Spotify Track Name :: @Track.Name
             {
                 <tr>
                     <td>
-                        <NavLink class="nav-link" href=@($"/tracksforartist/{customArtist.ID}")>
+                        <NavLink class="nav-link" @onclick="@(() => NavToTracksForArtist(customArtist))">
                             Artist Name :: @customArtist.Name
                         </NavLink>
                     </td>
@@ -67,6 +68,8 @@ Spotify Track Name :: @Track.Name
     string svgPathID = $"svgPathID{(Globals.DivIndex++).ToString()}";
 
     long pausedAtProgessMs = 0;
+
+    void NavToTracksForArtist(CustomTrack.CustomArtist customArtist) => navMgr.NavigateTo($"/tracksforartist/{customArtist.ID}/{customArtist.Name}");
 
     void AddTrack(UserPlaylist userPlaylist)
     {

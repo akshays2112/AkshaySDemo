@@ -20,6 +20,7 @@ namespace AkshaysSpotifyClient
             Globals.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             builder.Services.AddSingleton(new HttpClient { BaseAddress = Globals.BaseAddress });
             builder.Services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
+            builder.Services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
             builder.Services.AddSingleton(typeof(IFollowApi), typeof(FollowApi));
             builder.Services.AddSingleton(typeof(ISearchApi), typeof(SearchApi));

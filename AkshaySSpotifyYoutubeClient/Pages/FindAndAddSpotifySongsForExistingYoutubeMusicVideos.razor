@@ -40,10 +40,11 @@
         {
             UserPlaylist userPlaylist = new UserPlaylist(playlistSimplified.Name, playlistSimplified.Tracks.Total, playlistSimplified.Id);
             Globals.SpotifyUserPlayLists.Add(userPlaylist);
-            for (int currentTrackCount = 0; currentTrackCount < playlistSimplified.Tracks.Total;) {
+            for (int currentTrackCount = 0; currentTrackCount < playlistSimplified.Tracks.Total;)
+            {
                 PlaylistPaged playlistPaged = await playlistsApi.GetTracks(userPlaylist.Id, Globals.SpotifyAccessToken.access_token, offset: currentTrackCount);
                 currentTrackCount += playlistPaged.Items.Length;
-                foreach(PlaylistTrack playlistTrack in playlistPaged.Items)
+                foreach (PlaylistTrack playlistTrack in playlistPaged.Items)
                 {
                     userPlaylist.UserPlaylistTracks.Add(new UserPlaylist.UserPlaylistTrack(playlistTrack.Track.Name, playlistTrack.Track.Id));
                 }
