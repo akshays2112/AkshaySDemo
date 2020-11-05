@@ -48,7 +48,7 @@ Spotify Track Name :: @Track.Name
             {
                 <tr>
                     <td>
-                        <NavLink class="nav-link" @onclick="@(() => NavToTracksForArtist(customArtist))">
+                        <NavLink class="nav-link" @onclick="@(() => CallTracksForArtistPage(new Tuple<string, string>(customArtist.ID, customArtist.Name)))">
                             Artist Name :: @customArtist.Name
                         </NavLink>
                     </td>
@@ -64,12 +64,27 @@ Spotify Track Name :: @Track.Name
     [Parameter]
     public bool IsPlaying { get; set; }
 
+    [Parameter]
+    public EventCallback<Tuple<string, string>> OnClick { get; set; }
+
+    void CallTracksForArtistPage(Tuple<string, string> artistIDandName)
+    {
+        if(navMgr.Uri.Contains("findandaddspotifysongsforexistingyoutubemusicvideos"))
+        {
+            navMgr.NavigateTo($"/tracksforartist/{artistIDandName.Item1}/{artistIDandName.Item2}");
+        }
+        else
+        {
+            OnClick.InvokeAsync(artistIDandName);
+        }
+    }
+
     string divID = $"divID{(Globals.DivIndex++).ToString()}";
     string svgPathID = $"svgPathID{(Globals.DivIndex++).ToString()}";
 
     long pausedAtProgessMs = 0;
 
-    void NavToTracksForArtist(CustomTrack.CustomArtist customArtist) => navMgr.NavigateTo($"/tracksforartist/{customArtist.ID}/{customArtist.Name}", true);
+    //void NavToTracksForArtist(CustomTrack.CustomArtist customArtist) => navMgr.NavigateTo($"/tracksforartist/{customArtist.ID}/{customArtist.Name}");
 
     void AddTrack(UserPlaylist userPlaylist)
     {

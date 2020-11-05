@@ -26,7 +26,7 @@
                             {
                                 <tr>
                                     <td>
-                                        <SpotifyTrack Track="@track" />
+                                        <SpotifyTrack Track="@track" OnClick="ClickHandler" />
                                     </td>
                                 </tr>
                             }
@@ -65,12 +65,19 @@
         }
     }
 
-    async Task<bool> ForceSearchForTracksByArtistName()
+    async Task ClickHandler(Tuple<string, string> artistIDandName)
     {
-        return await SearchForTracksByArtistName(true);
+        ArtistID = artistIDandName.Item1;
+        ArtistName = artistIDandName.Item2;
+        await SearchForTracksByArtistID();
     }
 
-    async Task<bool> SearchForTracksByArtistName(bool forceSearch = false)
+    async Task ForceSearchForTracksByArtistName()
+    {
+        await SearchForTracksByArtistName(true);
+    }
+
+    async Task SearchForTracksByArtistName(bool forceSearch = false)
     {
         if (forceSearch || ArtistName != oldArtistName)
         {
@@ -89,7 +96,7 @@
                     searchTracks.Add(customTrack);
                     foreach (Artist trackArtist in track.Artists)
                     {
-                        if (trackArtist.Name != artist.Name)
+                        if (trackArtist.Name != ArtistName)
                         {
                             customTrack.Artists.Add(new CustomTrack.CustomArtist(trackArtist.Name, trackArtist.Id));
                         }
@@ -97,8 +104,6 @@
                 }
             } while (currentTrackCount < searchResult.Tracks.Total && currentTrackCount < 1951);
             searchTracks.Sort((a, b) => b.Popularity.CompareTo(a.Popularity));
-            return true;
         }
-        return false;
     }
 }

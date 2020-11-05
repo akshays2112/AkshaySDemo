@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
@@ -11,7 +10,6 @@ namespace AkshaysSpotifyClient
         public static GoogleApisYoutubeAccessToken GoogleApisYoutubeAccessToken;
         public static string GoogleApisYoutubeClientId = "273525569729-e0mbv841egs4unbqfghv10h8om7f4kh3.apps.googleusercontent.com";
         public static int DivIndex = 0;
-        public static Uri BaseAddress = new Uri("https://localhost:44392/");
         public static string SpotifyClientId = "d0052cf8055246fa8dbd71b5b84284be";
         public static string SpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
         //rapidapi.com - Only has Spotify metadata per artist. Tried to put in a request to RapidAPI for metadata per Track/Song.

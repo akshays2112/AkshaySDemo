@@ -17,8 +17,7 @@ namespace AkshaysSpotifyClient
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
-            Globals.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-            builder.Services.AddSingleton(new HttpClient { BaseAddress = Globals.BaseAddress });
+            builder.Services.AddSingleton(new HttpClient());
             builder.Services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             builder.Services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));
