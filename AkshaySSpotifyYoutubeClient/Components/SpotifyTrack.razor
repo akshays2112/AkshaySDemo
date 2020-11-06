@@ -48,7 +48,7 @@ Spotify Track Name :: @Track.Name
             {
                 <tr>
                     <td>
-                        <NavLink class="nav-link" @onclick="@(() => CallTracksForArtistPage(new Tuple<string, string>(customArtist.ID, customArtist.Name)))">
+                        <NavLink class="nav-link" @onclick="@(() => CallTracksForArtistPage((customArtist.ID, customArtist.Name)))">
                             Artist Name :: @customArtist.Name
                         </NavLink>
                     </td>
@@ -65,9 +65,9 @@ Spotify Track Name :: @Track.Name
     public bool IsPlaying { get; set; }
 
     [Parameter]
-    public EventCallback<Tuple<string, string>> OnClick { get; set; }
+    public EventCallback<(string, string)> OnClick { get; set; }
 
-    void CallTracksForArtistPage(Tuple<string, string> artistIDandName)
+    void CallTracksForArtistPage((string, string) artistIDandName)
     {
         if(navMgr.Uri.Contains("findandaddspotifysongsforexistingyoutubemusicvideos"))
         {

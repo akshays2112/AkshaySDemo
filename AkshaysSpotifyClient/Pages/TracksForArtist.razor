@@ -65,7 +65,7 @@
         }
     }
 
-    async Task ClickHandler(Tuple<string, string> artistIDandName)
+    async Task ClickHandler((string, string) artistIDandName)
     {
         ArtistID = artistIDandName.Item1;
         ArtistName = artistIDandName.Item2;
