@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using AllWebApisForUnity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -12,11 +13,6 @@ namespace AuthenticationPagesForUnity.Pages
 {
     public class SpotifyAuthModel : PageModel
     {
-        public class SpotifyToken
-        {
-            public string access_token { get; set; }
-        }
-
         [FromQuery]
         public string code { get; set; }
 
@@ -53,7 +49,8 @@ namespace AuthenticationPagesForUnity.Pages
                 //Request Token
                 var request = httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody).Result;
                 var response = request.Content.ReadAsStringAsync().Result;
-                access_token = JsonConvert.DeserializeObject<SpotifyToken>(response).access_token;
+                Globals.SpotifyToken = JsonConvert.DeserializeObject<SpotifyToken>(response);
+                access_token = Globals.SpotifyToken.access_token;
             }
         }
     }
