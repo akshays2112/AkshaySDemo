@@ -2,7 +2,15 @@
 @model AuthenticationPagesForUnity.Pages.SpotifyAuthModel
 @{
 }
-<div class="text-center">
-    Spotify Access Token<br />
-    @Model.access_token
-</div>
+<input type="hidden" id="spotifyTokenHidden" value="@Model.accessToken" />
+<input type="hidden" id="unityTokenHidden" value="@Model.unityToken" />
+<iframe src="@Model.spotifyAuthorizeRedirectURI" />
+<script>
+    var spotifytoken = document.getElementById('spotifyTokenHidden').value;
+    var unitytoken = document.getElementById('unityTokenHidden').value;
+    if (!unitytoken && window.parent) {
+        unitytoken = window.parent.document.getElementById('unityTokenHidden').value;
+        $.get('/SpotifyAPI/AccessSpotifyToken', { "accessToken": spotifytoken, "unityToken": unitytoken });
+        window.location = '/TestShowSpotifyToken';
+    }
+</script>
