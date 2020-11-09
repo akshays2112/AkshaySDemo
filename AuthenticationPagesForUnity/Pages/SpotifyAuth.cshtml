@@ -1,22 +1,5 @@
 ﻿@page
 @model AuthenticationPagesForUnity.Pages.SpotifyAuthModel
-@using System.Net
 @{
 }
-<input type="hidden" id="spotifyTokenHidden" value="@Model.accessToken" />
-<input type="hidden" id="unityTokenHidden" value="@Model.unityToken" />
-@if (string.IsNullOrWhiteSpace(Model.accessToken))
-{
-    string scopes = WebUtility.UrlEncode("user-read-playback-position user-read-email user-library-read user-top-read playlist-modify-public user-follow-read user-read-playback-state user-modify-playback-state user-read-private playlist-read-private user-library-modify playlist-read-collaborative playlist-modify-private user-follow-modify user-read-currently-playing user-read-recently-played");
-    string redirectUri = WebUtility.UrlEncode("https://localhost:44325/SpotifyAPI/AccessSpotifyToken");
-    <iframe src="@($"https://accounts.spotify.com/authorize?response_type=code&client_id={Globals.SpotifyClientId}&scope={scopes}&redirect_uri={redirectUri}")" />
-}
-<script>
-    var spotifytoken = document.getElementById('spotifyTokenHidden').value;
-    var unitytoken = document.getElementById('unityTokenHidden').value;
-    if (!unitytoken && window.parent) {
-        unitytoken = window.parent.document.getElementById('unityTokenHidden').value;
-        $.get('/SpotifyAPI/AccessSpotifyToken', { "accessToken": spotifytoken, "unityToken": unitytoken });
-        window.parent.location = '/TestShowSpotifyToken';
-    }
-</script>
+<h1>@Model.msg</h1>

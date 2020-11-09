@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
 
 namespace AuthenticationPagesForUnity.Controllers
 {
@@ -14,15 +13,9 @@ namespace AuthenticationPagesForUnity.Controllers
     public class AccessSpotifyToken : ControllerBase
     {
         [HttpGet]
-        public void Get(string accessToken = null, string unityToken = null)
+        public void Get(string accessToken = null)
         {
-            if (!string.IsNullOrWhiteSpace(accessToken) && !string.IsNullOrWhiteSpace(unityToken))
-            {
-                Globals.SpotifyToken.access_token = accessToken;
-                Globals.SpotifyToken.unityToken = unityToken;
-            }
-            else
-            {
+            if (string.IsNullOrWhiteSpace(accessToken)) {
                 string code = Request.Query["code"];
                 HttpClient httpClient = new HttpClient();
                 if (!string.IsNullOrWhiteSpace(code))
@@ -34,7 +27,6 @@ namespace AuthenticationPagesForUnity.Controllers
 
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials)));
 
-                    //Prepare Request Body
                     List<KeyValuePair<string, string>> requestData = new List<KeyValuePair<string, string>>();
                     requestData.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
                     requestData.Add(new KeyValuePair<string, string>("code", code));
@@ -42,10 +34,7 @@ namespace AuthenticationPagesForUnity.Controllers
 
                     FormUrlEncodedContent requestBody = new FormUrlEncodedContent(requestData);
 
-                    //Request Token
-                    var request = httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody).Result;
-                    var response = request.Content.ReadAsStringAsync().Result;
-                    Response.Redirect($"/SpotifyAuth?accessToken={JsonConvert.DeserializeObject<SpotifyToken>(response).access_token}");
+                    Response.Redirect($"/SpotifyAuth?accessToken={JsonConvert.DeserializeObject<UnityToken.SpotifyToken>(httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody).Result.Content.ReadAsStringAsync().Result).access_token}");
                 }
             }
         }

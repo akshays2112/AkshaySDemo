@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
+using SpotifyApi.NetCore;
 
 namespace AuthenticationPagesForUnity
 {
@@ -25,6 +21,9 @@ namespace AuthenticationPagesForUnity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSingleton(new HttpClient());
+            services.AddSingleton<IPlaylistsApi, PlaylistsApi>();
+            services.AddSingleton<IUsersProfileApi, UsersProfileApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
