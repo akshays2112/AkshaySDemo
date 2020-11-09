@@ -66,6 +66,20 @@ namespace AuthenticationPagesForUnity
                 public UnityToken UnityToken { get; set; }
 
                 private List<SpotifyPlaylist> playlists;
+                public List<SpotifyPlaylist> JsonPlaylists {
+                    get
+                    {
+                        return playlists;
+                    }
+                    set
+                    { 
+                        if(value != playlists)
+                        {
+                            playlists = value;
+                        }
+                    }
+                }
+                [JsonIgnore]
                 public List<SpotifyPlaylist> Playlists
                 {
                     get
@@ -75,13 +89,6 @@ namespace AuthenticationPagesForUnity
                             Init();
                         }
                         return playlists;
-                    }
-                    set
-                    {
-                        if(playlists != value)
-                        {
-                            playlists = value;
-                        }
                     }
                 }
 
