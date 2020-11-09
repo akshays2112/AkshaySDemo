@@ -144,8 +144,10 @@ namespace AuthenticationPagesForUnity
 
     public static class Globals
     {
-        public static string SpotifyClientId = "d0052cf8055246fa8dbd71b5b84284be";
-        public static string SpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
+        public static bool IS_DEVELOPMENT_ENVIRONMENT { get; set; } = false;
+
+        public static string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
+        public static string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
 
         public static List<UnityToken> UnityTokens = new List<UnityToken>();
 

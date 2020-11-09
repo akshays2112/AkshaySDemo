@@ -32,6 +32,7 @@ namespace AuthenticationPagesForUnity
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                Globals.IS_DEVELOPMENT_ENVIRONMENT = true;
             }
             else
             {
