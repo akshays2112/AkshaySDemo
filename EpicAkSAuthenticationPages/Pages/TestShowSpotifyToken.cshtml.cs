@@ -8,16 +8,16 @@ namespace EpicAkSAuthenticationPages.Pages
     public class TestShowSpotifyTokenModel : PageModel
     {
         [FromQuery]
-        public string unityToken { get; set; }
+        public string clientAppToken { get; set; }
 
-        public UnityToken.SpotifyAPIData.SpotifyPlaylists MySpotifyPlaylists { get; set; }
+        public ClientAppToken.SpotifyAPIData.SpotifyPlaylists MySpotifyPlaylists { get; set; }
 
         public void OnGet()
         {
             HttpClient httpClient = new HttpClient();
-            var request = httpClient.GetAsync($"https://localhost:44325/SpotifyAPI/SpotifyPlaylists?unityToken={unityToken}").Result;
+            var request = httpClient.GetAsync($"https://localhost:44325/SpotifyAPI/SpotifyPlaylists?clientAppToken={clientAppToken}").Result;
             var response = request.Content.ReadAsStringAsync().Result;
-            MySpotifyPlaylists = JsonConvert.DeserializeObject<UnityToken.SpotifyAPIData.SpotifyPlaylists>(response);
+            MySpotifyPlaylists = JsonConvert.DeserializeObject<ClientAppToken.SpotifyAPIData.SpotifyPlaylists>(response);
         }
     }
 }

@@ -4,24 +4,35 @@ using Newtonsoft.Json;
 
 namespace EpicAkSAuthenticationPages
 {
-    public class UnityToken
+    public class ClientAppToken
     {
         public class ApiInfo
         {
             public string ClientId { get; set; }
             public string ClientSecret { get; set; }
+
+            public ApiInfo(string clientId, string clientSecret)
+            {
+                ClientId = clientId;
+                ClientSecret = clientSecret;
+            }
         }
 
         public class SpotifyToken
         {
             public string access_token { get; set; }
+
+            public SpotifyToken(string accessToken)
+            {
+                access_token = accessToken;
+            }
         }
 
         public class SpotifyAPIData
         {
             public class UserProfile
             {
-                public UnityToken UnityToken { get; set; }
+                public ClientAppToken ClientAppToken { get; set; }
 
                 private string id;
                 public string ID { 
@@ -35,14 +46,14 @@ namespace EpicAkSAuthenticationPages
                     }
                 }
 
-                public UserProfile(UnityToken unityToken)
+                public UserProfile(ClientAppToken clientAppToken)
                 {
-                    UnityToken = unityToken;
+                    ClientAppToken = clientAppToken;
                 }
 
                 private void Init()
                 {
-                    string accessToken = UnityToken?.UTSpotifyToken?.access_token;
+                    string accessToken = ClientAppToken?.CATSpotifyToken?.access_token;
                     if (!string.IsNullOrWhiteSpace(accessToken))
                     {
                         id = Globals.UsersProfileApi.GetCurrentUsersProfile(accessToken).Result.Id;
@@ -63,7 +74,7 @@ namespace EpicAkSAuthenticationPages
             public class SpotifyPlaylists
             {
                 [JsonIgnore]
-                public UnityToken UnityToken { get; set; }
+                public ClientAppToken ClientAppToken { get; set; }
 
                 private List<SpotifyPlaylist> playlists;
                 public List<SpotifyPlaylist> JsonPlaylists {
@@ -92,15 +103,15 @@ namespace EpicAkSAuthenticationPages
                     }
                 }
 
-                public SpotifyPlaylists(UnityToken unityToken)
+                public SpotifyPlaylists(ClientAppToken clientAppToken)
                 {
-                    UnityToken = unityToken;
+                    ClientAppToken = clientAppToken;
                 }
 
                 public void Init()
                 {
-                    string accessToken = UnityToken?.UTSpotifyToken?.access_token;
-                    string userID = UnityToken?.UTSpotifyAPIData?.SADUserProfile?.ID;
+                    string accessToken = ClientAppToken?.CATSpotifyToken?.access_token;
+                    string userID = ClientAppToken?.CATSpotifyAPIData?.SADUserProfile?.ID;
                     playlists = new List<SpotifyPlaylist>();
                     if (!string.IsNullOrWhiteSpace(accessToken) && !string.IsNullOrWhiteSpace(userID))
                     {
@@ -113,7 +124,7 @@ namespace EpicAkSAuthenticationPages
                 }
             }
 
-            public UnityToken UnityToken { get; set; }
+            public ClientAppToken ClientAppToken { get; set; }
 
             public UserProfile SADUserProfile { get; set; }
 
@@ -126,26 +137,28 @@ namespace EpicAkSAuthenticationPages
                 }
             }
 
-            public SpotifyAPIData(UnityToken unityToken)
+            public SpotifyAPIData(ClientAppToken clientAppToken)
             {
-                UnityToken = unityToken;
-                SADUserProfile = new UserProfile(unityToken);
-                sadSpotifyPlaylists = new SpotifyPlaylists(unityToken);
+                ClientAppToken = clientAppToken;
+                SADUserProfile = new UserProfile(clientAppToken);
+                sadSpotifyPlaylists = new SpotifyPlaylists(clientAppToken);
             }
         }
 
-        public string UTUnityToken { get; set; }
-        public SpotifyToken UTSpotifyToken { get; set; } = new SpotifyToken();
-        public ApiInfo UTSpotifyAPIInfo { get; set; } = new ApiInfo {
-            ClientId = "d0052cf8055246fa8dbd71b5b84284be",
-            ClientSecret = "a998f5872f93419fb01f3b30c31cb6e3"
-        };
-        public SpotifyAPIData UTSpotifyAPIData { get; set; }
+        public string CATToken { get; set; }
+        public SpotifyToken CATSpotifyToken { get; set; }
+        public ApiInfo CATSpotifyAPIInfo { get; set; }
+        public SpotifyAPIData CATSpotifyAPIData { get; set; }
 
-        public UnityToken(string unityToken)
+        public ClientAppToken()
         {
-            UTUnityToken = unityToken;
-            UTSpotifyAPIData = new SpotifyAPIData(this);
+            CATSpotifyAPIData = new SpotifyAPIData(this);
+        }
+
+        public ClientAppToken(string clientAppToken)
+        {
+            CATToken = clientAppToken;
+            CATSpotifyAPIData = new SpotifyAPIData(this);
         }
     }
 
@@ -156,9 +169,21 @@ namespace EpicAkSAuthenticationPages
         public static string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
         public static string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
 
-        public static List<UnityToken> UnityTokens = new List<UnityToken>();
+        public static List<ClientAppToken> ClientAppTokens = new List<ClientAppToken>();
 
         public static IPlaylistsApi PlaylistsApi { get; set; }
         public static IUsersProfileApi UsersProfileApi { get; set; }
+
+        public static ClientAppToken GenerateClientAppToken(string clientId, string clientSecret)
+        {
+            string clientAppToken = "TestAkshaySrinivasan29872397";
+            ClientAppToken caToken = new ClientAppToken
+            {
+                CATToken = clientAppToken,
+                CATSpotifyAPIInfo = new ClientAppToken.ApiInfo(clientId, clientSecret)
+            };
+            ClientAppTokens.Add(caToken);
+            return caToken;
+        }
     }
 }

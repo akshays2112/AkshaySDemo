@@ -16,10 +16,10 @@ namespace EpicAkSAuthenticationPages.Controllers.SpotifyAPI
         }
 
         [HttpGet]
-        public string Get(string unityToken)
+        public string Get(string clientAppToken)
         {
-            UnityToken token = Globals.UnityTokens.First(ut => ut.UTUnityToken == unityToken);
-            return JsonConvert.SerializeObject(token?.UTSpotifyAPIData.SADSpotifyPlaylists);
+            ClientAppToken token = Globals.ClientAppTokens.First(ut => ut.CATToken == clientAppToken);
+            return JsonConvert.SerializeObject(token?.CATSpotifyAPIData.SADSpotifyPlaylists);
         }
     }
 }
