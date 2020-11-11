@@ -9,8 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AkshaySDbDiscoverySQLServer\AkshaySDbDiscoverySQLServer.csproj" />
-    <ProjectReference Include="..\AkshaySDemoDataAccessLayer\AkshaySDemoSQLServer.csproj" />
     <ProjectReference Include="..\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj" />
     <ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
     <ProjectReference Include="..\AkshaySDemoMySQL\AkshaySDemoMySQL.csproj" />

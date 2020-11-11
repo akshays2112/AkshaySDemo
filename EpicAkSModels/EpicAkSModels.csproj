@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Akshay Srinivasan</Authors>
+    <Copyright>2020 Akshay Srinivasan</Copyright>
+	  <Authors>Akshay Srinivasan</Authors>
+	    </PropertyGroup>
+
+</Project>

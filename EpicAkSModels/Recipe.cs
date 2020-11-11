@@ -22,7 +22,9 @@ GO
 
 */
 
-namespace AkshaySDemoModels
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EpicAksSModels
 {
     public class Recipe
     {

@@ -1,0 +1,10 @@
+﻿@page
+@model EpicAkSAuthenticationPages.Pages.TestShowSpotifyTokenModel
+@{
+}
+My Spotify Playlists::
+<br />
+@foreach(UnityToken.SpotifyAPIData.SpotifyPlaylist mySpotifyPlaylist in Model.MySpotifyPlaylists.Playlists)
+{
+    @mySpotifyPlaylist.Name<br />
+}
