@@ -1,7 +1,10 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using EpicAkSAuthenticationPages.Models;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -15,9 +18,13 @@ namespace EpicAkSAuthenticationPages.Pages
         public void OnGet()
         {
             HttpClient httpClient = new HttpClient();
-            var request = httpClient.GetAsync($"https://localhost:44325/SpotifyAPI/SpotifyPlaylists?clientAppToken={clientAppToken}").Result;
+            StringContent content = null;
+            content = new StringContent(JsonConvert.SerializeObject(new ClientAppTokenValue { clientAppToken = clientAppToken }));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var request = httpClient.PostAsync($"https://localhost:44325/SpotifyAPI/SpotifyPlaylists", content).Result;
             var response = request.Content.ReadAsStringAsync().Result;
-            MySpotifyPlaylists = JsonConvert.DeserializeObject<ClientAppToken.SpotifyAPIData.SpotifyPlaylists>(response);
+            GenericWebSvcReturnObjWrapper genericWebSvcObj = JsonConvert.DeserializeObject<GenericWebSvcReturnObjWrapper>(response);
+            MySpotifyPlaylists = JsonConvert.DeserializeObject<ClientAppToken.SpotifyAPIData.SpotifyPlaylists>(genericWebSvcObj.JsonObject);
         }
     }
 }

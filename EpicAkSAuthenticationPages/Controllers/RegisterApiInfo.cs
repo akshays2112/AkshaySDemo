@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using EpicAkSAuthenticationPages.Models;
 
 namespace EpicAkSAuthenticationPages.Controllers
 {
@@ -11,10 +7,10 @@ namespace EpicAkSAuthenticationPages.Controllers
     [ApiController]
     public class RegisterApiInfo : ControllerBase
     {
-        [HttpGet]
-        public string Get(string clientId, string clientSecret)
+        [HttpPost]
+        public string Post(ApiInfoValues apiInfoValues)
         {
-            return Globals.GenerateClientAppToken(clientId, clientSecret).CATToken;
+            return Globals.GenerateClientAppToken(apiInfoValues.clientId, apiInfoValues.clientSecret).CATToken;
         }
     }
 }

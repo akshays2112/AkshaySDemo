@@ -2,6 +2,7 @@
 using SpotifyApi.NetCore;
 using System.Linq;
 using Newtonsoft.Json;
+using EpicAkSAuthenticationPages.Models;
 
 namespace EpicAkSAuthenticationPages.Controllers.SpotifyAPI
 {
@@ -15,11 +16,11 @@ namespace EpicAkSAuthenticationPages.Controllers.SpotifyAPI
             Globals.UsersProfileApi ??= usersProfileApi;
         }
 
-        [HttpGet]
-        public string Get(string clientAppToken)
+        [HttpPost]
+        public string Post(ClientAppTokenValue clientAppToken)
         {
-            ClientAppToken token = Globals.ClientAppTokens.First(ut => ut.CATToken == clientAppToken);
-            return JsonConvert.SerializeObject(token?.CATSpotifyAPIData.SADSpotifyPlaylists);
+            ClientAppToken token = Globals.ClientAppTokens.First(ut => ut.CATToken == clientAppToken.clientAppToken);
+            return JsonConvert.SerializeObject(new GenericWebSvcReturnObjWrapper(token, token?.CATSpotifyAPIData.SADSpotifyPlaylists));
         }
     }
 }

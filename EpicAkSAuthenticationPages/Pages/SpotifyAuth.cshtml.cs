@@ -1,13 +1,14 @@
-using System;
-using System.Net;
+using EpicAkSAuthenticationPages.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -26,7 +27,6 @@ namespace EpicAkSAuthenticationPages.Pages
             if (!string.IsNullOrWhiteSpace(clientAppToken) && string.IsNullOrWhiteSpace(code))
             {
                 ClientAppToken token = Globals.ClientAppTokens.Find(ut => ut.CATToken == clientAppToken);
-                Globals.ClientAppTokens.Add(token);
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Expires = DateTime.Now.AddMinutes(30);
                 Response.Cookies.Append("clientAppToken", clientAppToken, cookieOptions);
@@ -46,13 +46,17 @@ namespace EpicAkSAuthenticationPages.Pages
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials)));
 
+                //Prepare Request Body
                 List<KeyValuePair<string, string>> requestData = new List<KeyValuePair<string, string>>();
                 requestData.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
                 requestData.Add(new KeyValuePair<string, string>("code", code));
                 requestData.Add(new KeyValuePair<string, string>("redirect_uri", "https://localhost:44325/SpotifyAuth"));
 
                 FormUrlEncodedContent requestBody = new FormUrlEncodedContent(requestData);
-                string response = httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody).Result.Content.ReadAsStringAsync().Result;
+
+                //Request Token
+                HttpResponseMessage request = httpClient.PostAsync("https://accounts.spotify.com/api/token", requestBody).Result;
+                string response = request.Content.ReadAsStringAsync().Result;
                 token.CATSpotifyToken  = JsonConvert.DeserializeObject<ClientAppToken.SpotifyToken>(response);
                 msg = "Successfully logged into Spotify.";
                 Response.Redirect($"/TestShowSpotifyToken?clientAppToken={clientAppToken}");

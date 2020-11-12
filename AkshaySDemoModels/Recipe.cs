@@ -22,8 +22,11 @@ GO
 
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AkshaySDemoModels
 {
+    [Table("recipes")]
     public class Recipe
     {
         public int ID { get; set; }
