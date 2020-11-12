@@ -14,6 +14,7 @@ namespace EpicAkSBlazorSMusicClient
         public static string SpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
         //rapidapi.com - Only has Spotify metadata per artist. Tried to put in a request to RapidAPI for metadata per Track/Song.
         //public static string RapidApi_ApiKey = "b4b7265557msh952992d0f3d7bfap1cc933jsn0e90675d30c8";
+        public static string RedirectUri;
 
         public static List<UserPlaylist> SpotifyUserPlayLists = new List<UserPlaylist>();
     }

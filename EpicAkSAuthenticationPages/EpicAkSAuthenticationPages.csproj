@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 	  <Authors>Akshay Srinivasan</Authors>
 	  <Copyright>2020 Akshay Srinivasan</Copyright>
+	  <UserSecretsId>53f29030-8e19-4535-b613-a1773dc32340</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

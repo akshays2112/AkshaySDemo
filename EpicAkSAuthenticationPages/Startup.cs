@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http;
 using SpotifyApi.NetCore;
+using System;
 
 namespace EpicAkSAuthenticationPages
 {
@@ -13,6 +14,8 @@ namespace EpicAkSAuthenticationPages
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Globals.BaseRedirectUri = configuration.GetValue<string>("BaseRedirectUri");
         }
 
         public IConfiguration Configuration { get; }
@@ -21,7 +24,7 @@ namespace EpicAkSAuthenticationPages
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddSingleton(new HttpClient());
+            services.AddSingleton(new HttpClient { BaseAddress = new Uri(Globals.BaseRedirectUri) });
             services.AddSingleton<IPlaylistsApi, PlaylistsApi>();
             services.AddSingleton<IUsersProfileApi, UsersProfileApi>();
         }

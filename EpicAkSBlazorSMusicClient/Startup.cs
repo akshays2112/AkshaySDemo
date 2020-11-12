@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpotifyApi.NetCore;
+using System;
 using System.Net.Http;
 
 namespace EpicAkSBlazorSMusicClient
@@ -13,6 +14,7 @@ namespace EpicAkSBlazorSMusicClient
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Globals.RedirectUri = configuration.GetValue<string>("RedirectUri");
         }
 
         public IConfiguration Configuration { get; }
@@ -24,7 +26,7 @@ namespace EpicAkSBlazorSMusicClient
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddSingleton(new HttpClient());
+            services.AddSingleton(new HttpClient { BaseAddress = new Uri(Globals.RedirectUri) });
             services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
             services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));

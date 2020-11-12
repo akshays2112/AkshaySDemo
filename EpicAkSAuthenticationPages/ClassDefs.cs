@@ -166,6 +166,8 @@ namespace EpicAkSAuthenticationPages
 
     public static class Globals
     {
+        public static string BaseRedirectUri;
+
         public static bool IS_DEVELOPMENT_ENVIRONMENT { get; set; } = false;
 
         public const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";

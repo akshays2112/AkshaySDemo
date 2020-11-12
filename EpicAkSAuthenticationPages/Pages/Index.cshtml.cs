@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using EpicAkSAuthenticationPages.Models;
+using System;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -17,7 +18,7 @@ namespace EpicAkSAuthenticationPages.Pages
 
         public void OnGet()
         {
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.BaseRedirectUri) };
             StringContent content = null;
             content = new StringContent(JsonConvert.SerializeObject(new ApiInfoValues
             {
@@ -25,7 +26,7 @@ namespace EpicAkSAuthenticationPages.Pages
                 clientSecret = clientSecret ?? (Globals.IS_DEVELOPMENT_ENVIRONMENT ? Globals.MySpotifyClientSecret : "")
             }));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var request = httpClient.PostAsync($"https://localhost:44325/RegisterApiInfo", content).Result;
+            var request = httpClient.PostAsync($"/RegisterApiInfo", content).Result;
             var response = request.Content.ReadAsStringAsync().Result;
             string clientAppToken = response;
             Response.Redirect($"/SpotifyAuth?clientAppToken={clientAppToken}");

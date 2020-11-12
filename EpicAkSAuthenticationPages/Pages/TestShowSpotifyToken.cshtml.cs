@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using EpicAkSAuthenticationPages.Models;
+using System;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -17,11 +18,11 @@ namespace EpicAkSAuthenticationPages.Pages
 
         public void OnGet()
         {
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.BaseRedirectUri) };
             StringContent content = null;
             content = new StringContent(JsonConvert.SerializeObject(new ClientAppTokenValue { clientAppToken = clientAppToken }));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var request = httpClient.PostAsync($"https://localhost:44325/SpotifyAPI/SpotifyPlaylists", content).Result;
+            var request = httpClient.PostAsync($"/SpotifyAPI/SpotifyPlaylists", content).Result;
             var response = request.Content.ReadAsStringAsync().Result;
             GenericWebSvcReturnObjWrapper genericWebSvcObj = JsonConvert.DeserializeObject<GenericWebSvcReturnObjWrapper>(response);
             MySpotifyPlaylists = JsonConvert.DeserializeObject<ClientAppToken.SpotifyAPIData.SpotifyPlaylists>(genericWebSvcObj.JsonObject);

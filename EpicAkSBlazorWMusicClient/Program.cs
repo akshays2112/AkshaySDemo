@@ -14,7 +14,9 @@ namespace EpicAkSBlazorWMusicClient
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            Globals.RedirectUri = builder.HostEnvironment.BaseAddress;
+
+            builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(Globals.RedirectUri) });
             builder.Services.AddSingleton(typeof(IPlaylistsApi), typeof(PlaylistsApi));
             builder.Services.AddSingleton(typeof(IArtistsApi), typeof(ArtistsApi));
             builder.Services.AddSingleton(typeof(IUsersProfileApi), typeof(UsersProfileApi));

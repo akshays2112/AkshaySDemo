@@ -55,7 +55,7 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    HttpClient httpClient = new HttpClient { BaseAddress = new Uri("https://localhost:44384/") };
+    HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.RedirectUri) };
 
     void GetSpotifyToken()
     {

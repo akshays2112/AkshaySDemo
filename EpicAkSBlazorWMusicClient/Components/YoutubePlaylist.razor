@@ -43,7 +43,7 @@ Playlist Title :: @SingleYoutubePlaylist.Title
 
     string youtubeAccessToken;
 
-    HttpClient httpClient = new HttpClient();
+    HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.RedirectUri) };
 
     string divID = $"divID{(Globals.DivIndex++).ToString()}";
     string svgPathID = $"svgPathID{(Globals.DivIndex++).ToString()}";
