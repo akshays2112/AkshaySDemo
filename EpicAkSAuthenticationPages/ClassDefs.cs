@@ -1,8 +1,9 @@
 using Newtonsoft.Json;
-using SpotifyApi.NetCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace EpicAkSAuthenticationPages
 {
@@ -12,12 +13,6 @@ namespace EpicAkSAuthenticationPages
         {
             public string ClientId { get; set; }
             public string ClientSecret { get; set; }
-
-            public ApiInfo(string clientId, string clientSecret)
-            {
-                ClientId = clientId;
-                ClientSecret = clientSecret;
-            }
         }
 
         public class SpotifyToken
@@ -30,11 +25,27 @@ namespace EpicAkSAuthenticationPages
             }
         }
 
-        public class SpotifyAPIData
+        public class SpotifyAPI
         {
+            public class SpotifyAPIJsonUserProfile
+            {
+                public string id { get; set; }
+            }
+
+            public class SpotifyAPIJsonPlaylist
+            {
+                public string id { get; set; }
+                public string name { get; set; }
+            }
+
+            public class SpotifyAPIJsonPlaylists
+            {
+                public SpotifyAPIJsonPlaylist[] items { get; set; }
+            }
+
             public class UserProfile
             {
-                public ClientAppToken ClientAppToken { get; set; }
+                public ClientAppToken SAD_UP_ClientAppToken { get; set; }
 
                 private string id;
                 public string ID { 
@@ -50,15 +61,20 @@ namespace EpicAkSAuthenticationPages
 
                 public UserProfile(ClientAppToken clientAppToken)
                 {
-                    ClientAppToken = clientAppToken;
+                    SAD_UP_ClientAppToken = clientAppToken;
                 }
 
                 private void Init()
                 {
-                    string accessToken = ClientAppToken?.CATSpotifyToken?.access_token;
+                    string accessToken = SAD_UP_ClientAppToken?.CATSpotifyToken?.access_token;
                     if (!string.IsNullOrWhiteSpace(accessToken))
                     {
-                        id = Globals.UsersProfileApi.GetCurrentUsersProfile(accessToken).Result.Id;
+                        HttpClient httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", 
+                            SAD_UP_ClientAppToken.CATSpotifyToken.access_token);
+                        id = JsonConvert.DeserializeObject<SpotifyAPIJsonUserProfile>(httpClient.GetAsync("https://api.spotify.com/v1/me").Result.Content.ReadAsStringAsync().Result).id;
                     }
                 }
             }
@@ -76,7 +92,7 @@ namespace EpicAkSAuthenticationPages
             public class SpotifyPlaylists
             {
                 [JsonIgnore]
-                public ClientAppToken ClientAppToken { get; set; }
+                public ClientAppToken SAD_PLs_ClientAppToken { get; set; }
 
                 private List<SpotifyPlaylist> playlists;
                 public List<SpotifyPlaylist> JsonPlaylists {
@@ -107,21 +123,18 @@ namespace EpicAkSAuthenticationPages
 
                 public SpotifyPlaylists(ClientAppToken clientAppToken)
                 {
-                    ClientAppToken = clientAppToken;
+                    SAD_PLs_ClientAppToken = clientAppToken;
                 }
 
                 public void Init()
                 {
-                    string accessToken = ClientAppToken?.CATSpotifyToken?.access_token;
-                    string userID = ClientAppToken?.CATSpotifyAPIData?.SADUserProfile?.ID;
                     playlists = new List<SpotifyPlaylist>();
-                    if (!string.IsNullOrWhiteSpace(accessToken) && !string.IsNullOrWhiteSpace(userID))
+                    HttpClient httpClient = GetSpotifyAPIHttpClient(SAD_PLs_ClientAppToken.CATSpotifyToken.access_token);
+                    SpotifyAPIJsonPlaylists spotifyAPIJsonPlaylists = JsonConvert.DeserializeObject<SpotifyAPIJsonPlaylists>(
+                        httpClient.GetAsync("https://api.spotify.com/v1/me/playlists").Result.Content.ReadAsStringAsync().Result);
+                    foreach (SpotifyAPIJsonPlaylist spotifyAPIJsonPlaylist in spotifyAPIJsonPlaylists.items)
                     {
-                        PlaylistsSearchResult playlistsSearchResult = Globals.PlaylistsApi.GetPlaylists(userID, accessToken: accessToken).Result;
-                        foreach (PlaylistSimplified playlistSimplified in playlistsSearchResult.Items)
-                        {
-                            playlists.Add(new SpotifyPlaylist(playlistSimplified.Name));
-                        }
+                        playlists.Add(new SpotifyPlaylist(spotifyAPIJsonPlaylist.name));
                     }
                 }
             }
@@ -130,37 +143,39 @@ namespace EpicAkSAuthenticationPages
 
             public UserProfile SADUserProfile { get; set; }
 
-            private SpotifyPlaylists sadSpotifyPlaylists;
-            public SpotifyPlaylists SADSpotifyPlaylists { 
-                get
-                {
-                    if (sadSpotifyPlaylists.Playlists != null) { }
-                    return sadSpotifyPlaylists;
-                }
-            }
+            public SpotifyPlaylists SADSpotifyPlaylists { get; set; }
 
-            public SpotifyAPIData(ClientAppToken clientAppToken)
+            public SpotifyAPI(ClientAppToken clientAppToken)
             {
                 ClientAppToken = clientAppToken;
                 SADUserProfile = new UserProfile(clientAppToken);
-                sadSpotifyPlaylists = new SpotifyPlaylists(clientAppToken);
+                SADSpotifyPlaylists = new SpotifyPlaylists(clientAppToken);
+            }
+
+            protected static HttpClient GetSpotifyAPIHttpClient(string accessToken)
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                return httpClient;
             }
         }
 
         public string CATToken { get; set; }
         public SpotifyToken CATSpotifyToken { get; set; }
         public ApiInfo CATSpotifyAPIInfo { get; set; }
-        public SpotifyAPIData CATSpotifyAPIData { get; set; }
+        public SpotifyAPI CATSpotifyAPI { get; set; }
 
         public ClientAppToken()
         {
-            CATSpotifyAPIData = new SpotifyAPIData(this);
+            CATSpotifyAPI = new SpotifyAPI(this);
         }
 
         public ClientAppToken(string clientAppToken)
         {
             CATToken = clientAppToken;
-            CATSpotifyAPIData = new SpotifyAPIData(this);
+            CATSpotifyAPI = new SpotifyAPI(this);
         }
     }
 
@@ -168,22 +183,21 @@ namespace EpicAkSAuthenticationPages
     {
         public static string BaseRedirectUri;
 
-        public static bool IS_DEVELOPMENT_ENVIRONMENT { get; set; } = false;
-
         public const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
         public const string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
 
         public static List<ClientAppToken> ClientAppTokens = new List<ClientAppToken>();
-
-        public static IPlaylistsApi PlaylistsApi { get; set; }
-        public static IUsersProfileApi UsersProfileApi { get; set; }
 
         public static ClientAppToken GenerateClientAppToken(string clientId, string clientSecret)
         {
             ClientAppToken caToken = new ClientAppToken
             {
                 CATToken = GenerateRandomClientAppToken(),
-                CATSpotifyAPIInfo = new ClientAppToken.ApiInfo(clientId, clientSecret)
+                CATSpotifyAPIInfo = new ClientAppToken.ApiInfo
+                {
+                    ClientId = clientId ?? MySpotifyClientID,
+                    ClientSecret = clientSecret ?? MySpotifyClientSecret
+                }
             };
             ClientAppTokens.Add(caToken);
             return caToken;

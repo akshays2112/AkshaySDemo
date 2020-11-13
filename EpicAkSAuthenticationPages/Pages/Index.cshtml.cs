@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using EpicAkSAuthenticationPages.Models;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -18,18 +19,11 @@ namespace EpicAkSAuthenticationPages.Pages
 
         public void OnGet()
         {
-            HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.BaseRedirectUri) };
-            StringContent content = null;
-            content = new StringContent(JsonConvert.SerializeObject(new ApiInfoValues
-            {
-                clientId = clientId ?? (Globals.IS_DEVELOPMENT_ENVIRONMENT ? Globals.MySpotifyClientID : ""),
-                clientSecret = clientSecret ?? (Globals.IS_DEVELOPMENT_ENVIRONMENT ? Globals.MySpotifyClientSecret : "")
-            }));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var request = httpClient.PostAsync($"/RegisterApiInfo", content).Result;
-            var response = request.Content.ReadAsStringAsync().Result;
-            string clientAppToken = response;
-            Response.Redirect($"/SpotifyAuth?clientAppToken={clientAppToken}");
+            string clientAppToken = Globals.GenerateClientAppToken(clientId, clientSecret).CATToken;
+            CookieOptions cookieOptions = new CookieOptions();
+            cookieOptions.Expires = DateTime.Now.AddMinutes(30);
+            Response.Cookies.Append("clientAppToken", clientAppToken, cookieOptions);
+            Response.Redirect($"/SpotifyAuth");
         }
     }
 }
