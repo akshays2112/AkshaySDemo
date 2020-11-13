@@ -1,11 +1,7 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using EpicAkSAuthenticationPages.Models;
 using System;
-using Microsoft.AspNetCore.Http;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
