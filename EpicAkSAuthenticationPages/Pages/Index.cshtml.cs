@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.IO;
 
 namespace EpicAkSAuthenticationPages.Pages
 {
@@ -15,10 +16,10 @@ namespace EpicAkSAuthenticationPages.Pages
 
         public void OnGet()
         {
-            string clientAppToken = Globals.GenerateClientAppToken(clientId, clientSecret).CATToken;
+            string catTempSessionUID = Globals.GenerateClientAppToken(clientId, clientSecret).CATTempSessionUID;
             CookieOptions cookieOptions = new CookieOptions();
             cookieOptions.Expires = DateTime.Now.AddMinutes(30);
-            Response.Cookies.Append("clientAppToken", clientAppToken, cookieOptions);
+            Response.Cookies.Append("catTempSessionUID", catTempSessionUID, cookieOptions);
             Response.Redirect($"/SpotifyAuth");
         }
     }

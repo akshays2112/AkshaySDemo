@@ -194,7 +194,7 @@ namespace EpicAkSAuthenticationPages
             }
 
             private SpotifyPlaylists saSpotifyPlaylists;
-            public SpotifyPlaylists SApotifyPlaylists
+            public SpotifyPlaylists SASpotifyPlaylists
             {
                 get
                 {
@@ -219,6 +219,7 @@ namespace EpicAkSAuthenticationPages
             }
         }
 
+        public string CATTempSessionUID { get; set; }
         public string CATToken { get; set; }
         public SpotifyToken CATSpotifyToken { get; set; }
         public ApiInfo CATSpotifyAPIInfo { get; set; }
@@ -238,6 +239,9 @@ namespace EpicAkSAuthenticationPages
 
     public static class Globals
     {
+        public const int ClientAppSessionUID = 500;
+        public const int ClientAppTokenMaxLength = 8000;
+
         public static string BaseRedirectUri;
 
         const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
@@ -249,7 +253,8 @@ namespace EpicAkSAuthenticationPages
         {
             ClientAppToken caToken = new ClientAppToken
             {
-                CATToken = GenerateRandomClientAppToken(),
+                CATTempSessionUID = GenerateRandomID(500),
+                CATToken = GenerateRandomID(4000),
                 CATSpotifyAPIInfo = new ClientAppToken.ApiInfo
                 {
                     ClientId = clientId ?? MySpotifyClientID,
@@ -260,7 +265,7 @@ namespace EpicAkSAuthenticationPages
             return caToken;
         }
 
-        public static string GenerateRandomClientAppToken()
+        public static string GenerateRandomID(int maxLength)
         {
             string[] strs = {
                 "1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989",
@@ -366,7 +371,7 @@ namespace EpicAkSAuthenticationPages
             };
             StringBuilder randomClientAppToken = new StringBuilder();
             Random random = new Random(DateTime.Now.Millisecond);
-            int maxlen = random.Next(3000, 4000);
+            int maxlen = random.Next(100, maxLength < 100 ? 100 : maxLength);
             for (int i = 0; i < maxlen; i++)
             {
                 int numbersIndex = random.Next(strs.Length - 1);
@@ -390,7 +395,7 @@ namespace EpicAkSAuthenticationPages
 
         public GenericWebSvcReturnObjWrapper(ClientAppToken clientAppToken, object obj)
         {
-            clientAppToken.CATToken = Globals.GenerateRandomClientAppToken();
+            clientAppToken.CATToken = Globals.GenerateRandomID(Globals.ClientAppTokenMaxLength);
             ClientAppToken = clientAppToken.CATToken;
             ObjectType = obj.GetType().FullName;
             JsonObject = JsonConvert.SerializeObject(obj);

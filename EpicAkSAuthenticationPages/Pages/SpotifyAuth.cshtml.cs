@@ -21,16 +21,16 @@ namespace EpicAkSAuthenticationPages.Pages
         {
             if (string.IsNullOrWhiteSpace(code))
             {
-                ClientAppToken token = Globals.ClientAppTokens.Find(ut => ut.CATToken == Request.Cookies["clientAppToken"]);
+                ClientAppToken token = Globals.ClientAppTokens.Find(ut => ut.CATTempSessionUID == Request.Cookies["catTempSessionUID"]);
                 string scopes = WebUtility.UrlEncode("user-read-playback-position user-read-email user-library-read user-top-read playlist-modify-public user-follow-read user-read-playback-state user-modify-playback-state user-read-private playlist-read-private user-library-modify playlist-read-collaborative playlist-modify-private user-follow-modify user-read-currently-playing user-read-recently-played");
                 string redirectUri = WebUtility.UrlEncode($"{Globals.BaseRedirectUri}/SpotifyAuth");
                 Response.Redirect($"https://accounts.spotify.com/authorize?response_type=code&client_id={token.CATSpotifyAPIInfo.ClientId}&scope={scopes}&redirect_uri={redirectUri}");
             }
             else if(!string.IsNullOrWhiteSpace(code))
             {
-                ClientAppToken token = Globals.ClientAppTokens.Find(ut => ut.CATToken == Request.Cookies["clientAppToken"]);
+                ClientAppToken token = Globals.ClientAppTokens.Find(ut => ut.CATTempSessionUID == Request.Cookies["catTempSessionUID"]);
                 HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Globals.BaseRedirectUri) };
-                string credentials = String.Format("{0}:{1}", token.CATSpotifyAPIInfo.ClientId, token.CATSpotifyAPIInfo.ClientSecret);
+                string credentials = string.Format("{0}:{1}", token.CATSpotifyAPIInfo.ClientId, token.CATSpotifyAPIInfo.ClientSecret);
 
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -48,7 +48,8 @@ namespace EpicAkSAuthenticationPages.Pages
                 string response = request.Content.ReadAsStringAsync().Result;
                 token.CATSpotifyToken  = JsonConvert.DeserializeObject<ClientAppToken.SpotifyToken>(response);
                 msg = "Successfully logged into Spotify.";
-                Response.Redirect($"/TestShowSpotifyToken");
+                Response.Cookies.Delete("catTempSessionUID");
+                Response.Redirect($"/TestShowSpotifyToken?catTempSessionUID={token.CATTempSessionUID}");
             }
             else
             {

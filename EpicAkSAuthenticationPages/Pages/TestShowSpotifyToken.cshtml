@@ -4,7 +4,8 @@
 }
 My Spotify Playlists::
 <br />
-@foreach(ClientAppToken.SpotifyApi.SpotifyPlaylists.SpotifyPlaylist mySpotifyPlaylist in Model.catToken.CATSpotifyAPI.SApotifyPlaylists.Playlists)
+@foreach (ClientAppToken.SpotifyApi.SpotifyPlaylists.SpotifyPlaylist mySpotifyPlaylist in Model.spotifyPlaylists)
 {
-    @mySpotifyPlaylist.Name<br />
+    @mySpotifyPlaylist.Name
+    <br />
 }
