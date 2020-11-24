@@ -15,13 +15,14 @@ namespace EpicAkSAuthenticationPages
             public string ClientSecret { get; set; }
         }
 
-        public class SpotifyToken
+        public class ApiAccessToken
         {
-            public string access_token { get; set; }
+            [JsonProperty("access_token")]
+            public string AccessToken { get; set; }
 
-            public SpotifyToken(string accessToken)
+            public ApiAccessToken(string accessToken)
             {
-                access_token = accessToken;
+                AccessToken = accessToken;
             }
         }
 
@@ -49,7 +50,13 @@ namespace EpicAkSAuthenticationPages
 
             public class UserProfile
             {
-                public ClientAppToken SUPClientAppToken { get; set; }
+                private ClientAppToken saUpClientAppToken;
+                public ClientAppToken SaUpClientAppToken { 
+                    get
+                    {
+                        return saUpClientAppToken;
+                    }
+                }
 
                 private string id;
                 public string ID
@@ -75,16 +82,21 @@ namespace EpicAkSAuthenticationPages
                     }
                 }
 
+                public UserProfile(ClientAppToken clientAppToken)
+                {
+                    saUpClientAppToken = clientAppToken;
+                }
+
                 private void Init()
                 {
-                    string accessToken = SUPClientAppToken?.CATSpotifyToken?.access_token;
+                    string accessToken = SaUpClientAppToken?.CATSpotifyApi.ApiAccessToken?.AccessToken;
                     if (!string.IsNullOrWhiteSpace(accessToken))
                     {
                         HttpClient httpClient = new HttpClient();
                         httpClient.DefaultRequestHeaders.Clear();
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", 
-                            SUPClientAppToken.CATSpotifyToken.access_token);
+                            SaUpClientAppToken.CATSpotifyApi.ApiAccessToken.AccessToken);
                         JsonClasses.JsonUserProfile jsonUserProfile = JsonConvert.DeserializeObject<JsonClasses.JsonUserProfile>(httpClient.GetAsync("https://api.spotify.com/v1/me").Result.Content.ReadAsStringAsync().Result);
                         id = jsonUserProfile.id;
                         email = jsonUserProfile.email;
@@ -141,8 +153,8 @@ namespace EpicAkSAuthenticationPages
                     }
                 }
 
-                private List<SpotifyPlaylist> playlists;
-                public List<SpotifyPlaylist> Playlists
+                private SpotifyPlaylist[] playlists;
+                public SpotifyPlaylist[] Playlists
                 {
                     get
                     {
@@ -161,20 +173,28 @@ namespace EpicAkSAuthenticationPages
 
                 private void Init()
                 {
-                    playlists = new List<SpotifyPlaylist>();
-                    HttpClient httpClient = GetSpotifyAPIHttpClient(spsClientAppToken.CATSpotifyToken.access_token);
-                    JsonClasses.JsonPlaylists spotifyAPIJsonPlaylists = JsonConvert.DeserializeObject<JsonClasses.JsonPlaylists>(
+                    List<SpotifyPlaylist> tmpPlaylists = new List<SpotifyPlaylist>();
+                    HttpClient httpClient = GetSpotifyApiHttpClient(spsClientAppToken.CATSpotifyApi.ApiAccessToken.AccessToken);
+                    JsonClasses.JsonPlaylists spotifyApiJsonPlaylists = JsonConvert.DeserializeObject<JsonClasses.JsonPlaylists>(
                         httpClient.GetAsync("https://api.spotify.com/v1/me/playlists").Result.Content.ReadAsStringAsync().Result);
-                    foreach (JsonClasses.JsonPlaylist spotifyAPIJsonPlaylist in spotifyAPIJsonPlaylists.items)
+                    foreach (JsonClasses.JsonPlaylist spotifyApiJsonPlaylist in spotifyApiJsonPlaylists.items)
                     {
                         spsSpotifyPlaylist = new SPsSpotifyPlaylist { 
-                            ID = spotifyAPIJsonPlaylist.id,
-                            Name = spotifyAPIJsonPlaylist.name
+                            ID = spotifyApiJsonPlaylist.id,
+                            Name = spotifyApiJsonPlaylist.name
                         };
-                        playlists.Add(new SpotifyPlaylist(this));
+                        tmpPlaylists.Add(new SpotifyPlaylist(this));
                     }
+                    playlists = tmpPlaylists.ToArray();
                 }
             }
+
+            //TESTING
+            public const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
+            public const string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
+
+            public ApiAccessToken ApiAccessToken { get; set; }
+            public ApiInfo ApiInfo { get; set; }
 
             protected ClientAppToken clientAppToken;
             public ClientAppToken ClientAppToken
@@ -205,11 +225,11 @@ namespace EpicAkSAuthenticationPages
             public SpotifyApi(ClientAppToken clientAppToken)
             {
                 this.clientAppToken = clientAppToken;
-                saUserProfile = new UserProfile { SUPClientAppToken = clientAppToken };
+                saUserProfile = new UserProfile(clientAppToken);
                 saSpotifyPlaylists = new SpotifyPlaylists(clientAppToken);
             }
 
-            protected static HttpClient GetSpotifyAPIHttpClient(string accessToken)
+            protected static HttpClient GetSpotifyApiHttpClient(string accessToken)
             {
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Clear();
@@ -217,57 +237,131 @@ namespace EpicAkSAuthenticationPages
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 return httpClient;
             }
+
+            /*
+            public static ClientAppToken GenerateClientAppTokenForSpotifyApi(string clientId, string clientSecret)
+            {
+                ClientAppToken caToken = new ClientAppToken
+                {
+                    CATTempSessionUID = Globals.GenerateRandomID(Globals.ClientAppSessionUIDMinLength, Globals.ClientAppSessionUIDMaxLength),
+                    CATToken = Globals.GenerateRandomID(),
+                };
+                caToken.CATSpotifyApi.SpotifyApiInfo = new ApiInfo
+                {
+                    ClientId = clientId ?? MySpotifyClientID,
+                    ClientSecret = clientSecret ?? MySpotifyClientSecret
+                };
+                Globals.ClientAppTokens.Add(caToken);
+                return caToken;
+            }
+            */
         }
 
         public string CATTempSessionUID { get; set; }
         public string CATToken { get; set; }
-        public SpotifyToken CATSpotifyToken { get; set; }
-        public ApiInfo CATSpotifyAPIInfo { get; set; }
-        public SpotifyApi CATSpotifyAPI { get; set; }
+
+        private class RequestedApi
+        {
+            public Globals.ApiType ApiType { get; set; }
+            public object ApiObjRef { get; set; }
+        }
+
+        private List<RequestedApi> requestedApis;
+
+        public SpotifyApi CATSpotifyApi { get; set; }
 
         public ClientAppToken()
         {
-            CATSpotifyAPI = new SpotifyApi(this);
+            CATSpotifyApi = new SpotifyApi(this);
         }
 
-        public ClientAppToken(string clientAppToken)
+        public ClientAppToken(string clientId, string clientSecret, Globals.ApiType apiType)
         {
-            CATToken = clientAppToken;
-            CATSpotifyAPI = new SpotifyApi(this);
-        }
-    }
-
-    public static class Globals
-    {
-        public const int ClientAppSessionUID = 500;
-        public const int ClientAppTokenMaxLength = 8000;
-
-        public static string BaseRedirectUri;
-
-        const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
-        const string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
-
-        public static List<ClientAppToken> ClientAppTokens = new List<ClientAppToken>();
-
-        public static ClientAppToken GenerateClientAppToken(string clientId, string clientSecret)
-        {
-            ClientAppToken caToken = new ClientAppToken
-            {
-                CATTempSessionUID = GenerateRandomID(500),
-                CATToken = GenerateRandomID(4000),
-                CATSpotifyAPIInfo = new ClientAppToken.ApiInfo
+            /*
+            bool apiAlreadyRegistered = false;
+            List<RequestedApi> ras = requestedApis.FindAll(ra => ra.ApiType == apiType);
+            foreach (RequestedApi ra in ras) {
+                switch (ra.ApiType.ToString())
                 {
-                    ClientId = clientId ?? MySpotifyClientID,
-                    ClientSecret = clientSecret ?? MySpotifyClientSecret
+                    case "SpotifyApi":
+                        if (ra.ApiObjRef is SpotifyApi sa && sa.ApiInfo.ClientId == clientId &&
+                                sa.ApiInfo.ClientSecret == clientSecret)
+                        {
+                            apiAlreadyRegistered = true;
+                        }
+                        break;
                 }
-            };
-            ClientAppTokens.Add(caToken);
-            return caToken;
+                if (apiAlreadyRegistered)
+                    break;
+            }
+            if(!apiAlreadyRegistered)
+            {
+                switch (ra.ApiType.ToString())
+                {
+                    case "SpotifyApi":
+                        SpotifyApi spotifyApi = new SpotifyApi(this);
+                        RequestedApi ra = new RequestedApi { ApiType = apiType, ApiObjRef = spotifyApi };
+                        requestedApis.Add(ra);
+                        (spotifyApi as SpotifyApi)?.ApiInfo = 
+                        break;
+                }
+            }
+
+
+            bool addApi = false;
+            switch(apiType)
+            {
+                case Globals.ApiType.SpotifyApi:
+                    Globals.ClientAppTokens.Find(cat => {
+                        if(cat.CATSpotifyApi != null && cat.CATSpotifyApi.ApiInfo != null)
+                        {
+                            cat.CATSpotifyApi.ApiInfo.ClientId
+                        }
+                        });
+                    CATSpotifyApi = new SpotifyApi(this);
+                    CATSpotifyApi.ApiInfo = new ApiInfo
+                    {
+                        ClientId = clientId ?? SpotifyApi.MySpotifyClientID,
+                        ClientSecret = clientSecret ?? SpotifyApi.MySpotifyClientSecret
+                    };
+                    addApi = true;
+                    break;
+                case Globals.ApiType.YoutubeApi:
+                    //Initialize Google Youtube API
+                    break;
+                default:
+                    //Raise error for unsupported API
+                    break;
+            }
+            if(addApi)
+            {
+                CATTempSessionUID = Globals.GenerateRandomID(Globals.ClientAppSessionUIDMinLength, Globals.ClientAppSessionUIDMaxLength);
+                CATToken = Globals.GenerateRandomID();
+                requestedApiTypes.Add(apiType);
+            }
+            */
         }
 
-        public static string GenerateRandomID(int maxLength)
+        public static class Globals
         {
-            string[] strs = {
+            public enum ApiType
+            {
+                SpotifyApi,
+                YoutubeApi
+            };
+
+            public const int ClientAppSessionUIDMinLength = 400;
+            public const int ClientAppSessionUIDMaxLength = 500;
+            public const int ClientAppTokenMinLength = 6000;
+            public const int ClientAppTokenMaxLength = 8000;
+
+            public static string BaseRedirectUri;
+
+            public static List<ClientAppToken> ClientAppTokens = new List<ClientAppToken>();
+
+            public static string GenerateRandomID(int minLength = Globals.ClientAppTokenMinLength, int maxLength = Globals.ClientAppTokenMaxLength)
+            {
+                string[] strs = {
                 "1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989",
                 "3809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095636437191728746776465757396241389086583264599581339047802759009",
                 "9465764078951269468398352595709825822620522489407726719478268482601476990902640136394437455305068203496252451749399651431429809190659250937221696461515709858387410597885959772975498930161753928468138268683868942774155991855925245953959431049972524680845987273644695848653836736222626099124608051243884390451244136549762780797715691435997700129616089441694868555848406353422072225828488648158456028506016842739452267467678895252138522549954666727823986456596116354886230577456498035593634568174324112515076069479451096596094025228879710893145669136867228748940560101503308617928680920874760917824938589009714909675985261365549781893129784821682998948722658804857564014270477555132379641451523746234364542858444795265867821051141354735739523113427166102135969536231442952484937187110145765403590279934403742007310578539062198387447808478489683321445713868751943506430218453191048481005370614680674919278191197939952061419663428754440643745123718192179998391015919561814675142691239748940907186494231961",
@@ -369,36 +463,37 @@ namespace EpicAkSAuthenticationPages
                 "0347885113206862662758877144603599665610843072569650056306448918759946659677284717153957361210818084154727314266174893313417463266235422207260014601270120693463952056444554329166298666078308906811879009081529506362678207561438881578135113469536630387841209234694286873083932043233387277549680521030282154432472338884521534372725012858974769146080831440412586818154004918777228786980185345453700652665564917091542952275670922221747411206272065662298980603289167206874365494824610869736722554740481288924247185432360575341167285075755205713115669795458488739874222813588798584078313506054829055148278529489112190538319562422871948475940785939804790109419407067176443903273071213588738504999363883820550168340277749607027684488028191222063688863681104356952930065219552826152699127163727738841899328713056346468822739828876319864570983630891778648708667618548568004767255267541474285102814580740315299219781455775684368111018531749816701642664788409026268282444825802753209454991510451851771654631180490",
                 "4567985713257528117913656278158111288816562285876030875974963849435275676612168959261485030785362045274507752950631012480341804584059432926079854435620093708091821523920371790678121992280496069738238743312626730306795943960954957189577217915597300588693646845576676092450906088202212235719254536715191834872587423919410890444115959932760044506556206461164655665487594247369252336955993030355095817626176231849561906494839673002037763874369343999829430209147073618947932692762445186560239559053705128978163455423320114975994896278424327483788032701418676952621180975006405149755889650293004867605208010491537885413909424531691719987628941277221129464568294860281493181560249677887949813777216229359437811004448060797672429276249510784153446429150842764520002042769470698041775832209097020291657347251582904630910359037842977572651720877244740952267166306005469716387943171196873484688738186656751279298575016363411314627530499019135646823804329970695770150789337728658035712790913767420805655493624646"
             };
-            StringBuilder randomClientAppToken = new StringBuilder();
-            Random random = new Random(DateTime.Now.Millisecond);
-            int maxlen = random.Next(100, maxLength < 100 ? 100 : maxLength);
-            for (int i = 0; i < maxlen; i++)
-            {
-                int numbersIndex = random.Next(strs.Length - 1);
-                string num = strs[numbersIndex];
-                numbersIndex = random.Next(num.Length - 1);
-                char numChar = num[numbersIndex];
-                randomClientAppToken.Append(numChar);
+                StringBuilder randomClientAppToken = new StringBuilder();
+                Random random = new Random(DateTime.Now.Millisecond);
+                int maxlen = random.Next(100, maxLength < 100 ? 100 : maxLength);
+                for (int i = 0; i < maxlen; i++)
+                {
+                    int numbersIndex = random.Next(strs.Length - 1);
+                    string num = strs[numbersIndex];
+                    numbersIndex = random.Next(num.Length - 1);
+                    char numChar = num[numbersIndex];
+                    randomClientAppToken.Append(numChar);
+                }
+                return randomClientAppToken.ToString();
             }
-            return randomClientAppToken.ToString();
         }
-    }
 
-    public class GenericWebSvcReturnObjWrapper
-    {
-        public string ClientAppToken { get; set; }
-        public string ObjectType { get; set; }
-        public string JsonObject { get; set; }
-
-        [JsonConstructor]
-        public GenericWebSvcReturnObjWrapper() { }
-
-        public GenericWebSvcReturnObjWrapper(ClientAppToken clientAppToken, object obj)
+        public class GenericWebSvcReturnObjWrapper
         {
-            clientAppToken.CATToken = Globals.GenerateRandomID(Globals.ClientAppTokenMaxLength);
-            ClientAppToken = clientAppToken.CATToken;
-            ObjectType = obj.GetType().FullName;
-            JsonObject = JsonConvert.SerializeObject(obj);
+            public string ClientAppToken { get; set; }
+            public string ObjectType { get; set; }
+            public string JsonObject { get; set; }
+
+            [JsonConstructor]
+            public GenericWebSvcReturnObjWrapper() { }
+
+            public GenericWebSvcReturnObjWrapper(ClientAppToken clientAppToken, object obj)
+            {
+                clientAppToken.CATToken = Globals.GenerateRandomID();
+                ClientAppToken = clientAppToken.CATToken;
+                ObjectType = obj.GetType().FullName;
+                JsonObject = JsonConvert.SerializeObject(obj);
+            }
         }
     }
 }

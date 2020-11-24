@@ -12,13 +12,13 @@ namespace EpicAkSAuthenticationPages.Pages
         [FromQuery]
         public string catTempSessionUID { get; set; }
 
-        public List<ClientAppToken.SpotifyApi.SpotifyPlaylists.SpotifyPlaylist> spotifyPlaylists { get; set; }
+        public ClientAppToken.SpotifyApi.SpotifyPlaylists.SpotifyPlaylist[] spotifyPlaylists { get; set; }
 
         public void OnGet()
         {
-            ClientAppToken clientAppToken = Globals.ClientAppTokens.Find(cat => cat.CATTempSessionUID == catTempSessionUID);
-            clientAppToken.CATTempSessionUID = string.Empty;
-            spotifyPlaylists = clientAppToken.CATSpotifyAPI.SASpotifyPlaylists.Playlists;
+            ClientAppToken clientAppToken = ClientAppToken.Globals.ClientAppTokens.Find(cat => cat.CATTempSessionUID == catTempSessionUID);
+            //clientAppToken.CATTempSessionUID = string.Empty;
+            spotifyPlaylists = clientAppToken.CATSpotifyApi.SASpotifyPlaylists.Playlists;
         }
     }
 }

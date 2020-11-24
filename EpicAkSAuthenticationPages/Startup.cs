@@ -11,7 +11,7 @@ namespace EpicAkSAuthenticationPages
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Globals.BaseRedirectUri = configuration.GetValue<string>("BaseRedirectUri");
+            ClientAppToken.Globals.BaseRedirectUri = configuration.GetValue<string>("BaseRedirectUri");
         }
 
         public IConfiguration Configuration { get; }
