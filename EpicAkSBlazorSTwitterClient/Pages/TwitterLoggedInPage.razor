@@ -4,34 +4,33 @@
 @using Newtonsoft.Json
 @inject NavigationManager myNavMgr
 @inject IJSRuntime jsRuntime
-<h3>TwitterLoggedInPage</h3>
-<button @onclick="GetUserName">Get User Name</button><br />
-@LoggedIntoTwitterMessage
+<h3>Logged into Twitter</h3>
 @code {
-    string LoggedIntoTwitterMessage = string.Empty;
-
-    protected async Task GetUserName()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        string queryString = myNavMgr.ToAbsoluteUri(myNavMgr.Uri).Query;
+        if (string.IsNullOrWhiteSpace(Globals.TwitterAccessToken))
+        {
+            string queryString = myNavMgr.ToAbsoluteUri(myNavMgr.Uri).Query;
 
-        string _jSAuthenticationRequestStore = await jsRuntime.InvokeAsync<string>("getCookie");
-        Globals.JSTempAuthRequestStoreHolder jSTempAuthRequestStoreHolder = JsonConvert.DeserializeObject<Globals.JSTempAuthRequestStoreHolder>(_jSAuthenticationRequestStore);
+            string _jSAuthenticationRequestStore = await jsRuntime.InvokeAsync<string>("getCookie");
+            Globals.JSTempAuthRequestStoreHolder jSTempAuthRequestStoreHolder = JsonConvert.DeserializeObject<Globals.JSTempAuthRequestStoreHolder>(_jSAuthenticationRequestStore);
 
-        _ = Globals._myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(
-            jSTempAuthRequestStoreHolder.redirectPath, jSTempAuthRequestStoreHolder.authenticationRequestId);
-        await Globals._myAuthRequestStore.AddAuthenticationTokenAsync(jSTempAuthRequestStoreHolder.authenticationRequestId,
-            jSTempAuthRequestStoreHolder.authenticationRequestToken);        // Initialize the authentication process
+            _ = Globals._myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(
+                jSTempAuthRequestStoreHolder.redirectPath, jSTempAuthRequestStoreHolder.authenticationRequestId);
+            await Globals._myAuthRequestStore.AddAuthenticationTokenAsync(jSTempAuthRequestStoreHolder.authenticationRequestId,
+                jSTempAuthRequestStoreHolder.authenticationRequestToken);        // Initialize the authentication process
 
-        var appClient = new TwitterClient(Globals.TwitterApiKey, Globals.TwitterApiSecret);
+            var appClient = new TwitterClient(Globals.TwitterApiKey, Globals.TwitterApiSecret);
 
-        // Extract the information from the redirection url
-        var requestParameters = await RequestCredentialsParameters.FromCallbackUrlAsync(queryString, Globals._myAuthRequestStore);
-        // Request Twitter to generate the credentials.
-        Globals.UserCredentials = await appClient.Auth.RequestCredentialsAsync(requestParameters);
+            // Extract the information from the redirection url
+            var requestParameters = await RequestCredentialsParameters.FromCallbackUrlAsync(queryString, Globals._myAuthRequestStore);
+            // Request Twitter to generate the credentials.
+            Globals.UserCredentials = await appClient.Auth.RequestCredentialsAsync(requestParameters);
 
-        // Congratulations the user is now authenticated!
-        var userClient = new TwitterClient(Globals.UserCredentials);
-        var user = await userClient.Users.GetAuthenticatedUserAsync();
-        LoggedIntoTwitterMessage = user.Name;
+            // Congratulations the user is now authenticated!
+            var userClient = new TwitterClient(Globals.UserCredentials);
+            Globals.TwitterAccessToken = await userClient.Auth.CreateBearerTokenAsync();
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 }
