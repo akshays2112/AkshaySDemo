@@ -1,0 +1,62 @@
+﻿@using Tweetinvi
+@using Tweetinvi.Credentials.Models
+@using Newtonsoft.Json
+@inject NavigationManager myNavMgr
+@inject IJSRuntime jsRuntime
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">AkshaySSpotifyYoutubeClient</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="@TwitterAuth">
+                <span class="oi oi-plus" aria-hidden="true"></span> Login to Twitter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/searchtweets">
+                <span class="oi oi-plus" aria-hidden="true"></span> Search Tweets
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    HttpClient httpClient = new HttpClient();
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    public async Task TwitterAuth()
+    {
+        Globals.JSTempAuthRequestStoreHolder jSTempAuthRequestStoreHolder = new Globals.JSTempAuthRequestStoreHolder();
+
+        var appClient = new TwitterClient(Globals.TwitterApiKey, Globals.TwitterApiSecret);
+        jSTempAuthRequestStoreHolder.authenticationRequestId = Guid.NewGuid().ToString();
+        jSTempAuthRequestStoreHolder.redirectPath = Globals.RedirectUri + "/twitterloggedinpage";
+
+        var redirectURL = Globals._myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(
+            jSTempAuthRequestStoreHolder.redirectPath, jSTempAuthRequestStoreHolder.authenticationRequestId);
+        jSTempAuthRequestStoreHolder.authenticationRequestToken = (AuthenticationRequest) await appClient.Auth.RequestAuthenticationUrlAsync(redirectURL);
+        await Globals._myAuthRequestStore.AddAuthenticationTokenAsync(jSTempAuthRequestStoreHolder.authenticationRequestId, 
+            jSTempAuthRequestStoreHolder.authenticationRequestToken);        // Initialize the authentication process
+        string _jSAuthenticationRequestStore = JsonConvert.SerializeObject(jSTempAuthRequestStoreHolder);
+        await jsRuntime.InvokeVoidAsync("storeInCookie", _jSAuthenticationRequestStore);
+        myNavMgr.NavigateTo(jSTempAuthRequestStoreHolder.authenticationRequestToken.AuthorizationURL, true);
+    }
+}

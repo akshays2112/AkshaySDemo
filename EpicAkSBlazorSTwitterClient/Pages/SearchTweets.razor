@@ -1,0 +1,35 @@
+﻿@page "/searchtweets"
+@using Tweetinvi
+@using System.Net
+<h3>SearchTweets</h3>
+<div class="d-flex">
+    <span title="Search for songs on Spotify whose names match the text in the textbox">
+        <svg @onclick="@SearchTweetsForQueryString" fill="#FFFFFF" width="34" height="34">
+            <path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" d="M13 4A9 9 0 1 0 13 22A9 9 0 1 0 13 4Z" />
+            <path fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M26 26L19.437 19.437" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+    </span>
+</div>
+<br />
+<br />
+Tweet Id::
+<br />
+Tweet Text ::
+@code {
+    string access_token = string.Empty;
+
+    async Task SearchTweetsForQueryString()
+    {
+        var userClient = new TwitterClient(Globals.UserCredentials);
+
+        access_token = await userClient.Auth.CreateBearerTokenAsync();
+
+        HttpClient httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Clear();
+        httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", access_token);
+        string queryString = WebUtility.UrlEncode("50-year-old minority from:AkshayS84661920");
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://api.twitter.com/1.1/search/tweets.json?q={queryString}");
+        string data = await httpResponseMessage.Content.ReadAsStringAsync();
+    }
+}

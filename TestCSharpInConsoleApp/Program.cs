@@ -23,43 +23,51 @@ namespace TestCSharpInConsoleApp
     {
         static void Main(string[] args)
         {
-            FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets();
+            FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets_version_0_0000000002_NotEnoughZerosCanIPutToDefineThoughtIPutIntoThis_LOL();
         }
 
-        static void FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets()
+        static void FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets_version_0_0000000002_NotEnoughZerosCanIPutToDefineThoughtIPutIntoThis_LOL()
         {
             int tweetMaxLength = 280;
             string multipleTweetBreakMarker = "...";
-            string includeTwitterHandlesAtPerTweetFooter = "\r\n@GOP @TheDemocrats\r\n\r\n\r\n";
-            string originalFullText = @"In 1993ish I had to do an analysis report (forgot the business term for it) for a companies numbers with the objective of how to improve the company for Mrs Green's class Business Management class at Kettering University. I did my usual fast, fantastic job stand out job. She recognized what I had done. So she told me to explain to the class how I did it. I explained what would be the future to the class with only the professor actually listening to me, so I was looking at her the whole time with a big smile the entire time as she was one of the few I have come across that can glimpse the real me. Others have done it before, seeing the future, who are much older than me like Bill Gates and Steve Jobs style. I am only one more who possess their kind of intelligence and hence expendable. I am born to the wrong race, so I am unsuccessful. I said to the class there will be an information deluge and finding the needle of useful information that you need will be buried in an impossibly large haystack of information. It will get worse until 2050ish when AI Deep Learning assists with this problem, which is the only real solution. Things will get better, and we are in a long transition phase, starting around 1994ish till 2050ish. By 2050ish all of it will be commoditized to the extent that the majority around the world possess it. Then the next new step of civilization begins in which people will think very differently so everything about their behaviour, culture, way of life, etc.";
-            List<string> originalFullTextWords = new List<string>(originalFullText.Split(" "));
+            string forConsolePrettyPrintnessPrependFooter = "\r";
+            string includeTwitterHandlesAtPerTweetFooter = "\n@GOP @TheDemocrats";
+            string forConsolePrettyPrintAppendAfterFooter = "\r\n\r\n\r\n";
+            string originalFullText = @"And I cannot help it that even my skin is smarter than everyone else's I seen so far and perfectly adjusts to the light etc. And I do not want dumb skin that cannot adjust to the conditions like yours. You sweat the chump change and work harder on CRISPR, whisper and ""disper(se)"" to make your skin smarter than mine. ROFL!";
+            string[] originalFullTextWords = originalFullText.Split(" ");
             StringBuilder stringBuilder = new StringBuilder();
             int processedOriginalFullTextCharCount = 0;
             bool firstPass = true;
             int currentWordIndex = 0;
-            int possibleMaxCurrentCharSliceLen = (tweetMaxLength - ((firstPass ? 1 : 2) * multipleTweetBreakMarker.Length) -
-                    includeTwitterHandlesAtPerTweetFooter.Length);
             do
             {
+                int possibleMaxCurrentCharSliceLen = (tweetMaxLength - ((firstPass ? 1 : 2) * multipleTweetBreakMarker.Length) - 
+                    includeTwitterHandlesAtPerTweetFooter.Length);
                 stringBuilder.Append(firstPass ? "" : multipleTweetBreakMarker);
                 processedOriginalFullTextCharCount += firstPass ? 0 : multipleTweetBreakMarker.Length;
-                for (int i = 0; currentWordIndex < originalFullTextWords.Count &&
-                    i + originalFullTextWords[currentWordIndex].Length < possibleMaxCurrentCharSliceLen;
-                    currentWordIndex++)
+                for (int i = 0; currentWordIndex < originalFullTextWords.Length &&
+                    i + originalFullTextWords[currentWordIndex].Length < possibleMaxCurrentCharSliceLen; )
                 {
                     stringBuilder.Append(i == 0 ? "" : " ");
                     stringBuilder.Append(originalFullTextWords[currentWordIndex]);
-                    int tmpCharCount = 1 + originalFullTextWords[currentWordIndex].Length;
+                    int tmpCharCount = (i == 0 ? 0 : 1) + originalFullTextWords[currentWordIndex].Length;
                     i += tmpCharCount;
                     processedOriginalFullTextCharCount += tmpCharCount;
+                    currentWordIndex++;
                 }
                 stringBuilder.Append(multipleTweetBreakMarker);
                 processedOriginalFullTextCharCount += multipleTweetBreakMarker.Length;
+                stringBuilder.Append(forConsolePrettyPrintnessPrependFooter);
                 stringBuilder.Append(includeTwitterHandlesAtPerTweetFooter);
+                stringBuilder.Append(forConsolePrettyPrintAppendAfterFooter);
                 processedOriginalFullTextCharCount += includeTwitterHandlesAtPerTweetFooter.Length;
                 firstPass = false;
-            } while (currentWordIndex < originalFullTextWords.Count);
-            Console.WriteLine(stringBuilder.ToString());
+            } while (currentWordIndex < originalFullTextWords.Length);
+            Console.WriteLine(stringBuilder.ToString().Substring(0, stringBuilder.ToString().Length -
+                forConsolePrettyPrintAppendAfterFooter.Length - includeTwitterHandlesAtPerTweetFooter.Length -
+                forConsolePrettyPrintnessPrependFooter.Length - multipleTweetBreakMarker.Length) + stringBuilder.ToString().Substring( 
+                stringBuilder.ToString().Length - forConsolePrettyPrintAppendAfterFooter.Length - 
+                includeTwitterHandlesAtPerTweetFooter.Length - forConsolePrettyPrintnessPrependFooter.Length));
         }
 
         static void BrokenEncapsulation()

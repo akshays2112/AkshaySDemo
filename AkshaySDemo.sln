@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpicAkSBlazorWMusicClient",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpicAkSAuthenticationPages", "EpicAkSAuthenticationPages\EpicAkSAuthenticationPages.csproj", "{7E09C646-E1D1-42E1-94A6-BA66CC468E1D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpicAkSBlazorSTwitterClient", "EpicAkSBlazorSTwitterClient\EpicAkSBlazorSTwitterClient.csproj", "{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,14 @@ Global
 		{7E09C646-E1D1-42E1-94A6-BA66CC468E1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E09C646-E1D1-42E1-94A6-BA66CC468E1D}.Release|x64.ActiveCfg = Release|Any CPU
 		{7E09C646-E1D1-42E1-94A6-BA66CC468E1D}.Release|x64.Build.0 = Release|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Debug|x64.Build.0 = Debug|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Release|x64.ActiveCfg = Release|Any CPU
+		{8EA0CD77-85DA-4598-8957-B7BABDB67DD3}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
