@@ -1,0 +1,75 @@
+﻿@page "/splitlongmsgsandposttweetchain"
+@using System.Net
+@using System.Text;
+<h3>Split Long Msgs And Post Tweet Chain</h3>
+<div class="d-flex">
+    <span title="Type a long text which will be broken into multiple tweets in a chain of replies on your twitter account.">
+        <svg @onclick="@SplitMsgAndPostAsTweetChain" fill="#FFFFFF" width="34" height="34">
+            <path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" d="M13 4A9 9 0 1 0 13 22A9 9 0 1 0 13 4Z" />
+            <path fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M26 26L19.437 19.437" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+        <input class="flex-grow-1" type="text" @bind-value="@originalFullText" style="border-radius: 5px; background: #73AD21; padding: 5px;" />
+    </span>
+</div>
+<br />
+<br />
+@code {
+    string originalFullText = @"Well, all the people said I do not know software in 1998-2000 Austin Texas USA. Well how come that poor guy Trump saviour of yours was writing all kinds of strings of tweets and none of you superior coders wrote this code for him to automate his long ass messages as a chain of tweets. LOL! Who knows software better and deserves to be paid more than you now? I cannot hear you!!! ROFL!!! Your turn to be held back like me for all 50 years to promote Indians. Right here in Mumbai/Dumbai/Bombay where I am sitting to help you do what I did. You yell and scream and torture me too much I notice. Too much fuss for sure. Maybe, HUGE maybe since it has never happened so far in thousands of years, you will 'GROW UP'. ROFL!"; //string.Empty;
+
+    //Now you need to pickup the id of the first tweet and then use that to reply (statuses/update) with for a chain of tweets.
+    async Task SplitMsgAndPostAsTweetChain()
+    {
+        if (!string.IsNullOrWhiteSpace(Globals.TwitterAccessToken))
+        {
+            foreach (string queryString in SplitLongStringMsgIntoTwitterReadySizeTweets())
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", Globals.TwitterAccessToken);
+                string urlEncodedQueryString = WebUtility.UrlEncode(queryString);
+                HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://api.twitter.com/1.1/statuses/update.json?status={urlEncodedQueryString}");
+                string data = await httpResponseMessage.Content.ReadAsStringAsync();
+            }
+        }
+    }
+
+    List<string> SplitLongStringMsgIntoTwitterReadySizeTweets()
+    {
+        int tweetMaxLength = 280;
+        //Found this randomly on how Trump says the next tweet is a continuation of the previous tweet. ... meaning there is more.
+        //Translate "..." into your language from Murica'n (American) and change this.
+        string multipleTweetBreakMarker = "...";
+        string includeTwitterHandlesAtPerTweetFooter = "\n@GOP @TheDemocrats";
+        string[] originalFullTextWords = originalFullText.Split(" ");
+        int processedOriginalFullTextCharCount = 0;
+        bool firstPass = true;
+        int currentWordIndex = 0;
+        List<string> tweetStrings = new List<string>();
+        StringBuilder oneTweet = new StringBuilder();
+        do
+        {
+            int possibleMaxCurrentCharSliceLen = (tweetMaxLength - ((firstPass ? 1 : 2) * multipleTweetBreakMarker.Length) -
+                includeTwitterHandlesAtPerTweetFooter.Length);
+            oneTweet.Append(firstPass ? "" : multipleTweetBreakMarker);
+            processedOriginalFullTextCharCount += firstPass ? 0 : multipleTweetBreakMarker.Length;
+            for (int i = 0; currentWordIndex < originalFullTextWords.Length &&
+                i + originalFullTextWords[currentWordIndex].Length < possibleMaxCurrentCharSliceLen;)
+            {
+                oneTweet.Append(i == 0 ? "" : " ");
+                oneTweet.Append(originalFullTextWords[currentWordIndex]);
+                int tmpCharCount = (i == 0 ? 0 : 1) + originalFullTextWords[currentWordIndex].Length;
+                i += tmpCharCount;
+                processedOriginalFullTextCharCount += tmpCharCount;
+                currentWordIndex++;
+            }
+            oneTweet.Append(multipleTweetBreakMarker);
+            processedOriginalFullTextCharCount += multipleTweetBreakMarker.Length;
+            oneTweet.Append(includeTwitterHandlesAtPerTweetFooter);
+            processedOriginalFullTextCharCount += includeTwitterHandlesAtPerTweetFooter.Length;
+            firstPass = false;
+            tweetStrings.Add(oneTweet.ToString());
+        } while (currentWordIndex < originalFullTextWords.Length);
+        return tweetStrings;
+    }
+}
