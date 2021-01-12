@@ -12,16 +12,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EpicAkSBlazorSMusicClient</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link href="css/site.css" rel="stylesheet" />
     <link href="EpicAkSBlazorSMusicClient.styles.css" rel="stylesheet" />
+    <script src="~/jquery-3.5.1.js"></script>
+    <script src="~/bootstrap.min.js"></script>
 
     <script>
-        function clickSvg(svgPathId) {
+        function clickSvg(svgPathId, divId) {
             if (!$(svgPathId).attr('transform')) {
                 $(svgPathId).attr('transform', 'rotate(180 17 17)');
+                $(divId).hide();
             } else {
                 $(svgPathId).removeAttr('transform');
+                $(divId).show();
             }
         }
     </script>

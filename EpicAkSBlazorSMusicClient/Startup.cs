@@ -15,6 +15,9 @@ namespace EpicAkSBlazorSMusicClient
         {
             Configuration = configuration;
             Globals.RedirectUri = configuration.GetValue<string>("RedirectUri");
+            Globals.GoogleApisYoutubeClientId = configuration.GetValue<string>("GoogleApisYoutubeClientId");
+            Globals.SpotifyClientId = configuration.GetValue<string>("SpotifyClientId");
+            Globals.SpotifyClientSecret = configuration.GetValue<string>("SpotifyClientSecret");
         }
 
         public IConfiguration Configuration { get; }

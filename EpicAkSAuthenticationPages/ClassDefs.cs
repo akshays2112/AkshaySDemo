@@ -72,8 +72,8 @@ namespace EpicAkSAuthenticationPages
                 }
 
                 private string email;
-                public string Email { 
-                    get { 
+                public string Email {
+                    get {
                         if(string.IsNullOrWhiteSpace(email))
                         {
                             Init();
@@ -95,7 +95,7 @@ namespace EpicAkSAuthenticationPages
                         HttpClient httpClient = new HttpClient();
                         httpClient.DefaultRequestHeaders.Clear();
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", 
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
                             SaUpClientAppToken.CATSpotifyApi.ApiAccessToken.AccessToken);
                         JsonClasses.JsonUserProfile jsonUserProfile = JsonConvert.DeserializeObject<JsonClasses.JsonUserProfile>(httpClient.GetAsync("https://api.spotify.com/v1/me").Result.Content.ReadAsStringAsync().Result);
                         id = jsonUserProfile.id;
@@ -128,7 +128,7 @@ namespace EpicAkSAuthenticationPages
                     }
 
                     private string name;
-                    public string Name 
+                    public string Name
                     {
                         get
                         {
@@ -179,7 +179,7 @@ namespace EpicAkSAuthenticationPages
                         httpClient.GetAsync("https://api.spotify.com/v1/me/playlists").Result.Content.ReadAsStringAsync().Result);
                     foreach (JsonClasses.JsonPlaylist spotifyApiJsonPlaylist in spotifyApiJsonPlaylists.items)
                     {
-                        spsSpotifyPlaylist = new SPsSpotifyPlaylist { 
+                        spsSpotifyPlaylist = new SPsSpotifyPlaylist {
                             ID = spotifyApiJsonPlaylist.id,
                             Name = spotifyApiJsonPlaylist.name
                         };
@@ -302,7 +302,7 @@ namespace EpicAkSAuthenticationPages
                         SpotifyApi spotifyApi = new SpotifyApi(this);
                         RequestedApi ra = new RequestedApi { ApiType = apiType, ApiObjRef = spotifyApi };
                         requestedApis.Add(ra);
-                        (spotifyApi as SpotifyApi)?.ApiInfo = 
+                        (spotifyApi as SpotifyApi)?.ApiInfo =
                         break;
                 }
             }
