@@ -12,6 +12,8 @@ namespace EpicAkSBlazorSTwitterClient
         {
             Configuration = configuration;
             Globals.RedirectUri = configuration.GetValue<string>("RedirectUri");
+            Globals.TwitterApiKey = configuration.GetValue<string>("TwitterApiKey");
+            Globals.TwitterApiSecret = configuration.GetValue<string>("TwitterApiSecret");
         }
 
         public IConfiguration Configuration { get; }

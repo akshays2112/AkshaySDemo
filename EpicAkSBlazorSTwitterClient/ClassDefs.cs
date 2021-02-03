@@ -9,8 +9,8 @@ namespace EpicAkSBlazorSTwitterClient
     {
         public static int DivIndex = 0;
         public static string RedirectUri;
-        public static string TwitterApiKey = "ngtvtlOEDXogCOvgxskFAZckI";
-        public static string TwitterApiSecret = "6szb2CphSAK4wMXm8fW8UO8UnEY3Ql0WEANihtCvDt2GJVeJfb";
+        public static string TwitterApiKey = "";
+        public static string TwitterApiSecret = "";
         public static string TwitterAccessToken = string.Empty;
         public static LocalAuthenticationRequestStore _myAuthRequestStore = new LocalAuthenticationRequestStore();
         public static ITwitterCredentials UserCredentials;

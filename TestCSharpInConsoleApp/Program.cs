@@ -31,9 +31,9 @@ namespace TestCSharpInConsoleApp
             int tweetMaxLength = 280;
             string multipleTweetBreakMarker = "...";
             string forConsolePrettyPrintnessPrependFooter = "\r";
-            string includeTwitterHandlesAtPerTweetFooter = "\n@GOP @TheDemocrats";
+            string includeTwitterHandlesAtPerTweetFooter = "\n@TheDemocrats @GOP";
             string forConsolePrettyPrintAppendAfterFooter = "\r\n\r\n\r\n";
-            string originalFullText = "The concept of \"Satyamevajayatey\" (ancient Sanskrit) roughly in my understanding means the TRUTH WILL BE VICTORIOUS and I will elaborate the following on this. A human being(s) thought of a TRUTH or a LIE which then introduced into the material world via Action, merely doing something material, will then not only result in what the human being was intending to accomplish with this TRUTH or LIE but instead follow the rules, TRUTH of the material world. The fundamental precept is a human being(s) understanding of the TRUTH, laws, according to which the material world operates is limited. Then it is evident that the material world result, TRUTH, will be something else effectively. So when the human being(s) TRUTH aligns with the TRUTH of the material world, then what the human being(s) intends will be accomplished. According to the TRUTH of the material world, other things will also happen that the human being(s) will not know and hence not have intended. So it is easier for a human being(s) when using the TRUTH to get what they want. Will leave it at this much for now. Lies, therefore, should be more problematic, of course. The fun slightly more complicated case is when a LIE happens to align with another TRUTH of the material world and produces the expected result anyway, which would confuse the human being(s) into thinking the LIE is the TRUTH how the material world operates. Etc. etc. etc. cases.";
+            string originalFullText = "I noticed one immediate difference long ago on Stenton beach outside SF, California, USA 1991ish, is that when I looked at the white women, they had no problems with it. Still, when I looked at Murican women, I find attractive in, relatively conservative, Michigan 10ish years back most recently neither they nor the men have a problem like Indian men and women. Hell, there was this white guy in C J Mahoney's Sports Bar, Troy, MI, again 10ish years back, at the end of the side of the bar I was sitting at and I loudly said, my voice carries, was you can't help but look at this sexy beautiful battledress, Juliet, to him in front of her and all he replied to me yes. Juliet had zero problems with it. Suppose I did that to you \"advanced\" Indian women with \"your\" men HAHAHAHA. You will get there Indian women and men, under American direction, one day just not anytime soon that is all. My primary point is that this sort of behaviour Indians take offence to certain Muricans parts and people in America take no offence to as they are \"actually advanced\". Hence if I can get a proper paying job and work to go with it, so I do not owe them and help them and be of use to them, I will bugger off in a plank second without thought back to them of people in America. The people have to be ready to deal with me or it just will not work, I need some minimums to work with.";
             string[] originalFullTextWords = originalFullText.Split(" ");
             StringBuilder stringBuilder = new StringBuilder();
             int processedOriginalFullTextCharCount = 0;
@@ -290,7 +290,7 @@ namespace TestCSharpInConsoleApp
                 2162484391 4035998953 5394590944 0704691209 1409387001
                 2645600162 3742880210 9276457931 0657922955 2498872758 
                 4610126483 6999892256 9596881592 0560010165 5256375678
-
+
                 5667227966 1988578279 4848855834 3975187445 4551296563 
                 4434803966 4205579829 3680435220 2770984294 2325330225
                 7634180703 9476994159 7915945300 6975214829 3366555661 
@@ -500,7 +500,7 @@ namespace TestCSharpInConsoleApp
                 3547891129 2547696176 0050479749 2806072126 8039226911
                 0277722610 2544149221 5765045081 2067717357 1202718024 
                 2968106203 7765788371 6690910941 8074487814 0490755178
-
+
                 2038565390 9910477594 1413215432 8440625030 1802757169 
                 6508209642 7348414695 7263978842 5600845312 1406593580
                 9041271135 9200419759 8513625479 6160632288 7361813673 
@@ -710,7 +710,7 @@ namespace TestCSharpInConsoleApp
                 6165957613 2723515666 6253667271 8998534199 8952368848
                 3099930275 7419916463 8414270779 8870887422 9277053891 
                 2271724863 2202889842 5125287217 8260305009 9451082478
-
+
                 3572905691 9885554678 8607946280 5371227042 4665431921 
                 4528176074 1482403827 8358297193 0101788834 5674167811
                 3989547504 4833931468 9630763396 6572267270 4339321674 
@@ -920,7 +920,7 @@ namespace TestCSharpInConsoleApp
                 5811757863 5555562693 7426910947 1170021654 1171821975
                 0519831787 1371060510 6379555858 8905568852 8879890847 
                 5091576463 9074693619 8815078146 8526213325 2473837651
-
+
                 1929901561 0918977792 2008705793 3964638274 9068069876 
                 9168197492 3656242260 8715417610 0430608904 3779766785
                 1966189140 4144925270 4808819714 9880154205 7787006521 
@@ -1130,7 +1130,7 @@ namespace TestCSharpInConsoleApp
                 0454897036 0079569827 6263923441 0714658489 5780241408
                 1584052295 3693749971 0665594894 4592462866 1996355635 
                 0652623405 3394391421 1127181069 1052290024 6574236041
-
+
                 3009369188 9255865784 6684612156 7955425660 5416005071 
                 2766417660 5687427420 0329577160 6434486062 0123982169
                 8271723197 8268166282 4993871499 5449137302 0518436690 
@@ -1340,7 +1340,7 @@ namespace TestCSharpInConsoleApp
                 5820861751 1771137890 5160914038 1575003366 4241560952
                 1632819712 2335023167 4226005679 4128140621 7219641842 
                 7057843289 5980288233 5059828208 1966662490 3585778994
-
+
                 0333152274 8177769528 4368163008 8531769694 7836905806 
                 7106482808 3598046698 8410981351 5865490693 3319522394
                 3632879239 9053481098 7830274500 1720654336 9906611778 
@@ -1550,7 +1550,7 @@ namespace TestCSharpInConsoleApp
                 7488193730 9502069990 0890899328 0883974303 6773659552
                 4891300156 6332940779 0713961546 4534088791 5103006513 
                 2193448667 3248275907 9468078798 1942501958 2622320395
-
+
                 1312520141 0996053126 0696555404 2486705499 8678692302 
                 1746989009 5478507256 7297879476 9888831093 4874644264
                 0071818316 0331655511 5342761556 2240547447 3378049246 
@@ -1760,7 +1760,7 @@ namespace TestCSharpInConsoleApp
                 0988655386 1433495781 6500899616 4907967814 2901148387
                 6456821749 1407562376 7618453775 1440314754 1120676016 
                 0726460556 8592577993 2207033733 3398916369 5043466906
-
+
                 9482843662 9980037414 5276277165 4762382554 6170883189 
                 8108688068 4785370553 6480469350 9588180253 6052974079
                 3538676511 1950793732 8208314626 8960071075 1755206144 
@@ -1970,7 +1970,7 @@ namespace TestCSharpInConsoleApp
                 2151210561 8338545661 7665260639 3713658802 5216662235
                 7613220194 1701372664 9660732520 1077194793 1265282763 
                 3024138051 6490717456 5964853748 3546691945 2358031530
-
+
                 1969160480 9946068149 0403781982 9732360930 0871357607 
                 9862142542 2096419004 3679054790 4993007837 2421581954
                 5354183711 2936865843 0553842717 6280352791 2882112930 
