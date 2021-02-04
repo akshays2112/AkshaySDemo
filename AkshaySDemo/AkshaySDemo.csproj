@@ -5,7 +5,6 @@
     <StartupObject></StartupObject>
     <Authors>Akshay Srinivasan</Authors>
     <Copyright>2020 Akshay Srinivasan</Copyright>
-    <UserSecretsId>5aa6ee8e-639b-4d9b-b863-427e204673d4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
