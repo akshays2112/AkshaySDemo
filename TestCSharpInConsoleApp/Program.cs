@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace TestCSharpInConsoleApp
 {
@@ -23,7 +25,51 @@ namespace TestCSharpInConsoleApp
     {
         static void Main(string[] args)
         {
-            FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets_version_0_0000000002_NotEnoughZerosCanIPutToDefineThoughtIPutIntoThis_LOL();
+            ParseHtmlSpotify().Wait();
+        }
+
+        static async Task ParseHtmlSpotify()
+        {
+            HttpClient httpClient = new HttpClient();
+            string html = await (await httpClient.GetAsync(
+                "https://developer.spotify.com/documentation/web-api/reference/")).Content.ReadAsStringAsync();
+            Func<string, string, string> func = (html, findStr) =>
+            {
+                int findStrIdx = html.IndexOf(findStr);
+                if (findStrIdx > 0) return html.Substring(findStrIdx + findStr.Length);
+                return html;
+            };
+            Func<string, string, (string, string)> func1 = (html, findStr) =>
+            {
+                int findStrIdx = html.IndexOf(findStr);
+                if (findStrIdx > 0) return (html.Substring(findStrIdx + findStr.Length), html.Substring(0, findStrIdx));
+                return (html, "");
+            };
+            string consoleMsgData = string.Empty;
+            while (html.IndexOf("<h3 id=\"object-") > 0)
+            {
+                html = func(html, "<h3 id=\"object-");
+                html = func(html, "\">");
+                (html, consoleMsgData) = func1(html, "</h3>");
+                Console.WriteLine($"internal class {consoleMsgData} {"{"}");
+                while(html.IndexOf("</table>") > html.IndexOf("<code style=\"font-size: 16px;\">") &&
+                    html.IndexOf("<code style=\"font-size: 16px;\">") > 0 && html.IndexOf("</table>") > 0)
+                {
+                    html = func(html, "<code style=\"font-size: 16px;\">");
+                    string propName = string.Empty;
+                    (html, propName) = func1(html, "</code>");
+                    html = func(html, "<td>");
+                    string propType = string.Empty;
+                    (html, propType) = func1(html, "</td>");
+                    if(propType.StartsWith("Array["))
+                    {
+                        propType = propType.Substring("Array[".Length, propType.Length - "Array[".Length - 1) + "[]";
+                    }
+                    html = func(html, "</tr>");
+                    Console.WriteLine($"public {propType} {propName} {"{"} get; set; {"}"}");
+                }
+                Console.WriteLine("}");
+            }
         }
 
         static void FirstPassPoCDemoPhaseWithBasicFunctionality_FullTextToListOfTweets_version_0_0000000002_NotEnoughZerosCanIPutToDefineThoughtIPutIntoThis_LOL()

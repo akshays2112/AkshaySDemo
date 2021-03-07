@@ -15,19 +15,24 @@ namespace EpicAkSAuthenticationPages
             public string ClientSecret { get; set; }
         }
 
-        public class ApiAccessToken
+        public interface IApiAccessToken
         {
-            [JsonProperty("access_token")]
             public string AccessToken { get; set; }
-
-            public ApiAccessToken(string accessToken)
-            {
-                AccessToken = accessToken;
-            }
         }
 
         public class SpotifyApi
         {
+            public class ApiAccessToken : IApiAccessToken
+            {
+                [JsonProperty("access_token")]
+                public string AccessToken { get; set; }
+
+                public ApiAccessToken(string accessToken)
+                {
+                    AccessToken = accessToken;
+                }
+            }
+
             protected static class JsonClasses
             {
                 public class JsonUserProfile
@@ -112,8 +117,6 @@ namespace EpicAkSAuthenticationPages
                     public string Name { get; set; }
                 }
 
-                protected SPsSpotifyPlaylist spsSpotifyPlaylist;
-
                 public class SpotifyPlaylist
                 {
                     private SpotifyPlaylists spotifyPlaylists;
@@ -143,6 +146,8 @@ namespace EpicAkSAuthenticationPages
                         name = spotifyPlaylists.spsSpotifyPlaylist.Name;
                     }
                 }
+
+                protected SPsSpotifyPlaylist spsSpotifyPlaylist;
 
                 private ClientAppToken spsClientAppToken;
                 public ClientAppToken SPsClientAppToken
@@ -193,7 +198,6 @@ namespace EpicAkSAuthenticationPages
             public const string MySpotifyClientID = "d0052cf8055246fa8dbd71b5b84284be";
             public const string MySpotifyClientSecret = "a998f5872f93419fb01f3b30c31cb6e3";
 
-            public ApiAccessToken ApiAccessToken { get; set; }
             public ApiInfo ApiInfo { get; set; }
 
             protected ClientAppToken clientAppToken;
