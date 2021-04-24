@@ -23,19 +23,36 @@
     protected override async Task OnInitializedAsync()
     {
         HttpClient httpClient = new HttpClient();
-        for (int year = 2020; year >= 2008; year--)
+        //for (int year = 2020; year >= 2008; year--)
+        //{
+        //    HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://www.billboard.com/charts/year-end/{year.ToString()}/pop-songs");
+        //    string pageHTML = await httpResponseMessage.Content.ReadAsStringAsync();
+        //    Regex regex = new Regex("<div class=\"ye-chart-item__title\">(?<title>[^<]+)</div>[\\s]*<div class=\"ye-chart-item__artist\">[\\s]*(<a[^>]+>)*(?<artist>[^<]+)(</a>)*[\\s]*</div>");
+        //    MatchCollection matches = regex.Matches(pageHTML);
+        //    foreach (Match match1 in matches)
+        //    {
+        //        billboardSongs.Add(new MyPlaylist.MyPlayListItem(
+        //            match1.Groups["title"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", "") + " " +
+        //            match1.Groups["artist"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", ""), string.Empty));
+        //    }
+        //}
+
+
+
+        //Temp Code
+        //HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://www.billboard.com/charts/hot-100"); //https://www.billboard.com/charts/billboard-200
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://www.billboard.com/charts/billboard-200");
+        string pageHTML = await httpResponseMessage.Content.ReadAsStringAsync();
+        Regex regex = new Regex("<span class=\"chart-element__information__song text--truncate color--primary\">(?<title>[^<]+)</span>[\\s]*<span class=\"chart-element__information__artist text--truncate color--secondary\">[\\s]*(<a[^>]+>)*(?<artist>[^<]+)(</a>)*[\\s]*</span>");
+        MatchCollection matches = regex.Matches(pageHTML);
+        foreach (Match match1 in matches)
         {
-            HttpResponseMessage httpResponseMessage = await httpClient.GetAsync($"https://www.billboard.com/charts/year-end/{year.ToString()}/pop-songs");
-            string pageHTML = await httpResponseMessage.Content.ReadAsStringAsync();
-            Regex regex = new Regex("<div class=\"ye-chart-item__title\">(?<title>[^<]+)</div>[\\s]*<div class=\"ye-chart-item__artist\">[\\s]*(<a[^>]+>)*(?<artist>[^<]+)(</a>)*[\\s]*</div>");
-            MatchCollection matches = regex.Matches(pageHTML);
-            foreach (Match match1 in matches)
-            {
-                billboardSongs.Add(new MyPlaylist.MyPlayListItem(
-                    match1.Groups["title"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", "") + " " +
-                    match1.Groups["artist"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", ""), string.Empty));
-            }
+            billboardSongs.Add(new MyPlaylist.MyPlayListItem(
+                match1.Groups["title"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", "") + " " +
+                match1.Groups["artist"]?.Value.Replace("&#039;", "'").Replace("&amp;", "&").Replace("Featuring", ""), string.Empty));
         }
+
+
         await base.OnInitializedAsync();
     }
 }
