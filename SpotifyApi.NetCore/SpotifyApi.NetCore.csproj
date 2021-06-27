@@ -13,7 +13,17 @@
     <RepositoryUrl>https://github.com/Ringobot/SpotifyApi.NetCore</RepositoryUrl>
     <PackageTags>spotify;.net core;dotnet core;api;client;wrapper</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<NoWarn />
+	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	<WarningsAsErrors />
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\SpotifyApi.NetCore\SpotifyApi.NetCore.xml</DocumentationFile>
+  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet />
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>

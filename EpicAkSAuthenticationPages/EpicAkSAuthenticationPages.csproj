@@ -6,9 +6,21 @@
 	<Copyright>2020 Akshay Srinivasan</Copyright>
 	<UserSecretsId>53f29030-8e19-4535-b613-a1773dc32340</UserSecretsId>
 	<PublishSingleFile>false</PublishSingleFile>
+    <NoWarn />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\EpicAkSAuthenticationPages\EpicAkSAuthenticationPages.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

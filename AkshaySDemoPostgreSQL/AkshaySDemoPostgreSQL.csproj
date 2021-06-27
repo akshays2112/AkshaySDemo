@@ -5,9 +5,21 @@
     <UserSecretsId>901d47eb-b53f-429c-bcd7-3fdd6d18881a</UserSecretsId>
     <Authors>Akshay Srinivasan</Authors>
     <Copyright>2020 Akshay Srinivasan</Copyright>
+    <NoWarn />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>

@@ -5,6 +5,18 @@
     <Authors>Akshay Srinivasan</Authors>
     <Copyright>2020 Akshay Srinivasan</Copyright>
 	  <Authors>Akshay Srinivasan</Authors>
-	    </PropertyGroup>
+	  <NoWarn />
+	  <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	  <WarningsAsErrors />
+	  <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\EpicAkSModels\EpicAkSModels.xml</DocumentationFile>
+	</PropertyGroup>
 
 </Project>

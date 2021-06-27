@@ -5,10 +5,21 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <Authors>Akshay Srinivasan</Authors>
     <Copyright>2020 Akshay Srinivasan</Copyright>
+    <NoWarn />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.0.0" />
     <PackageReference Include="Blazor.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
