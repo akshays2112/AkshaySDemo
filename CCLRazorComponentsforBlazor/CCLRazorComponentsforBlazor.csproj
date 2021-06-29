@@ -16,17 +16,17 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\akshays\OneDrive\AkshayData\VSProjects\AkshaySDemo\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.xml</DocumentationFile>
+	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Blazor.Extensions.Canvas" Version="1.0.0" />
-    <PackageReference Include="Blazor.Extensions.Logging" Version="1.1.1" />
-    <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="2.0.0.20242" />
+    <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
+    <PackageReference Include="Blazor.Extensions.Logging" Version="2.0.4" />
+    <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.1.0.21158" />
   </ItemGroup>
 
 
