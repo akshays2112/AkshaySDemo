@@ -1,27 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Authors>Akshay Srinivasan</Authors>
-    <Copyright>2020 Akshay Srinivasan</Copyright>
-    <NoWarn />
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Authors>Akshay Srinivasan</Authors>
+		<Copyright>2020 Akshay Srinivasan</Copyright>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <PackageReference Include="Google.Cloud.Firestore" Version="2.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
-  </ItemGroup>
+		<PackageReference Include="Google.Cloud.Firestore" Version="2.4.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
+	</ItemGroup>
 
 </Project>

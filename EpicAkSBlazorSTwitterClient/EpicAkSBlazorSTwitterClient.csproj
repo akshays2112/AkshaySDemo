@@ -1,27 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <NoWarn />
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\EpicAkSBlazorSTwitterClient\EpicAkSBlazorSTwitterClient.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\EpicAkSBlazorSTwitterClient\EpicAkSBlazorSTwitterClient.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <PackageReference Include="TweetinviAPI" Version="5.0.4" />
-  </ItemGroup>
+		<PackageReference Include="TweetinviAPI" Version="5.0.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Components\" />
+	</ItemGroup>
 
 </Project>

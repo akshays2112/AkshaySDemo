@@ -1,28 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>d5f726e1-f751-4b09-b24f-503dd729b3f9</UserSecretsId>
-	<NoWarn />
-	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-	<WarningsAsErrors />
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>d5f726e1-f751-4b09-b24f-503dd729b3f9</UserSecretsId>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\EpicAkSBlazorSMusicClient\EpicAkSBlazorSMusicClient.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\EpicAkSBlazorSMusicClient\EpicAkSBlazorSMusicClient.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SpotifyApi.NetCore\SpotifyApi.NetCore.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SpotifyApi.NetCore\SpotifyApi.NetCore.csproj" />
+	</ItemGroup>
 
 </Project>

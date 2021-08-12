@@ -1,43 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject></StartupObject>
-    <Authors>Akshay Srinivasan</Authors>
-    <Copyright>2020 Akshay Srinivasan</Copyright>
-    <NoWarn />
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<StartupObject></StartupObject>
+		<Authors>Akshay Srinivasan</Authors>
+		<Copyright>2020 Akshay Srinivasan</Copyright>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\AkshaySDemo\AkshaySDemo.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\AkshaySDemo\AkshaySDemo.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <ProjectReference Include="..\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj" />
-    <ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
-    <ProjectReference Include="..\AkshaySDemoMySQL\AkshaySDemoMySQL.csproj" />
-    <ProjectReference Include="..\AkshaySDemoOracle\AkshaySDemoOracle.csproj" />
-    <ProjectReference Include="..\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.csproj" />
-    <ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
-  </ItemGroup>
+		<ProjectReference Include="..\AkshaySDemoGoogleFireStoreDB\AkshaySDemoGoogleFireStoreDB.csproj" />
+		<ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
+		<ProjectReference Include="..\AkshaySDemoMySQL\AkshaySDemoMySQL.csproj" />
+		<ProjectReference Include="..\AkshaySDemoOracle\AkshaySDemoOracle.csproj" />
+		<ProjectReference Include="..\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.csproj" />
+		<ProjectReference Include="..\CCLRazorComponentsforBlazor\CCLRazorComponentsForBlazor.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\favicon\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\favicon\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
 </Project>

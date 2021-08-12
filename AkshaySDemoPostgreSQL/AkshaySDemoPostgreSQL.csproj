@@ -1,39 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>901d47eb-b53f-429c-bcd7-3fdd6d18881a</UserSecretsId>
-    <Authors>Akshay Srinivasan</Authors>
-    <Copyright>2020 Akshay Srinivasan</Copyright>
-    <NoWarn />
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UserSecretsId>901d47eb-b53f-429c-bcd7-3fdd6d18881a</UserSecretsId>
+		<Authors>Akshay Srinivasan</Authors>
+		<Copyright>2020 Akshay Srinivasan</Copyright>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\AkshaySDemoPostgreSQL\AkshaySDemoPostgreSQL.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
-  </ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AkshaySDemoModels\AkshaySDemoModels.csproj" />
+	</ItemGroup>
 
 </Project>

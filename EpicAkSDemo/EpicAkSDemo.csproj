@@ -1,34 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-	  <Authors>Akshay Srinivasan</Authors>
-	  <Copyright>2020 Akshay Srinivasan</Copyright>
-	  <NoWarn />
-	  <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-	  <WarningsAsErrors />
-	  <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<Authors>Akshay Srinivasan</Authors>
+		<Copyright>2020 Akshay Srinivasan</Copyright>
+		<NoWarn />
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VSProjects\AkshaySDemo\EpicAkSDemo\EpicAkSDemo.xml</DocumentationFile>
+		<DocumentationFile>C:\Users\aksha\OneDrive\AkshayData\VS2022 Projects\AkshaySDemo\EpicAkSDemo\EpicAkSDemo.xml</DocumentationFile>
 	</PropertyGroup>
+	-->
 
 	<ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EpicAkSDbDiscoverySQLServer\EpicAkSDbDiscoverySQLServer.csproj" />
-    <ProjectReference Include="..\EpicAkSDemoSQLServer\EpicAkSDemoSQLServer.csproj" />
-    <ProjectReference Include="..\EpicAkSModels\EpicAkSModels.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\EpicAkSDbDiscoverySQLServer\EpicAkSDbDiscoverySQLServer.csproj" />
+		<ProjectReference Include="..\EpicAkSDemoSQLServer\EpicAkSDemoSQLServer.csproj" />
+		<ProjectReference Include="..\EpicAkSModels\EpicAkSModels.csproj" />
+	</ItemGroup>
 
 </Project>
